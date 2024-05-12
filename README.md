@@ -1,2 +1,2 @@
-### Generate NEXT_SECRET:
-openssl rand -base64
+# APPLICAT
+No more silly mistakes in college applications
