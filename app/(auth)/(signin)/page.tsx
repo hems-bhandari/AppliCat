@@ -73,14 +73,14 @@ export default function AuthenticationPage() {
                         {/* TODO: TERMS AND CONDITION */}
                         &nbsp;
                         <Link
-                            href="#terms"
+                            href="/terms_and_conditions"
                             className="underline underline-offset-4 hover:text-primary"
                         >
                             Terms of Service
                         </Link>
                         &nbsp; and &nbsp;
                         <Link
-                            href="#privacy"
+                            href="/privacy_policies"
                             className="underline underline-offset-4 hover:text-primary"
                         >
                             Privacy Policy
