@@ -1,11 +1,10 @@
 import Header from '@/components/layout/header'
-import Sidebar from '@/components/layout/sidebar'
 import { Metadata } from 'next'
 import React from 'react'
 
 export const metadata: Metadata = {
-    title: "Terms and Condition | Applicat",
-    description: "Terms and Condition of Applicat",
+    title: "Privacy Policy",
+    description: "Privacy Policies of Applicat",
 }
 
 const layout = ({ children }: { children: React.ReactNode }) => {
@@ -13,7 +12,6 @@ const layout = ({ children }: { children: React.ReactNode }) => {
         <>
             <Header />
             <div className="flex h-screen overflow-hidden">
-                <Sidebar />
                 <main className="w-full pt-16">{children}</main>
             </div>
         </>
