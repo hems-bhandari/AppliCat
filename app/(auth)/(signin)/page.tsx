@@ -3,7 +3,6 @@ import Link from "next/link";
 import UserAuthForm from "@/components/forms/user-auth-form";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
 
 export const metadata: Metadata = {
     title: "Authentication",
@@ -72,19 +71,21 @@ export default function AuthenticationPage() {
                         By clicking continue, you agree to our
                         {/* TODO: TERMS AND CONDITION */}
                         &nbsp;
-                        <Link
+                        <a
                             href="/terms_and_conditions"
+                            target="_blank"
                             className="underline underline-offset-4 hover:text-primary"
                         >
                             Terms of Service
-                        </Link>
+                        </a>
                         &nbsp; and &nbsp;
-                        <Link
+                        <a
                             href="/privacy_policies"
+                            target="_blank"
                             className="underline underline-offset-4 hover:text-primary"
                         >
                             Privacy Policy
-                        </Link>
+                        </a>
                         .
                     </p>
                 </div>
