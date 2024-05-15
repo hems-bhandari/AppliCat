@@ -4,7 +4,7 @@ import React from 'react'
 
 export const metadata: Metadata = {
     title: "Privacy Policy",
-    description: "Privacy Policies of Applicat",
+    description: "Privacy Policy of Applicat",
 }
 
 const layout = ({ children }: { children: React.ReactNode }) => {

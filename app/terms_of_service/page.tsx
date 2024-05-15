@@ -4,27 +4,18 @@ const Terms = () => {
     return (
         <section className="p-5 space-y-6 ">
             <div className="space-y-1 heading">
-                <h1>AppliCat Terms and Conditions</h1>
-                <p>Welcome to AppliCat! These Terms and Conditions govern your use of the AppliCat website and services. By accessing or using our website and services, you agree to comply with these Terms and Conditions. Please read them carefully.</p>
+                <h1>AppliCat Terms of Service</h1>
+                <p>Welcome to AppliCat! These Terms of Service govern your use of the AppliCat website and services. By accessing or using our website and services, you agree to comply with these Terms of Service. Please read them carefully.</p>
             </div>
             <div className="content space-y-4 pl-5 *:space-y-1">
                 <div className="policy">
                     <h2>1. Acceptance of Terms</h2>
-                    <p>By accessing or using the AppliCat website and services, you agree to be bound by these Terms and Conditions. If you do not agree to these Terms and Conditions, you may not access or use the website and services.</p>
+                    <p>By accessing or using the AppliCat website and services, you agree to be bound by these Terms of Service. If you do not agree to these Terms of Service, you may not access or use the website and services.</p>
                 </div>
 
                 <div className="policy">
                     <h2>2. Description of Services</h2>
                     <p>AppliCat provides a platform that connects incoming freshmen from top universities with high school students seeking paid counseling and guidance at low rates. AppliCat does not provide counseling or guidance services directly but facilitates the connection between students and counselors.</p>
-                </div>
-
-                <div className="policy">
-                    <h2>3. User Eligibility</h2>
-                    <p>Users of AppliCat must be at least 18 years old or the legal age of majority in their jurisdiction. High school students seeking counseling must obtain parental consent before using the services.</p>
-                </div>
-                <div className="policy">
-                    <h2>3. User Eligibility</h2>
-                    <p>Users of AppliCat must be at least 18 years old or the legal age of majority in their jurisdiction. High school students seeking counseling must obtain parental consent before using the services.</p>
                 </div>
                 <div className="policy">
                     <h2>3. User Eligibility</h2>
@@ -52,19 +43,19 @@ const Terms = () => {
                 </div>
                 <div className="policy">
                     <h2>9. Indemnification</h2>
-                    <p>These Terms and Conditions shall be governed by and construed in accordance with the laws of Nepal. Any dispute arising out of or in connection with these Terms and Conditions shall be subject to the exclusive jurisdiction of the courts of Nepal.</p>
+                    <p>These Terms of Service shall be governed by and construed in accordance with the laws of Nepal. Any dispute arising out of or in connection with these Terms of Service shall be subject to the exclusive jurisdiction of the courts of Nepal.</p>
                 </div>
                 <div className="policy">
                     <h2>10. Modification of Terms</h2>
-                    <p>AppliCat reserves the right to modify these Terms and Conditions at any time. Any changes will be effective immediately upon posting on the website. Your continued use of the website and services after the posting of changes constitutes your acceptance of the modified Terms and Conditions.</p>
+                    <p>AppliCat reserves the right to modify these Terms of Service at any time. Any changes will be effective immediately upon posting on the website. Your continued use of the website and services after the posting of changes constitutes your acceptance of the modified Terms of Service.</p>
                 </div>
                 <div className="policy">
                     <h2>11. Governing Law</h2>
-                    <p>These Terms and Conditions shall be governed by and construed in accordance with the laws of Nepal. Any dispute arising out of or in connection with these Terms and Conditions shall be subject to the exclusive jurisdiction of the courts of Nepal.</p>
+                    <p>These Terms of Service shall be governed by and construed in accordance with the laws of Nepal. Any dispute arising out of or in connection with these Terms of Service shall be subject to the exclusive jurisdiction of the courts of Nepal.</p>
                 </div>
 
                 <p>
-                    If you have any questions about these Terms and Conditions, please contact us at
+                    If you have any questions about these Terms of Service, please contact us at
                     &nbsp;
                     <a href="mailto:info@applicat.tech" className="text-blue-500 dark:text-blue-400 ">
                         info@applicat.tech.
