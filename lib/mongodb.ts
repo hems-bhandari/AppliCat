@@ -5,6 +5,7 @@ const ConnectionUri = process.env.MONOGO_CONNECTION_URI;
 const options: MongoClientOptions = {}
 //
 
+console.log(ConnectionUri)
 let client, clientPromise;
 
 if (!ConnectionUri) throw new Error("Connection variable not found");
