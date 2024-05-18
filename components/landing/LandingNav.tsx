@@ -14,6 +14,7 @@ const NAV_LINKS = [
 ];
 
 const LandingNav = () => {
+
     return (
         <nav className="text-white flex items-center w-full h-[125px] justify-between gap-2 px-10 ">
             <Link href="/" className="logo">
@@ -40,9 +41,11 @@ const LandingNav = () => {
                     ))}
                 </ul>
 
-                <button className={`bg-transparent text-[18px] font-[500] uppercase border border-1 border-white py-2 px-6 text-white ${roboto.className} flex space-x-2 items-center`}>
+                <a
+                    href="/auth"
+                    className={`bg-transparent text-[18px] font-[500] uppercase border border-1 border-white py-2 px-6 text-white ${roboto.className} flex space-x-2 items-center`}>
                     Login <ArrowTopRightIcon className="w-[26px] h-[26px] font-bold" />
-                </button>
+                </a>
             </div>
         </nav>
     );
