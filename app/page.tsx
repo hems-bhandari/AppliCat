@@ -1,14 +1,12 @@
-import LandingNav from '@/components/landing/LandingNav'
-import React from 'react'
+import LandingNav from "@/components/landing/LandingNav";
+import React from "react";
 
 const Landing = () => {
-    return (
-        <div className='bg-black min-h-screen w-full'>
-            <LandingNav />
+  return (
+    <div className="bg-black min-h-screen w-full">
+      <LandingNav />
+    </div>
+  );
+};
 
-
-        </div>
-    )
-}
-
-export default Landing
+export default Landing;
