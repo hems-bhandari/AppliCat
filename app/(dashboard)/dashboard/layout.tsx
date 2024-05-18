@@ -3,22 +3,22 @@ import Sidebar from "@/components/layout/sidebar";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "AppliCat | Dashboard",
-  description: "Get purrsonalized guidance with AppliCat",
+    title: "Applicat Dashboard",
+    description: "Application at ease applicat.",
 };
 
 export default function DashboardLayout({
-  children,
+    children,
 }: {
-  children: React.ReactNode;
+    children: React.ReactNode;
 }) {
-  return (
-    <>
-      <Header />
-      <div className="flex h-screen overflow-hidden">
-        <Sidebar />
-        <main className="w-full pt-16">{children}</main>
-      </div>
-    </>
-  );
+    return (
+        <>
+            <Header />
+            <div className="flex h-screen overflow-hidden">
+                <Sidebar />
+                <main className="w-full pt-16">{children}</main>
+            </div>
+        </>
+    );
 }
