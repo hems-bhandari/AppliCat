@@ -9,7 +9,9 @@ export const authOptions: NextAuthOptions = {
         }),
     ],
     pages: {
-        signIn: "/", // sign-in page
+        signIn: "/",
     },
+    session: {
+    }
 };
 
