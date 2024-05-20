@@ -1,6 +1,6 @@
 import { CalendarDateRangePicker } from "@/components/date-range-picker";
 import { Overview } from "@/components/overview";
-import { RecentSales } from "@/components/recent-sales";
+import { SessionHistory } from "@/components/SessionHistory";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,6 +11,8 @@ import {
 } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Image from "next/image";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export default function page() {
   return (
@@ -18,23 +20,50 @@ export default function page() {
       <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
         <div className="flex items-center justify-between space-y-2">
           <h2 className="text-3xl font-bold tracking-tight">
-            Hi, Welcome back 👋
+            Hi, Aashish! Welcome back 👋
           </h2>
-          <div className="hidden md:flex items-center space-x-2">
+          {/* <div className="hidden md:flex items-center space-x-2">
             <CalendarDateRangePicker />
             <Button>Download</Button>
-          </div>
+          </div> */}
+        </div>
+        <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-7">
+          {/* <Card className="col-span-4">
+                <CardHeader>
+                  <CardTitle>Overview</CardTitle>
+                </CardHeader>
+                <CardContent className="pl-2">
+                  <Overview />
+                </CardContent>
+              </Card> */}
+          <Alert>
+            <AlertTitle>Heads up!</AlertTitle>
+            <AlertDescription>
+              You can add components and dependencies to your app using the cli.
+            </AlertDescription>
+          </Alert>
+
+          <Card className="col-span-4 md:col-span-3">
+            <CardHeader>
+              <CardTitle>Session History</CardTitle>
+              <CardDescription>You have 1 session this week.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <SessionHistory />
+            </CardContent>
+          </Card>
         </div>
         <Tabs defaultValue="overview" className="space-y-4">
-          <TabsList>
+          {/* <TabsList>
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="analytics" disabled>
               Analytics
             </TabsTrigger>
-          </TabsList>
+          </TabsList> */}
           <TabsContent value="overview" className="space-y-4">
+            <h4>Suggested Sessions for You</h4>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-              <Card>
+              {/* <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
                     Total Revenue
@@ -58,102 +87,46 @@ export default function page() {
                     +20.1% from last month
                   </p>
                 </CardContent>
-              </Card>
+              </Card> */}
+
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                    Subscriptions
+                    ECs Building Session by
                   </CardTitle>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    className="h-4 w-4 text-muted-foreground"
-                  >
-                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-                    <circle cx="9" cy="7" r="4" />
-                    <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
-                  </svg>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">+2350</div>
+                  <div className="text-2xl font-bold">Dinesh Bhandari</div>
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Princeton_seal.svg"
+                    alt="avatar"
+                    width={250}
+                    height={250}
+                    className="p-6"
+                  />
                   <p className="text-xs text-muted-foreground">
-                    +180.1% from last month
-                  </p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Sales</CardTitle>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    className="h-4 w-4 text-muted-foreground"
-                  >
-                    <rect width="20" height="14" x="2" y="5" rx="2" />
-                    <path d="M2 10h20" />
-                  </svg>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">+12,234</div>
-                  <p className="text-xs text-muted-foreground">
-                    +19% from last month
+                    <b>Class of 2028</b>
                   </p>
                 </CardContent>
               </Card>
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                    Active Now
+                    Essay Writing Session by
                   </CardTitle>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    className="h-4 w-4 text-muted-foreground"
-                  >
-                    <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-                  </svg>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">+573</div>
+                  <div className="text-2xl font-bold">Sarwesh Parajuli</div>
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/MIT_logo.svg/482px-MIT_logo.svg.png"
+                    alt="avatar"
+                    width={500}
+                    height={500}
+                    className="p-6"
+                  />
                   <p className="text-xs text-muted-foreground">
-                    +201 since last hour
+                    <b>Class of 2028</b>
                   </p>
-                </CardContent>
-              </Card>
-            </div>
-            <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-7">
-              <Card className="col-span-4">
-                <CardHeader>
-                  <CardTitle>Overview</CardTitle>
-                </CardHeader>
-                <CardContent className="pl-2">
-                  <Overview />
-                </CardContent>
-              </Card>
-              <Card className="col-span-4 md:col-span-3">
-                <CardHeader>
-                  <CardTitle>Recent Sales</CardTitle>
-                  <CardDescription>
-                    You made 265 sales this month.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <RecentSales />
                 </CardContent>
               </Card>
             </div>
