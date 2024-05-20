@@ -12,7 +12,6 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Image from "next/image";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export default function page() {
   return (
@@ -36,12 +35,6 @@ export default function page() {
                   <Overview />
                 </CardContent>
               </Card> */}
-          <Alert>
-            <AlertTitle>Heads up!</AlertTitle>
-            <AlertDescription>
-              You can add components and dependencies to your app using the cli.
-            </AlertDescription>
-          </Alert>
 
           <Card className="col-span-4 md:col-span-3">
             <CardHeader>
