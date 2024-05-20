@@ -1,19 +1,56 @@
-import LandingNav from "@/components/landing/LandingNav";
-import { katibeh, roboto } from "@/lib/fonts";
-import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import Link from "next/link";
-{
-  /* import { katibeh } from "@/lib/fonts"; */
-}
-import React from "react";
+
+// components
+import LandingNav from "@/components/landing/LandingNav";
+
+// fonts
+import { katibeh, roboto } from "@/lib/fonts";
+
+// icons
+import { ArrowTopRightIcon, ReaderIcon } from "@radix-ui/react-icons";
+
+const SERVICES = [
+  {
+    title: "SAT",
+    description:
+      "Lorem Ipsum is simply dummy text of the printing a Lorem Ipsum is simply dummy text of the printing aLorem Ipsum is simply dummy text of the printing a",
+    Icon: ReaderIcon,
+    horizontal: "left",
+    vertical: "top",
+  },
+  {
+    title: "IELTS",
+    description:
+      "Lorem Ipsum is simply dummy text of the printing a Lorem Ipsum is simply dummy text of the printing aLorem Ipsum is simply dummy text of the printing a",
+    Icon: ReaderIcon,
+    horizontal: "right",
+    vertical: "top",
+  },
+  {
+    title: "GRE",
+    description:
+      "Lorem Ipsum is simply dummy text of the printing a Lorem Ipsum is simply dummy text of the printing aLorem Ipsum is simply dummy text of the printing a",
+    Icon: ReaderIcon,
+    horizontal: "left",
+    vertical: "bottom",
+  },
+  {
+    title: "GMAT",
+    description:
+      "Lorem Ipsum is simply dummy text of the printing a Lorem Ipsum is simply dummy text of the printing aLorem Ipsum is simply dummy text of the printing a",
+    Icon: ReaderIcon,
+    horizontal: "right",
+    vertical: "bottom",
+  },
+];
 
 const Landing = () => {
   return (
     <div className="bg-black min-h-screen w-full">
       <LandingNav />
 
-      <section className="text-center min-h-[calc(100vh-125px)] flex items-center justify-center px-4">
+      <section className="text-center min-h-[calc(100vh-125px)] flex items-center justify-center relative px-4">
         <div className="max-w-[820px] mx-auto">
           <h1 className={`${katibeh.className} text-[160px] text-white my-5`}>
             Applicat
@@ -44,6 +81,23 @@ const Landing = () => {
           className=" w-full h-full object-contain object-center z-0"
         />
 
+        <div className="md:w-[90%] mx-auto flex absolute top-0 left-0 right-0 w-full h-full">
+          {SERVICES.map(
+            ({ title, description, Icon, horizontal, vertical }) => (
+              <div
+                className={`absolute ${horizontal}-0 ${vertical}-10 bg-[#2d2d2d] bg-opacity-30 backdrop-filter backdrop-blur-lg rounded-lg px-8 py-5 flex items-center max-w-[500px] max-h-[175px] w-full space-x-4`}
+              >
+                <Icon className="w-[100px] h-[100px] text-white mx-auto" />
+                <div>
+                  <h2 className="text-white text-[29px] font-bold">{title}</h2>
+                  <p className="text-white text-[15px] mt-3 leading-[18px]">
+                    {description}
+                  </p>
+                </div>
+              </div>
+            )
+          )}
+        </div>
       </section>
     </div>
   );
