@@ -8,8 +8,6 @@ async function ConnectToDB(): Promise<Error | Boolean> {
     if (!ConnectionUri) throw new Error("Invalid Connection String");
 
     try {
-        if (connection) return true;
-
         await connect(ConnectionUri);
         console.log("Db connected");
         return true;

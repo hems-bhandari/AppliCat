@@ -1,5 +1,7 @@
 import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import { getIfUserExistance } from "./userController";
+import ConnectToDB from "./mongoose";
 
 export const authOptions: NextAuthOptions = {
     providers: [
@@ -9,19 +11,34 @@ export const authOptions: NextAuthOptions = {
         }),
     ],
     callbacks: {
-        async jwt({ token, user }) {
-            if (user) {
-                // gets called after user is signedin.
+        async signIn({ user }) {
+            if (user && user?.email) {
+                const email = user.email;
+                await ConnectToDB()
+
+                //checking the existance in db
+                const userInDb = await getIfUserExistance(email)
+
+                if (!userInDb) return "/auth/onboarding"
+
+                // // redirecting to the respective routes according to the usertype
+                // if (userInDb.type === "Consultant")
+                //     return "/consultant/dashboard"
                 //
-                // db calls to add or get the user if signed in already.
+                // if (userInDb.type === "admin")
+                //     return "/admin/dashboard"
                 //
-                // redirecting based on the existance of the user
-                console.log({ user })
-                token.testing = "testing"
+                // return "/dashboard"
             }
+
+            return true;
+        },
+        async jwt({ token, user, profile }) {
+            console.log({ user, token, profile })
             return token
         },
         async session({ session, token, user }) {
+            console.log({ user, token, session })
             // populating the user from in here
             //
             // updating the new fileds

@@ -1,4 +1,4 @@
-import { model, Schema } from "mongoose";
+import { model, Schema, models } from "mongoose";
 
 const baseUserSchema = new Schema({
     firstName: {
@@ -29,7 +29,7 @@ const baseUserSchema = new Schema({
 });
 
 
-const UserModel = model("users", baseUserSchema);
+const UserModel = models.users || model("users", baseUserSchema);
 
 const consultantSchema = new Schema({
     phoneNumber: {
@@ -86,9 +86,14 @@ const AdminSchema = new Schema({
     },
 })
 
-UserModel.discriminator("Admin", AdminSchema);
-UserModel.discriminator("Consultant", consultantSchema);
-UserModel.discriminator("Applicant", ApplicantSchema)
+if (!UserModel.discriminators?.Admin)
+    UserModel.discriminator("Admin", AdminSchema);
+
+if (!UserModel.discriminators?.Consultant)
+    UserModel.discriminator("Consultant", consultantSchema);
+
+if (!UserModel.discriminators?.Applicant)
+    UserModel.discriminator("Applicant", ApplicantSchema)
 
 export {
     UserModel
