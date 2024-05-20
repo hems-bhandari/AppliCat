@@ -8,10 +8,26 @@ export const authOptions: NextAuthOptions = {
             clientSecret: process.env.GOOGLE_AUTH_SECRET ?? "",
         }),
     ],
-    pages: {
-        signIn: "/",
-    },
-    session: {
+    callbacks: {
+        async jwt({ token, user }) {
+            if (user) {
+                // gets called after user is signedin.
+                //
+                // db calls to add or get the user if signed in already.
+                //
+                // redirecting based on the existance of the user
+                console.log({ user })
+                token.testing = "testing"
+            }
+            return token
+        },
+        async session({ session, token, user }) {
+            // populating the user from in here
+            //
+            // updating the new fileds
+            session.user = token
+            return session;
+        },
     }
 };
 

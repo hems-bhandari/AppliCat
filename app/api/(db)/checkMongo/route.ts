@@ -1,4 +1,4 @@
-import ConnectToDB from "@/lib/mongodb";
+import ConnectToDB from "@/lib/mongoose";
 import { connection } from "mongoose";
 
 import { NextRequest, NextResponse } from "next/server";

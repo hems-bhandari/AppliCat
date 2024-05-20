@@ -12,8 +12,7 @@ export function middleware(req: NextRequest) {
     const publicPaths = ["/", "/auth"];
     const isPublic = publicPaths.includes(pathname);
 
-    const token =
-        (req.cookies.get("next-auth.session-token"));
+    const token = (req.cookies.get("next-auth.session-token")) || "";
 
     if (!isPublic && !token)
         return NextResponse.redirect(new URL('/auth', req.nextUrl));
