@@ -81,11 +81,11 @@ const Landing = () => {
           className=" w-full h-full object-contain object-center z-0"
         />
 
-        <div className="md:w-[90%] mx-auto flex absolute top-0 left-0 right-0 w-full h-full">
+        <div className="md:w-[90%] mx-auto flex absolute top-6 left-0 right-0 md:h-[90%]">
           {SERVICES.map(
             ({ title, description, Icon, horizontal, vertical }) => (
               <div
-                className={`absolute ${horizontal}-0 ${vertical}-10 bg-[#2d2d2d] bg-opacity-30 backdrop-filter backdrop-blur-lg rounded-lg px-8 py-5 flex items-center max-w-[500px] max-h-[175px] w-full space-x-4`}
+                className={`absolute ${horizontal}-0 ${vertical}-0 bg-[#2d2d2d] bg-opacity-30 backdrop-filter backdrop-blur-lg rounded-lg px-8 py-5 flex items-center max-w-[500px] max-h-[175px] w-full space-x-4`}
               >
                 <Icon className="w-[100px] h-[100px] text-white mx-auto" />
                 <div>
