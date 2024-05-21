@@ -1,6 +1,7 @@
 import React from 'react'
 
 const Privacy = () => {
+
     return (
         <section className="p-5 space-y-6 ">
             <div className="space-y-1 heading">
@@ -60,8 +61,6 @@ const Privacy = () => {
                         <li>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page.</li>
                     </ul>
                 </div>
-
-                
 
                 <p>
                     If you have any questions about these Privacy Policies, please contact us at
