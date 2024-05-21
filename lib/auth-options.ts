@@ -47,4 +47,3 @@ export const authOptions: NextAuthOptions = {
         },
     }
 };
-
