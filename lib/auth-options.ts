@@ -21,28 +21,21 @@ export const authOptions: NextAuthOptions = {
 
                 if (!userInDb) return "/auth/onboarding"
 
-                // // redirecting to the respective routes according to the usertype
-                // if (userInDb.type === "Consultant")
-                //     return "/consultant/dashboard"
-                //
-                // if (userInDb.type === "admin")
-                //     return "/admin/dashboard"
-                //
-                // return "/dashboard"
+                console.log({ userInDb })
+                // it means user already has a account
+                Object.assign(user, userInDb);
             }
 
             return true;
         },
-        async jwt({ token, user, profile }) {
-            console.log({ user, token, profile })
+        async jwt({ token, user }) {
+            if (user) {
+                token._doc = (user as any)?._doc
+            }
             return token
         },
-        async session({ session, token, user }) {
-            console.log({ user, token, session })
-            // populating the user from in here
-            //
-            // updating the new fileds
-            session.user = token
+        async session({ session, token }) {
+            Object.assign((session as any)?.user, (token as any)?._doc);
             return session;
         },
     }
