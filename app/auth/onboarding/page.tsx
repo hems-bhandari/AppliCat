@@ -1,12 +1,16 @@
 "use client";
-import { FormEventHandler, useState } from 'react';
+import { FormEventHandler, useEffect, useState } from 'react';
 import Image from "next/image";
 
 // fonts
 import { roboto } from "@/lib/fonts";
+import { useSession } from 'next-auth/react';
+import { useSearchParams } from 'next/navigation';
 
 const MyComponent = () => {
     const [error, setError] = useState<string>();
+    const [autofill, setAutoFill] = useState<{ userName: string } | false>(false);
+
     // database function
     const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
@@ -18,6 +22,17 @@ const MyComponent = () => {
         }
         // main submission function
     };
+
+    const searchParam = useSearchParams();
+    useEffect(() => {
+        const userName = searchParam.get("userName");
+        if (!userName)
+            return setAutoFill(false);
+
+        setAutoFill({
+            userName: userName || ""
+        })
+    }, [])
     return (
         <div className="relative w-full h-screen">
             <div className="absolute left-0 top-0 w-full md:w-1/2 h-full">
@@ -33,11 +48,16 @@ const MyComponent = () => {
             <div className="absolute right-0 top-0 w-full md:w-1/2 h-full flex items-center justify-center">
                 <div className="max-w-lg mx-auto md:w-4/5 px-4 py-8 bg-white rounded-lg shadow-lg" style={{ backgroundColor: '#101418' }}>
                     <form onSubmit={handleSubmit} className='space-y-3'>
-                        <input type="text" id="f-name" name="firstname" placeholder="First Name" className={`w-full px-3 py-2 rounded-md focus:outline-none `} />
-                        <input type="text" id="l-name" name="lastname" placeholder="Last Name" className={`w-full px-3 py-2 rounded-md focus:outline-none `} />
-                        <input type="email" id="u-email" name="email" placeholder="Email" className={`w-full px-3 py-2 rounded-md focus:outline-none `} />
-                        <input type="tel" id="u-phone" name="phonenumber" placeholder="Phone Number" maxLength={10} className={`w-full px-3 py-2 rounded-md focus:outline-none `} />
-                        <input type="text" id="hschool" name="highschool" placeholder="Highschool/College" className={`w-full px-3 py-2 rounded-md focus:outline-none `} />
+                        <input
+                            type="text"
+                            id="userName"
+                            name="userName"
+                            defaultValue={autofill && autofill.userName || ""}
+                            placeholder="First Name"
+                            className={`w-full px-3 py-2 rounded-md focus:outline-none `} />
+                        <input type="email" id="email" name="email" placeholder="Email" className={`w-full px-3 py-2 rounded-md focus:outline-none `} />
+                        <input type="tel" id="phonenumber" name="phonenumber" placeholder="Phone Number" maxLength={10} className={`w-full px-3 py-2 rounded-md focus:outline-none `} />
+                        <input type="text" id="highschool" name="highschool" placeholder="Highschool/College" className={`w-full px-3 py-2 rounded-md focus:outline-none `} />
                         <select id="education"
                             name="education"
                             className={`w-full px-3 py-2 rounded-md focus:outline-none  invalid:border-red-500'}`} >
