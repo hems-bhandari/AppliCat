@@ -19,9 +19,8 @@ export const authOptions: NextAuthOptions = {
                 //checking the existance in db
                 const userInDb = await getIfUserExistance(email)
 
-                if (!userInDb) return "/auth/onboarding"
+                if (!userInDb) return `/auth/onboarding/?userName=${user.name}`
 
-                console.log({ userInDb })
                 // it means user already has a account
                 Object.assign(user, userInDb);
             }
