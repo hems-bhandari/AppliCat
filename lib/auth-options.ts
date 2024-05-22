@@ -2,6 +2,7 @@ import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { getIfUserExistance } from "./userController";
 import ConnectToDB from "./mongoose";
+import Credentials from "next-auth/providers/credentials";
 
 export const authOptions: NextAuthOptions = {
     providers: [
@@ -9,6 +10,18 @@ export const authOptions: NextAuthOptions = {
             clientId: process.env.GOOGLE_AUTH_CLIENT_ID ?? "",
             clientSecret: process.env.GOOGLE_AUTH_SECRET ?? "",
         }),
+        // Credentials({
+        //     name: "onboarding",
+        //     credentials: {
+        //         user
+        //     },
+        //     authorize: async (credentials) => {
+        //         console.log(credentials)
+        //         const user = {};
+        //         return user;
+        //     },
+        //
+        // })
     ],
     callbacks: {
         async signIn({ user }) {
@@ -26,6 +39,7 @@ export const authOptions: NextAuthOptions = {
             }
             return true;
         },
+
         async jwt({ token, user }) {
             if (user) {
                 token._doc = (user as any)?._doc

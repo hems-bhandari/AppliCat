@@ -36,7 +36,7 @@ export async function middleware(req: NextRequest) {
 
     if (session) {
         const pathname = url.pathname;
-        const userType = (session._doc?.type as string).toLowerCase();
+        const userType = (session._doc?.type as string)?.toLowerCase();
 
         // if (pathname.split("/")[1] !== userType) {
         //     url.pathname = pathname.replace(pathname.split("/")[1], userType)
