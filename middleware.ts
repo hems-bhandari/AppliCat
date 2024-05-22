@@ -38,10 +38,10 @@ export async function middleware(req: NextRequest) {
         const pathname = url.pathname;
         const userType = (session._doc?.type as string).toLowerCase();
 
-        if (pathname.split("/")[1] !== userType) {
-            url.pathname = pathname.replace(pathname.split("/")[1], userType)
-            return NextResponse.redirect(url)
-        }
+        // if (pathname.split("/")[1] !== userType) {
+        //     url.pathname = pathname.replace(pathname.split("/")[1], userType)
+        //     return NextResponse.redirect(url)
+        // }
 
     }
 }
