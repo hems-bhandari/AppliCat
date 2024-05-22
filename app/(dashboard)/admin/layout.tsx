@@ -12,6 +12,7 @@ export default function DashboardLayout({
 }: {
     children: React.ReactNode;
 }) {
+
     return (
         <>
             <Header />

@@ -1,35 +1,63 @@
 "use client";
-import { FormEventHandler, useEffect, useState } from 'react';
+import { FormEvent, FormEventHandler, useEffect, useState } from 'react';
 import Image from "next/image";
 
 // fonts
 import { roboto } from "@/lib/fonts";
 import { useSearchParams } from 'next/navigation';
+import { signIn, useSession } from 'next-auth/react';
 
 const MyComponent = () => {
     const [error, setError] = useState<string>();
-    const [autofill, setAutoFill] = useState<{ userName: string } | false>(false);
+    const [autofill, setAutoFill] = useState<{ userName: string, email: string } | false>(false);
+
+    const session = useSession();
 
     // database function
-    const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const formData = new FormData(e);
+        const formData = new FormData(e.currentTarget);
 
         if (!formData) {
             setError('Please fill in all required fields.');
             return;
         }
-        // main submission function
+
+        const userName = formData.get('userName') as string;
+        const email = session.data?.user?.email || "";
+        const phonenumber = formData.get('phonenumber') as string;
+        const highschool = formData.get('highschool') as string;
+        const education = formData.get('education') as string;
+        const gpa = formData.get('gpa') as string;
+        const sat = formData.get('sat') as string;
+
+        if (!email) {
+            setError('Invalid form submission');
+            return;
+        }
+
+        signIn('credentials', {
+            email: email,
+            userName: userName,
+            phonenumber: phonenumber,
+            highschool: highschool,
+            education: education,
+            gpa: gpa,
+            sat: sat,
+            callbackUrl: '/applicant'
+        });
     };
 
-    const searchParam = useSearchParams();
     useEffect(() => {
-        const userName = searchParam.get("userName");
-        if (!userName)
+        const userName = session.data?.user?.name || "";
+        const email = session.data?.user?.email || "";
+
+        if (!userName || !email)
             return setAutoFill(false);
 
         setAutoFill({
-            userName: userName || ""
+            userName: userName,
+            email: email
         })
     }, [])
     return (
@@ -59,6 +87,24 @@ const MyComponent = () => {
                                 required
                             />
                         </div>
+
+                        <div className="input">
+                            <label htmlFor="email">
+                                Email
+                            </label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="Email"
+                                defaultValue={autofill && autofill?.email || ""}
+                                disabled
+                                maxLength={10}
+                                className={`w-full px-3 py-2 rounded-md disabled:placeholder:text-gray-400 text-gray-400 disabled:cursor-not-allowed `}
+                                required
+                            />
+                        </div>
+
                         <div className="input">
                             <label htmlFor="phonenumber"> Phone Number</label>
                             <input

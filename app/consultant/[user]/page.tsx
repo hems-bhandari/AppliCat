@@ -6,7 +6,6 @@ const ConsultantPage = (
     { params: { user } }:
         { params: { user: string } }
 ) => {
-
     return (
         <div>
             You can book me here {user}

@@ -19,12 +19,11 @@ export const authOptions: NextAuthOptions = {
                 //checking the existance in db
                 const userInDb = await getIfUserExistance(email)
 
-                if (!userInDb) return `/auth/onboarding/?userName=${user.name}`
-
-                // it means user already has a account
-                Object.assign(user, userInDb);
+                if (userInDb) {
+                    Object.assign(user, userInDb);
+                    return true;
+                }
             }
-
             return true;
         },
         async jwt({ token, user }) {
@@ -33,8 +32,10 @@ export const authOptions: NextAuthOptions = {
             }
             return token
         },
+
         async session({ session, token }) {
-            Object.assign((session as any)?.user, (token as any)?._doc);
+            if (token._doc)
+                Object.assign((session as any)?.user, (token as any)?._doc);
             return session;
         },
     }
