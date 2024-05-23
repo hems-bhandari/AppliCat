@@ -9,6 +9,7 @@ import { katibeh, roboto } from "@/lib/fonts";
 
 // icons
 import { ArrowTopRightIcon, ReaderIcon } from "@radix-ui/react-icons";
+import LandingFooter from "@/components/landing/LandingFooter";
 
 const SERVICES = [
   {
@@ -44,15 +45,35 @@ const SERVICES = [
     vertical: "bottom-10",
   },
 ];
+const COLLEGELIST = [
+  "https://lh5.googleusercontent.com/EituGLa2LhnAd-B-SUCpw9WhJTImioKqwFLpe1qDhAx1lKq_VSNiYVi-ghrMxROfyfwz8Rfz-cKYOKBDwh-7OEMButVijE5mXKI9333g2QaiPwzAY6_8HlOSaGI5gy3xHfgia1cB0mU669xrGJ4TXHU",
+  "https://lh5.googleusercontent.com/EituGLa2LhnAd-B-SUCpw9WhJTImioKqwFLpe1qDhAx1lKq_VSNiYVi-ghrMxROfyfwz8Rfz-cKYOKBDwh-7OEMButVijE5mXKI9333g2QaiPwzAY6_8HlOSaGI5gy3xHfgia1cB0mU669xrGJ4TXHU",
+  "https://lh5.googleusercontent.com/EituGLa2LhnAd-B-SUCpw9WhJTImioKqwFLpe1qDhAx1lKq_VSNiYVi-ghrMxROfyfwz8Rfz-cKYOKBDwh-7OEMButVijE5mXKI9333g2QaiPwzAY6_8HlOSaGI5gy3xHfgia1cB0mU669xrGJ4TXHU",
+
+  "https://lh5.googleusercontent.com/EituGLa2LhnAd-B-SUCpw9WhJTImioKqwFLpe1qDhAx1lKq_VSNiYVi-ghrMxROfyfwz8Rfz-cKYOKBDwh-7OEMButVijE5mXKI9333g2QaiPwzAY6_8HlOSaGI5gy3xHfgia1cB0mU669xrGJ4TXHU",
+  "https://lh5.googleusercontent.com/EituGLa2LhnAd-B-SUCpw9WhJTImioKqwFLpe1qDhAx1lKq_VSNiYVi-ghrMxROfyfwz8Rfz-cKYOKBDwh-7OEMButVijE5mXKI9333g2QaiPwzAY6_8HlOSaGI5gy3xHfgia1cB0mU669xrGJ4TXHU",
+  "https://lh5.googleusercontent.com/EituGLa2LhnAd-B-SUCpw9WhJTImioKqwFLpe1qDhAx1lKq_VSNiYVi-ghrMxROfyfwz8Rfz-cKYOKBDwh-7OEMButVijE5mXKI9333g2QaiPwzAY6_8HlOSaGI5gy3xHfgia1cB0mU669xrGJ4TXHU",
+  "https://lh5.googleusercontent.com/EituGLa2LhnAd-B-SUCpw9WhJTImioKqwFLpe1qDhAx1lKq_VSNiYVi-ghrMxROfyfwz8Rfz-cKYOKBDwh-7OEMButVijE5mXKI9333g2QaiPwzAY6_8HlOSaGI5gy3xHfgia1cB0mU669xrGJ4TXHU",
+  "https://lh5.googleusercontent.com/EituGLa2LhnAd-B-SUCpw9WhJTImioKqwFLpe1qDhAx1lKq_VSNiYVi-ghrMxROfyfwz8Rfz-cKYOKBDwh-7OEMButVijE5mXKI9333g2QaiPwzAY6_8HlOSaGI5gy3xHfgia1cB0mU669xrGJ4TXHU",
+  "https://lh5.googleusercontent.com/EituGLa2LhnAd-B-SUCpw9WhJTImioKqwFLpe1qDhAx1lKq_VSNiYVi-ghrMxROfyfwz8Rfz-cKYOKBDwh-7OEMButVijE5mXKI9333g2QaiPwzAY6_8HlOSaGI5gy3xHfgia1cB0mU669xrGJ4TXHU",
+  "https://lh5.googleusercontent.com/EituGLa2LhnAd-B-SUCpw9WhJTImioKqwFLpe1qDhAx1lKq_VSNiYVi-ghrMxROfyfwz8Rfz-cKYOKBDwh-7OEMButVijE5mXKI9333g2QaiPwzAY6_8HlOSaGI5gy3xHfgia1cB0mU669xrGJ4TXHU",
+  "https://lh5.googleusercontent.com/EituGLa2LhnAd-B-SUCpw9WhJTImioKqwFLpe1qDhAx1lKq_VSNiYVi-ghrMxROfyfwz8Rfz-cKYOKBDwh-7OEMButVijE5mXKI9333g2QaiPwzAY6_8HlOSaGI5gy3xHfgia1cB0mU669xrGJ4TXHU",
+  "https://lh5.googleusercontent.com/EituGLa2LhnAd-B-SUCpw9WhJTImioKqwFLpe1qDhAx1lKq_VSNiYVi-ghrMxROfyfwz8Rfz-cKYOKBDwh-7OEMButVijE5mXKI9333g2QaiPwzAY6_8HlOSaGI5gy3xHfgia1cB0mU669xrGJ4TXHU",
+  "https://lh5.googleusercontent.com/EituGLa2LhnAd-B-SUCpw9WhJTImioKqwFLpe1qDhAx1lKq_VSNiYVi-ghrMxROfyfwz8Rfz-cKYOKBDwh-7OEMButVijE5mXKI9333g2QaiPwzAY6_8HlOSaGI5gy3xHfgia1cB0mU669xrGJ4TXHU",
+  "https://lh5.googleusercontent.com/EituGLa2LhnAd-B-SUCpw9WhJTImioKqwFLpe1qDhAx1lKq_VSNiYVi-ghrMxROfyfwz8Rfz-cKYOKBDwh-7OEMButVijE5mXKI9333g2QaiPwzAY6_8HlOSaGI5gy3xHfgia1cB0mU669xrGJ4TXHU",
+]
+
+
 
 const Landing = () => {
+
   return (
     <div className="bg-black min-h-screen w-full">
       <LandingNav />
 
       <section className="text-center min-h-[calc(100vh-125px)] flex items-center justify-center relative px-4">
         <div className="max-w-[820px] mx-auto">
-          <h1 className={`${katibeh.className} text-[10rem] text-white leading-none`}>
+          <h1 className={`${katibeh.className} text-[10rem] text-white`}>
             Applicat
           </h1>
           <p
@@ -100,6 +121,38 @@ const Landing = () => {
           )}
         </div>
       </section>
+
+      <section className="w-full h-auto relative my-[96px]">
+        <h2 className={`${katibeh.className} text-[82px] text-white text-center`}>
+          Consult with students from
+        </h2>
+        <div className=" mx-auto mt-8 flex flex-row flex-wrap justify-center gap-2 ">
+          {COLLEGELIST.map((college, index) => <div className="h-[100px] max-w-[280px]"><Image
+            key={`college${index}`}
+            src={`${college}`}
+            alt="big cat"
+            className="h-full w-full bg-white rounded-lg object-contain object-center z-0"
+            height={100}
+            width={240}
+          /></div>)
+          }
+        </div>
+      </section>
+
+      <section className="bg-red-600 h-48   flex flex-row px-[5%] justify-between items-center">
+        <div className="flex flex-row  w-full justify-between items-end">
+          <h2 className={`${roboto.className} text-4xl align-top text-white`}>
+            Schedule your <br />appointment today
+          </h2>
+          <Link
+            href="/auth"
+            className={`bg-white text-[18px] font-[500] uppercase rounded-[8px] flex items-center justify-center space-x-2  w-[200px] h-[48px] py-2 px-6 text-red-600 ${roboto.className}`}
+          >
+            <span>Book Now</span>
+          </Link>
+        </div>
+      </section>
+      <LandingFooter />
     </div>
   );
 };
