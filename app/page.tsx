@@ -10,6 +10,7 @@ import { katibeh, roboto } from "@/lib/fonts";
 // icons
 import { ArrowTopRightIcon, ReaderIcon } from "@radix-ui/react-icons";
 import LandingFooter from "@/components/landing/LandingFooter";
+import Drawer from "@/components/landing/Drawer";
 
 const SERVICES = [
   {
@@ -69,6 +70,7 @@ const Landing = () => {
 
   return (
     <div className="bg-black min-h-screen w-full">
+      <Drawer open={true} />
       <LandingNav />
 
       <section className="text-center min-h-[calc(100vh-125px)] flex items-center justify-center relative px-4">
@@ -153,6 +155,7 @@ const Landing = () => {
         </div>
       </section>
       <LandingFooter />
+
     </div>
   );
 };
