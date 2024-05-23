@@ -27,7 +27,7 @@ const Sessions = () => {
         <TabsTrigger value="booked_sessions">Booked Sessions</TabsTrigger>
       </TabsList>
       <TabsContent value="all_sessions">
-        
+            
       </TabsContent>
       <TabsContent value="booked_sessions">
         

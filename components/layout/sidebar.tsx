@@ -1,9 +1,5 @@
 import { DashboardNav } from "@/components/dashboard-nav";
-<<<<<<< Updated upstream
 import { navItems, applicantNavItems } from "@/constants/data";
-=======
-import { ApplicantNavItems } from "@/constants/data";
->>>>>>> Stashed changes
 import { cn } from "@/lib/utils";
 
 export default function Sidebar({
@@ -21,13 +17,9 @@ export default function Sidebar({
             <h2 className="mb-2 px-4 text-xl font-semibold tracking-tight">
               Overview
             </h2>
-<<<<<<< Updated upstream
             <DashboardNav items={
               applicant ? applicantNavItems : navItems
             } />
-=======
-            <DashboardNav items={ApplicantNavItems} />
->>>>>>> Stashed changes
           </div>
         </div>
       </div>

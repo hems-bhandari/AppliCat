@@ -14,11 +14,11 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+    ResizableHandle,
+    ResizablePanel,
+    ResizablePanelGroup,
+  } from "@/components/ui/resizable"
+
 import { Separator } from "@/components/ui/separator";
 
 function Message() {
@@ -50,7 +50,24 @@ function Message() {
 
   return (
     <>
-      <Card className="h-[calc(100vh-70px)] flex flex-col">
+    <ResizablePanelGroup
+      direction="horizontal"
+      className="min-h-[200px] w-full rounded-lg border"
+    >
+      <ResizablePanel defaultSize={20}>
+        <div className="flex h-full items-center justify-center p-2 bg-card">
+            <Button
+                size="icon"
+                className="h-[40px] w-full flex items-center justify-center"
+            >
+                Aashish Panthi
+            </Button>
+        </div>
+      </ResizablePanel>
+      <ResizableHandle withHandle />
+      <ResizablePanel defaultSize={80}>
+        <div className="flex h-full items-center justify-center p-0 w-full">
+        <Card className="h-[calc(100vh-70px)] flex flex-col w-full">
         <CardHeader className="flex flex-row items-center">
           <div className="flex items-center space-x-4">
             <Avatar>
@@ -115,6 +132,9 @@ function Message() {
           </form>
         </CardFooter>
       </Card>
+        </div>
+      </ResizablePanel>
+    </ResizablePanelGroup>
     </>
   );
 }

@@ -150,12 +150,8 @@ export const navItems: NavItem[] = [
   },
 ];
 
-<<<<<<< Updated upstream
 
 export const applicantNavItems: NavItem[] = [
-=======
-export const ApplicantNavItems: NavItem[] = [
->>>>>>> Stashed changes
   {
     title: "Dashboard",
     href: "/applicant",
@@ -163,7 +159,6 @@ export const ApplicantNavItems: NavItem[] = [
     label: "Dashboard",
   },
   {
-<<<<<<< Updated upstream
     title: "Sessions",
     href: "/applicant/sessions",
     icon: "calendar",
@@ -180,25 +175,12 @@ export const ApplicantNavItems: NavItem[] = [
     href: "/applicant/profile",
     icon: "profile",
     label: "profile",
-=======
-    title: "Browse Consultants",
-    href: "/applicant/browse",
-    icon: "post",
-    label: "browse",
-  },
-  {
-    title: "Edit Profile",
-    href: "/applicant/edit-profile",
-    icon: "profile",
-    label: "edit-profile",
->>>>>>> Stashed changes
   },
   {
     title: "Kanban",
     href: "/applicant/kanban",
     icon: "kanban",
     label: "kanban",
-<<<<<<< Updated upstream
   },
   {
     title: "Logout",
@@ -207,7 +189,3 @@ export const ApplicantNavItems: NavItem[] = [
     label: "logout",
   },
 ];
-=======
-  }
-];
->>>>>>> Stashed changes
