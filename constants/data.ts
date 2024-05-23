@@ -149,3 +149,43 @@ export const navItems: NavItem[] = [
     label: "login",
   },
 ];
+
+
+export const applicantNavItems: NavItem[] = [
+  {
+    title: "Dashboard",
+    href: "/applicant",
+    icon: "dashboard",
+    label: "Dashboard",
+  },
+  {
+    title: "Sessions",
+    href: "/applicant/sessions",
+    icon: "calendar",
+    label: "calendar",
+  },
+  {
+    title: "Message",
+    href: "/applicant/message",
+    icon: "chat",
+    label: "chat",
+  },
+  {
+    title: "Profile",
+    href: "/applicant/profile",
+    icon: "profile",
+    label: "profile",
+  },
+  {
+    title: "Kanban",
+    href: "/applicant/kanban",
+    icon: "kanban",
+    label: "kanban",
+  },
+  {
+    title: "Logout",
+    href: "/",
+    icon: "logout",
+    label: "logout",
+  },
+];

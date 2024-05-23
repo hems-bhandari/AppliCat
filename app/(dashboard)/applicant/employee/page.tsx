@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 
-const breadcrumbItems = [{ title: "Employee", link: "/dashboard/employee" }];
+const breadcrumbItems = [{ title: "Employee", link: "/applicant/employee" }];
 
 type paramsProps = {
   searchParams: {
@@ -43,7 +43,7 @@ export default async function page({ searchParams }: paramsProps) {
           />
 
           <Link
-            href={"/dashboard/employee/new"}
+            href={"/applicant/employee/new"}
             className={cn(buttonVariants({ variant: "default" }))}
           >
             <Plus className="mr-2 h-4 w-4" /> Add New
