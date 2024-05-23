@@ -1,5 +1,5 @@
 "use client";
-import { FormEvent, FormEventHandler, useEffect, useState } from 'react';
+import { FormEvent, FormEventHandler, useEffect, useRef, useState } from 'react';
 import Image from "next/image";
 
 // fonts
@@ -12,6 +12,7 @@ const MyComponent = () => {
     const [autofill, setAutoFill] = useState<{ userName: string, email: string } | false>(false);
 
     const session = useSession();
+    const emailRef = useRef();
 
     // database function
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -19,12 +20,14 @@ const MyComponent = () => {
         const formData = new FormData(e.currentTarget);
 
         if (!formData) {
-            setError('Please fill in all required fields.');
+            setError('Please fill in all  fields.');
             return;
         }
+        const email = session.data?.user?.email || "";
+        const image = session.data?.user?.image || "";
+
 
         const userName = formData.get('userName') as string;
-        const email = session.data?.user?.email || "";
         const phonenumber = formData.get('phonenumber') as string;
         const highschool = formData.get('highschool') as string;
         const education = formData.get('education') as string;
@@ -38,12 +41,13 @@ const MyComponent = () => {
 
         signIn('credentials', {
             email: email,
-            userName: userName,
+            name: userName,
             phonenumber: phonenumber,
             highschool: highschool,
             education: education,
             gpa: gpa,
             sat: sat,
+            image: image,
             callbackUrl: '/applicant'
         });
     };
@@ -136,8 +140,9 @@ const MyComponent = () => {
                             <select id="education"
                                 name="education"
                                 className={`w-full px-3 py-2 rounded-md focus:outline-none  invalid:border-red-500'}`}
-                                required >
-                                <option value="" selected defaultChecked>Select Curriculum</option>
+                                required
+                            >
+                                <option value="">Select Curriculum</option>
                                 <option value="NEB">NEB</option>
                                 <option value="A-Levels">A-Levels</option>
                                 <option value="International Baccalaureate (IB)">International Baccalaureate (IB)</option>
@@ -154,7 +159,8 @@ const MyComponent = () => {
                                 name="gpa"
                                 placeholder="Highschool GPA/Grades"
                                 className={`w-full px-3 py-2 rounded-md focus:outline-none`}
-                                required />
+                                required
+                            />
                         </div>
 
                         <div className="input">
@@ -166,7 +172,8 @@ const MyComponent = () => {
                                 name="sat"
                                 placeholder="SAT Score (if taken) "
                                 className={`w-full px-3 py-2 rounded-md focus:outline-none `}
-                                required />
+                                required
+                            />
                         </div>
 
 
