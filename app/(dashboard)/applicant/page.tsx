@@ -39,6 +39,7 @@ export default function page() {
                     ECs Building Session by
                   </CardTitle>
                 </CardHeader>
+<<<<<<< Updated upstream
                 <CardContent>
                   <div className="text-2xl font-bold">Dinesh Bhandari</div>
                   <img
@@ -51,6 +52,22 @@ export default function page() {
                   <p className="text-xs text-muted-foreground">
                     <b>Class of 2028</b>
                   </p>
+=======
+                <CardContent className="flex flex-col items-center">
+                  <div className="text-2xl font-bold">Dinesh Bhandari</div>
+                  <div className="p-6">
+                    <img
+                      src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Princeton_seal.svg"
+                      alt="avatar"
+                      className="w-48 h-48 object-contain"
+                    />
+                  </div>
+                  <div className="self-end mt-auto">
+                    <p className="text-xs text-muted-foreground">
+                      <b>Class of 2028</b>
+                    </p>
+                  </div>
+>>>>>>> Stashed changes
                 </CardContent>
               </Card>
               <Card>
@@ -59,6 +76,7 @@ export default function page() {
                     Essay Writing Session by
                   </CardTitle>
                 </CardHeader>
+<<<<<<< Updated upstream
                 <CardContent>
                   <div className="text-2xl font-bold">Sarwesh Parajuli</div>
                   <img
@@ -71,6 +89,22 @@ export default function page() {
                   <p className="text-xs text-muted-foreground">
                     <b>Class of 2028</b>
                   </p>
+=======
+                <CardContent className="flex flex-col items-center">
+                  <div className="text-2xl font-bold">Sarwesh Parajuli</div>
+                  <div className="p-6">
+                    <img
+                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/MIT_logo.svg/482px-MIT_logo.svg.png"
+                      alt="avatar"
+                      className="w-48 h-48 object-contain"
+                    />
+                  </div>
+                  <div className="self-end mt-auto">
+                    <p className="text-xs text-muted-foreground">
+                      <b>Class of 2028</b>
+                    </p>
+                  </div>
+>>>>>>> Stashed changes
                 </CardContent>
               </Card>
             </div>
