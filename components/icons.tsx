@@ -1,3 +1,4 @@
+import { CalendarIcon } from "@radix-ui/react-icons";
 import {
     AlertTriangle,
     ArrowRight,
@@ -18,6 +19,7 @@ import {
     LogOut,
     LucideIcon,
     LucideProps,
+    MessageSquare,
     Moon,
     MoreVertical,
     Pizza,
@@ -40,6 +42,8 @@ export const Icons = {
     login: LogIn,
     logout: LogOut,
     close: X,
+    calendar: CalendarIcon,
+    chat: MessageSquare,
     profile: User2Icon,
     spinner: Loader2,
     kanban: CircuitBoardIcon,
