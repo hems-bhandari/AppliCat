@@ -60,7 +60,6 @@ export async function middleware(req: NextRequest) {
             && firstSplitPath !== userType
             && ["admin", "consultant", "applicant"].includes(firstSplitPath.toLowerCase())
         ) {
-            console.log(userType);
             url.pathname = pathname.replace(pathname.split("/")[1], userType)
             return NextResponse.redirect(url)
         }

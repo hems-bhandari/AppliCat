@@ -1,10 +1,9 @@
 "use client";
-import { FormEvent, FormEventHandler, useEffect, useRef, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import Image from "next/image";
 
 // fonts
 import { roboto } from "@/lib/fonts";
-import { useSearchParams } from 'next/navigation';
 import { signIn, useSession } from 'next-auth/react';
 
 const MyComponent = () => {
@@ -12,7 +11,6 @@ const MyComponent = () => {
     const [autofill, setAutoFill] = useState<{ userName: string, email: string } | false>(false);
 
     const session = useSession();
-    const emailRef = useRef();
 
     // database function
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -86,7 +84,7 @@ const MyComponent = () => {
                                 id="userName"
                                 name="userName"
                                 defaultValue={autofill && autofill.userName || ""}
-                                placeholder="First Name"
+                                placeholder="User Name"
                                 className={`w-full px-3 py-2 rounded-md focus:outline-none `}
                                 required
                             />
