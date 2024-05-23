@@ -70,7 +70,7 @@ const Landing = () => {
 
   return (
     <div className="bg-black min-h-screen w-full">
-      <Drawer open={true} />
+      <Drawer open={false} />
       <LandingNav />
 
       <section className="text-center min-h-[calc(100vh-125px)] flex items-center justify-center relative px-4">
