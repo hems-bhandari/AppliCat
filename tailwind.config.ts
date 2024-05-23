@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+
 module.exports = {
     darkMode: ["class"],
     content: [
@@ -18,10 +19,15 @@ module.exports = {
         },
         extend: {
             colors: {
+
                 // custom colors
-                //
                 black: "#101418",
                 bluishBlack: "#1E262C",
+                gradientStart: "#F4442A",
+                gradientStop: "#F1314A",
+
+
+
                 border: "hsl(var(--border))",
                 input: "hsl(var(--input))",
                 ring: "hsl(var(--ring))",

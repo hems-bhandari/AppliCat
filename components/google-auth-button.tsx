@@ -10,7 +10,7 @@ export default function GoogleSignInButton() {
             className="w-full"
             onClick={() =>
                 signIn("google",
-                    { callbackUrl: "/applicant" })
+                    { callbackUrl: "/auth/onboarding" })
             }
         >
             <Icons.google className="w-4 h-4 mr-2" />
