@@ -2,7 +2,7 @@ import BreadCrumb from "@/components/breadcrumb";
 import { CreateProfileOne } from "@/components/forms/user-profile-stepper/create-profile";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-const breadcrumbItems = [{ title: "Profile", link: "/dashboard/profile" }];
+const breadcrumbItems = [{ title: "Profile", link: "/applicant/profile" }];
 export default function page() {
   return (
     <ScrollArea className="h-full">

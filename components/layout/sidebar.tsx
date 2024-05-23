@@ -1,8 +1,12 @@
 import { DashboardNav } from "@/components/dashboard-nav";
-import { navItems } from "@/constants/data";
+import { navItems, applicantNavItems } from "@/constants/data";
 import { cn } from "@/lib/utils";
 
-export default function Sidebar() {
+export default function Sidebar({
+  applicant = false,
+}: {
+  applicant?: boolean;
+}) {
   return (
     <nav
       className={cn(`relative hidden h-screen border-r pt-16 lg:block w-72`)}
@@ -13,7 +17,9 @@ export default function Sidebar() {
             <h2 className="mb-2 px-4 text-xl font-semibold tracking-tight">
               Overview
             </h2>
-            <DashboardNav items={navItems} />
+            <DashboardNav items={
+              applicant ? applicantNavItems : navItems
+            } />
           </div>
         </div>
       </div>
