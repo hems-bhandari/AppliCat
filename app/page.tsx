@@ -66,13 +66,11 @@ const COLLEGELIST = [
 
 
 const Landing = () => {
-
     return (
-        <div className="bg-black min-h-screen w-full">
-            <Drawer open={false} />
+        <div className="bg-black min-h-screen w-full overflow-x-hidden">
             <LandingNav />
 
-            <section className="text-center min-h-[calc(100vh-125px)] flex items-center justify-center relative px-4">
+            <section className="text-center bg-black min-h-[calc(100vh-125px)] flex items-center justify-center relative px-4">
                 <div className="max-w-[820px] mx-auto">
                     <h1 className={`${katibeh.className} text-[10rem] text-white leading-[3rem]`}>
                         Applicat
@@ -120,23 +118,6 @@ const Landing = () => {
                             </div>
                         )
                     )}
-                </div>
-            </section>
-
-            <section className="w-full h-auto relative my-[96px]">
-                <h2 className={`${katibeh.className} text-[82px] text-white text-center`}>
-                    Consult with students from
-                </h2>
-                <div className=" mx-auto mt-8 flex flex-row flex-wrap justify-center gap-2 ">
-                    {COLLEGELIST.map((college, index) => <div className="h-[100px] max-w-[280px]"><Image
-                        key={`college${index}`}
-                        src={`${college}`}
-                        alt="big cat"
-                        className="h-full w-full bg-white rounded-lg object-contain object-center z-0"
-                        height={100}
-                        width={240}
-                    /></div>)
-                    }
                 </div>
             </section>
 
