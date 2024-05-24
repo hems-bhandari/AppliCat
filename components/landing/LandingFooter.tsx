@@ -41,9 +41,9 @@ const LandingFooter = () => {
       </div>
       <hr className="border-[#B2B2B2] my-6" />
       <div className="flex flex-row mx-auto text-white items-center justify-center gap-2">
-        <Link href="" className="underline">Terms and Conditions</Link>
+        <Link href="/terms_of_service" className="underline">Terms of Service</Link>
         <div className="circle h-2 w-2  rounded-full bg-white"></div>
-        <Link href="" className="underline">Privacy Policy</Link>
+        <Link href="/privacy_policy" className="underline">Privacy Policy</Link>
       </div>
 
     </footer >

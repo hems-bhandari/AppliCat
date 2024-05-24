@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 import Image from "next/image";
 import Link from "next/link";
 
@@ -70,14 +71,14 @@ const Landing = () => {
             className={`text-md font-[400] text-[#e4e4e4] -mt-3 ${roboto.className}`}
           >
             Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry&appos;s standard
+            industry. Lorem Ipsum has been the industry&apos;s standard
           </p>
 
           <Link
             href="/auth"
             className={`bg-gradient-to-r from-[#F4442A] to-[#F1314A]  text-xl font-[500] uppercase rounded-[8px] flex items-center justify-center space-x-2 mx-auto mt-5 w-[260px] h-[55px] py-2 px-6 text-white ${roboto.className}`}
           >
-            <span>Join Now</span>
+            <span>Book Now</span>
             <ArrowTopRightIcon className="w-6 h-6 font-bold" />
           </Link>
         </div>
@@ -114,7 +115,7 @@ const Landing = () => {
 
       <section className="w-full px-[5%] h-auto relative my-[96px] 2xl:max-w-[1400px] 2xl:mx-auto">
         <h2 className={`${katibeh.className} text-5xl text-white text-center`}>
-          Consult with students from
+          Talk to Freshmen from
         </h2>
         <div className=" mx-auto mt-8 flex flex-row flex-wrap justify-center gap-2 ">
           {COLLEGELIST.map((college, index) => <div className="h-[84px] max-w-[200px]"><Image
@@ -132,7 +133,7 @@ const Landing = () => {
       <section className="bg-red-600 h-48   flex flex-row  px-[5%] justify-center items-center ">
         <div className="flex flex-row gap-4  w-full justify-between items-end max-md:flex-col max-md:items-center max-md:justify-center 2xl:max-w-[1400px] ">
           <h2 className={`${roboto.className} text-4xl align-top max-md:text-center text-white font-bold`}>
-            Schedule your <br />appointment today
+            Book Your <br /> Session Today
           </h2>
           <Link
             href="/auth"
