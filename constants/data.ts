@@ -160,15 +160,9 @@ export const consultantNavItems: NavItem[] = [
     },
     {
         title: "Availability",
-        href: "/consultant/Availability",
-        icon: "callendar",
+        href: "/consultant/availability",
+        icon: "calendar",
         label: "availability",
-    },
-    {
-        title: "Notification",
-        href: "/consultant/Notification",
-        icon: "bell",
-        label: "Notification",
     },
     {
         title: "Profile",
