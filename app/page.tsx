@@ -58,10 +58,10 @@ const COLLEGELIST = [
 
 const Landing = () => {
   return (
-    <div className="bg-black min-h-screen w-full overflow-x-hidden">
+    <div className=" min-h-screen w-full overflow-x-hidden">
       <LandingNav />
 
-      <section className="text-center bg-black min-h-[calc(100vh-125px)] flex items-center justify-center relative px-4">
+      <section className=" bg-transparent text-center min-h-[calc(100vh-125px)] flex items-center justify-center relative px-4">
         <div className="max-w-[640px] mx-auto " >
           <h1 className={`${katibeh.className} text-9xl text-white `}>
             Applicat
@@ -83,20 +83,20 @@ const Landing = () => {
         </div>
       </section>
 
-      <section className="w-full h-auto relative overflow-hidden ">
+      <section className="w-full h-auto relative max-lg:overflow-hidden max-lg:bg-[url('/landing_big_cat.svg')] max-lg:bg-fixed max-lg:bg-no-repeat max-lg:bg-contain max-lg:bg-center max-lg:py-16">
         <Image
           src="/landing_big_cat.svg"
           alt="big cat"
           width={1920}
           height={1080}
-          className=" w-full h-full object-contain object-center z-0"
+          className=" w-full h-full object-contain object-center z-0  max-lg:hidden max-lg:top-0 max-lg:left-0 max-lg:right-0 max-lg:object-cover"
         />
 
-        <div className="w-full px-[5%] 2xl:px-0 grid grid-cols-[min(500px,35vw)_min(500px,35vw)] justify-between place-items-center 2xl:max-w-[1400px] lg:max-h-[min(80vh, 1400px)] mx-auto absolute top-0 left-0 right-0 w-full h-full">
+        <div className={`w-full px-[5%] 2xl:px-0 grid grid-cols-[min(500px,35vw)_min(500px,35vw)] justify-between place-items-center 2xl:max-w-[1400px] lg:max-h-[min(80vh, 1400px)] mx-auto absolute top-0 left-0 right-0 h-full  max-lg:grid-cols-2 max-lg:!relative max-lg:gap-8 max-sm:grid-cols-1`}>
           {SERVICES.map(
             ({ title, description, Icon, }, index) => (
               <div
-                className={`bg-[#2d2d2d] bg-opacity-30 backdrop-filter backdrop-blur-lg rounded-lg px-4 py-4 flex items-start max-w-[min(500px,35vw)] max-h-[175px] ${index == 2 && "translate-x-8"} ${index == 3 && "-translate-x-8"}`}
+                className={`bg-[#2d2d2d] bg-opacity-30 backdrop-filter backdrop-blur-lg rounded-lg px-4 py-4 flex items-start max-w-[min(500px,35vw)] max-h-[175px] max-lg:max-w-full max-lg:justify-normal ${index == 2 && "lg:translate-x-8"} ${index == 3 && "lg:-translate-x-8"}`}
               ><div>
                   <Icon className=" h-10 w-auto mr-2 text-white" />
                 </div>
