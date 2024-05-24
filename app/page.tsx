@@ -70,14 +70,14 @@ const Landing = () => {
             className={`text-md font-[400] text-[#e4e4e4] -mt-3 ${roboto.className}`}
           >
             Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard
+            industry. Lorem Ipsum has been the industry&appos;s standard
           </p>
 
           <Link
             href="/auth"
             className={`bg-gradient-to-r from-[#F4442A] to-[#F1314A]  text-xl font-[500] uppercase rounded-[8px] flex items-center justify-center space-x-2 mx-auto mt-5 w-[260px] h-[55px] py-2 px-6 text-white ${roboto.className}`}
           >
-            <span>Some CTA</span>
+            <span>Join Now</span>
             <ArrowTopRightIcon className="w-6 h-6 font-bold" />
           </Link>
         </div>
