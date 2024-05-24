@@ -4,25 +4,26 @@ import { katibeh } from "@/lib/fonts";
 
 const LandingFooter = () => {
   return (
-    <footer className=" w-full px-[5%] pt-24 pb-8 2xl:px-[calc((100%-1400px)/2)] ">
-      <div className="flex flex-row items-center justify-between ">
-        <div className="companyInfo flex flex-row items-center justify-center gap-8 ">
+    <footer className=" w-full px-[5%] pt-12 pb-8 2xl:px-[calc((100%-1400px)/2)] ">
+      <div className="flex flex-col md:!flex-row items-start justify-between gap-8">
+        <div className="companyInfo flex flex-row items-start justify-start gap-4 ">
           <Link href="/" className="logo">
             <Image
               src="/nav_logo.svg"
               alt="logo"
               width={125}
               height={125}
-              className="cursor-pointer"
+
+              className="cursor-pointer min-w-14 h-24 w-auto object-contain"
             />
           </Link>
           <div className="max-w-[300px] flex flex-col justify-between">
-            <h2 className={`${katibeh.className} text-[64px] text-white `}>Applicat</h2>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's </p>
+            <h2 className={`${katibeh.className} text-5xl text-white leading-none`}>Applicat</h2>
+            <p className="text-md -mt-3">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's </p>
           </div>
         </div>
-        <div className="flex flex-row gap-32">
-          <div className="navlinks flex flex-col gap-2 ">
+        <div className="flex flex-row  max-md:gap-8 max-md:w-full max-md:justify-between gap-24 max-md:flex-wrap">
+          <div className="navlinks flex flex-col  gap-2 ">
             <h4 className={`${katibeh.className} text-3xl text-white -mt-2 `}>Nav Links</h4>
             <Link href="" >Link</Link>
             <Link href="" >Link</Link>
