@@ -1,15 +1,17 @@
 "use client";
 import { DashboardNav } from "@/components/dashboard-nav";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { navItems } from "@/constants/data";
+import { adminNavItems, applicantNavItems, consultantNavItems } from "@/constants/data";
+import { roboto } from "@/lib/fonts";
 import { MenuIcon } from "lucide-react";
 import { useState } from "react";
+import Signout from "../signout";
 
-
-interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
-}
-
-export function MobileSidebar({ className }: SidebarProps) {
+export function MobileSidebar({
+    userType = "Applicant"
+}: {
+    userType?: "Applicant" | "Consultant" | "Admin";
+}) {
     const [open, setOpen] = useState(false);
     return (
         <>
@@ -20,11 +22,20 @@ export function MobileSidebar({ className }: SidebarProps) {
                 <SheetContent side="left" className="!px-0">
                     <div className="space-y-4 py-4">
                         <div className="px-3 py-2">
-                            <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">
-                                Overview
-                            </h2>
                             <div className="space-y-1">
-                                <DashboardNav items={navItems} setOpen={setOpen} />
+                                <h2 className={` mb-2 text-sm font-bold  ${roboto.className}`}>
+                                    Nav Links
+                                </h2>
+                                <DashboardNav
+                                    items={
+                                        userType === "Applicant"
+                                            ? applicantNavItems
+                                            : userType === "Consultant"
+                                                ? consultantNavItems
+                                                : adminNavItems
+                                    }
+                                    setOpen={setOpen} />
+                                <Signout />
                             </div>
                         </div>
                     </div>
