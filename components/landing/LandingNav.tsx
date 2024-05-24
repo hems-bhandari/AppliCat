@@ -20,7 +20,7 @@ const LandingNav = () => {
   return (
     <>
       <Drawer open={open} setOpen={setOpen} />
-      <nav className="text-white flex items-center w-full h-[125px] justify-between gap-2 px-10 ">
+      <nav className="text-white flex items-center w-full h-[125px] justify-between gap-2 px-10 mx-auto 2xl:w-[1400px]  ">
         <Link href="/" className="logo">
           <Image
             src="/nav_logo.svg"

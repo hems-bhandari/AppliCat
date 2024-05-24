@@ -18,32 +18,24 @@ const SERVICES = [
     description:
       "Lorem Ipsum is simply dummy text of the printing a Lorem Ipsum is simply dummy text of the printing aLorem Ipsum is simply dummy text of the printing a",
     Icon: ReaderIcon,
-    horizontal: "left-0",
-    vertical: "top-10",
   },
   {
     title: "IELTS",
     description:
       "Lorem Ipsum is simply dummy text of the printing a Lorem Ipsum is simply dummy text of the printing aLorem Ipsum is simply dummy text of the printing a",
     Icon: ReaderIcon,
-    horizontal: "right-0",
-    vertical: "top-10",
   },
   {
     title: "GRE",
     description:
       "Lorem Ipsum is simply dummy text of the printing a Lorem Ipsum is simply dummy text of the printing aLorem Ipsum is simply dummy text of the printing a",
     Icon: ReaderIcon,
-    horizontal: "left-0",
-    vertical: "bottom-10",
   },
   {
     title: "GMAT",
     description:
       "Lorem Ipsum is simply dummy text of the printing a Lorem Ipsum is simply dummy text of the printing aLorem Ipsum is simply dummy text of the printing a",
     Icon: ReaderIcon,
-    horizontal: "right-0",
-    vertical: "bottom-10",
   },
 ];
 const COLLEGELIST = [
@@ -72,7 +64,7 @@ const Landing = () => {
       <LandingNav />
 
       <section className="text-center bg-black min-h-[calc(100vh-125px)] flex items-center justify-center relative px-4">
-        <div className="max-w-[820px] mx-auto">
+        <div className="max-w-[820px] mx-auto " >
           <h1 className={`${katibeh.className} text-[10rem] text-white leading-[3rem]`}>
             Applicat
           </h1>
@@ -93,7 +85,7 @@ const Landing = () => {
         </div>
       </section>
 
-      <section className="w-full h-auto relative">
+      <section className="w-full h-[80vh] relative overflow-hidden ">
         <Image
           src="/landing_big_cat.svg"
           alt="big cat"
@@ -102,12 +94,11 @@ const Landing = () => {
           className=" w-full h-full object-contain object-center z-0"
         />
 
-        <div className="md:w-[90%] mx-auto flex absolute top-0 left-0 right-0 w-full h-full">
+        <div className="w-[90%] grid grid-cols-[500px_500px] justify-between place-items-center 2xl:max-w-[1400px] lg:max-h-[min(80vh, 1400px)] mx-auto absolute top-0 left-0 right-0 w-full h-full">
           {SERVICES.map(
-            ({ title, description, Icon, horizontal, vertical }) => (
+            ({ title, description, Icon, }, index) => (
               <div
-                className={`absolute ${horizontal} ${vertical} bg-[#2d2d2d] bg-opacity-30 backdrop-filter backdrop-blur-lg rounded-lg px-8 py-5 flex items-center max-w-[500px] max-h-[175px] w-full space-x-4`}
-                style={{}}
+                className={`bg-[#2d2d2d] bg-opacity-30 backdrop-filter backdrop-blur-lg rounded-lg px-8 py-5 flex items-center max-w-[500px] max-h-[175px] ${index == 2 && "translate-x-8"} ${index == 3 && "-translate-x-8"}`}
               >
                 <Icon className="w-[100px] h-[100px] text-white mx-auto" />
                 <div>
@@ -122,7 +113,7 @@ const Landing = () => {
         </div>
       </section>
 
-      <section className="w-full h-auto relative my-[96px]">
+      <section className="w-full h-auto relative my-[96px] 2xl:max-w-[1400px] 2xl:mx-auto">
         <h2 className={`${katibeh.className} text-[82px] text-white text-center`}>
           Consult with students from
         </h2>
@@ -139,8 +130,8 @@ const Landing = () => {
         </div>
       </section>
 
-      <section className="bg-red-600 h-48   flex flex-row px-[5%] justify-between items-center">
-        <div className="flex flex-row  w-full justify-between items-end">
+      <section className="bg-red-600 h-48   flex flex-row px-[5%] justify-center items-center ">
+        <div className="flex flex-row  w-full justify-between items-end  2xl:max-w-[1400px] ">
           <h2 className={`${roboto.className} text-4xl align-top text-white`}>
             Schedule your <br />appointment today
           </h2>
