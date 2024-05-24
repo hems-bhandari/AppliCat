@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { add, format, isSameDay } from "date-fns";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import BreadCrumb from "@/components/breadcrumb";
 
 // interface DateType {
 //   justDate: Date | null;
@@ -15,6 +16,9 @@ function handleSubmit() {}
 
 const ConsultantPage = ({ params: { user } }: { params: { user: string } }) => {
   const [value, setValue] = useState<Date[]>([]);
+  const breadcrumbItems = [
+    { title: "Availability", link: "/consultant/availability" },
+  ];
 
   // const [date, setDate] = useState<DateType>({
   //   justDate: null,
@@ -84,7 +88,7 @@ const ConsultantPage = ({ params: { user } }: { params: { user: string } }) => {
             className="w-full"
             onClick={handleSubmit}
           >
-            Next
+            Submit
           </Button>
         </div>
       </div>
@@ -93,15 +97,18 @@ const ConsultantPage = ({ params: { user } }: { params: { user: string } }) => {
 
   return (
     <ScrollArea className="h-full">
-      <div className="flex flex-wrap py-5 px-4 mt-6 lg:mt-16 lg:ml-20 gap-0 lg:gap-16">
-        <Calendar
-          fromDate={new Date()}
-          onDayClick={handleDayClick}
-          modifiers={{ selected: value }}
-          className="lg:w-[600px] w-full h-[550px] mb-4 md:mb-0"
-        />
-        <div className="flex justify-start sm:justify-center lg:justify-start w-full md:w-auto">
-          <Footer />
+      <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
+        <BreadCrumb items={breadcrumbItems} />
+        <div className="flex flex-wrap py-5 px-4 mt-6 gap-0 lg:gap-16">
+          <Calendar
+            fromDate={new Date()}
+            onDayClick={handleDayClick}
+            modifiers={{ selected: value }}
+            className="lg:w-[600px] w-full h-[550px] mb-4 md:mb-0"
+          />
+          <div className="flex justify-start sm:justify-center lg:justify-start w-full md:w-auto">
+            <Footer />
+          </div>
         </div>
       </div>
     </ScrollArea>
