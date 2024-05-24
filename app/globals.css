@@ -100,18 +100,3 @@
 
 
 /* # typography  */
-h1 {
-    @apply text-2xl font-bold text-gray-800 dark:text-gray-50;
-}
-
-h2 {
-    @apply text-xl font-semibold text-gray-700 dark:text-gray-100;
-}
-
-h3 {
-    @apply text-lg font-semibold text-gray-600 dark:text-gray-200;
-}
-
-p {
-    @apply text-base font-medium text-gray-600 dark:text-gray-300;
-}

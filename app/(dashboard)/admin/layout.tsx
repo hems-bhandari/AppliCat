@@ -17,7 +17,7 @@ export default function DashboardLayout({
         <>
             <Header />
             <div className="flex h-screen overflow-hidden">
-                <Sidebar />
+                <Sidebar userType="Admin" />
                 <main className="w-full pt-16">{children}</main>
             </div>
         </>

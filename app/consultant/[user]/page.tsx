@@ -1,15 +1,13 @@
 "use client";
 
 import React from "react";
-import { CalendarIcon, Divide } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
-import { Card } from "@/components/ui/card";
 import { add, format } from "date-fns";
 import { CONSULTANT_AVAILABILITY_BEGINNING_HOUR, CONSULTANT_AVAILABILITY_ENDING_HOUR, CONSULTANT_AVAILABILITY_INTERVAL } from "@/constants/config";
 
 interface DateType {
-  justDate: Date | null;
-  dateTime: Date | null;
+    justDate: Date | null;
+    dateTime: Date | null;
 }
 
 const ConsultantPage = ({ params: { user } }: { params: { user: string } }) => {

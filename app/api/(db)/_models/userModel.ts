@@ -1,13 +1,9 @@
 import { model, Schema, models } from "mongoose";
 
 const baseUserSchema = new Schema({
-    firstName: {
+    name: {
         type: String,
-        required: [true, "Please Provide your First Name"]
-    },
-    lastName: {
-        type: String,
-        required: [true, "Please Provide your Last Name"]
+        required: [true, "Please Provide your username"]
     },
     email: {
         type: String,
@@ -16,12 +12,11 @@ const baseUserSchema = new Schema({
     },
     type: {
         type: String,
-        enum: ["Admin" || "Consultant" || "Applicant"],
-        default: "Applicant",
+        enum: ["Admin", "Consultant", "Applicant"],
     },
     sessions: [{
         type: Schema.Types.ObjectId,
-        ref: 'Sessions'
+        // ref: 'Sessions'
     }],
     image: {
         type: String,
@@ -29,7 +24,7 @@ const baseUserSchema = new Schema({
 });
 
 
-const UserModel = models.users || model("users", baseUserSchema);
+const User = models.users || model("users", baseUserSchema);
 
 const consultantSchema = new Schema({
     phoneNumber: {
@@ -64,15 +59,15 @@ const ApplicantSchema = new Schema({
         type: String,
         required: [true, "Please, Provide your High School Name"],
     },
-    curriculum: {
+    education: {
         type: String,
-        required: [true, "Please, Provide your Curriculum"],
+        required: [true, "Please, Provide your education"],
     },
-    grades: {
+    gpa: {
         type: String,
         required: false,
     },
-    satScore: {
+    sat: {
         type: Number,
         max: 1600,
         required: false,
@@ -86,15 +81,15 @@ const AdminSchema = new Schema({
     },
 })
 
-if (!UserModel.discriminators?.Admin)
-    UserModel.discriminator("Admin", AdminSchema);
+if (!User.discriminators?.Admin)
+    User.discriminator("Admin", AdminSchema);
 
-if (!UserModel.discriminators?.Consultant)
-    UserModel.discriminator("Consultant", consultantSchema);
+if (!User.discriminators?.Consultant)
+    User.discriminator("Consultant", consultantSchema);
 
-if (!UserModel.discriminators?.Applicant)
-    UserModel.discriminator("Applicant", ApplicantSchema)
+if (!User.discriminators?.Applicant)
+    User.discriminator("Applicant", ApplicantSchema)
 
 export {
-    UserModel
+    User
 }

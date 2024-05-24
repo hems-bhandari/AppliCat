@@ -1,5 +1,5 @@
 import React from "react";
-
+import "./termsandcondition.css";
 const Terms = () => {
   return (
     <section className="p-5 space-y-6 ">
