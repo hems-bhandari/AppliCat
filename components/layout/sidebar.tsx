@@ -1,28 +1,35 @@
 import { DashboardNav } from "@/components/dashboard-nav";
-import { navItems, applicantNavItems } from "@/constants/data";
+import { adminNavItems, applicantNavItems, consultantNavItems } from "@/constants/data";
+import { roboto } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
+import Signout from "../signout";
 
 export default function Sidebar({
-  applicant = false,
+    userType = "Applicant"
 }: {
-  applicant?: boolean;
+    userType?: "Applicant" | "Consultant" | "Admin";
 }) {
-  return (
-    <nav
-      className={cn(`relative hidden h-screen border-r pt-16 lg:block w-72`)}
-    >
-      <div className="space-y-4 py-4">
-        <div className="px-3 py-2">
-          <div className="space-y-1">
-            <h2 className="mb-2 px-4 text-xl font-semibold tracking-tight">
-              Overview
-            </h2>
-            <DashboardNav items={
-              applicant ? applicantNavItems : navItems
-            } />
-          </div>
-        </div>
-      </div>
-    </nav>
-  );
+    return (
+        <nav
+            className={cn(`relative hidden h-screen border-r pt-16 lg:block w-72 `)}
+        >
+            <div className="space-y-4 py-4 ">
+                <div className="p-3 py-5">
+                    <div className="space-y-1 ">
+                        <h2 className={` mb-2 text-sm font-bold  ${roboto.className}`}>
+                            Nav Links
+                        </h2>
+                        <DashboardNav items={
+                            userType === "Applicant"
+                                ? applicantNavItems
+                                : userType === "Consultant"
+                                    ? consultantNavItems
+                                    : adminNavItems
+                        } />
+                        <Signout />
+                    </div>
+                </div>
+            </div>
+        </nav>
+    );
 }

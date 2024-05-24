@@ -111,37 +111,10 @@ export type Employee = {
     profile_picture?: string | null; // Profile picture can be a string (URL) or null (if no picture)
 };
 
-export const navItems: NavItem[] = [
-    {
-        title: "Dashboard",
-        href: "/dashboard",
-        icon: "dashboard",
-        label: "Dashboard",
-    },
-    {
-        title: "User",
-        href: "/dashboard/user",
-        icon: "user",
-        label: "user",
-    },
-    {
-        title: "Profile",
-        href: "/dashboard/profile",
-        icon: "profile",
-        label: "profile",
-    },
-    {
-        title: "Login",
-        href: "/",
-        icon: "login",
-        label: "login",
-    },
-];
-
 
 export const applicantNavItems: NavItem[] = [
     {
-        title: "Dashboard",
+        title: "Home",
         href: "/applicant",
         icon: "dashboard",
         label: "Dashboard",
@@ -171,3 +144,47 @@ export const applicantNavItems: NavItem[] = [
         label: "logout",
     },
 ];
+
+export const consultantNavItems: NavItem[] = [
+    {
+        title: "Home",
+        href: "/consultant",
+        icon: "dashboard",
+        label: "Home",
+    },
+    {
+        title: "Sessions",
+        href: "/consultant/sessions",
+        icon: "zoom",
+        label: "sessions",
+    },
+    {
+        title: "Availability",
+        href: "/consultant/Availability",
+        icon: "dashboard",
+        label: "Home",
+    },
+    {
+        title: "Notification",
+        href: "/consultant/Notification",
+        icon: "bell",
+        label: "Notification",
+    },
+    {
+        title: "Profile",
+        href: "/consultant/profile",
+        icon: "profile",
+        label: "Profile",
+    }
+]
+
+export const adminNavItems: NavItem[] = [
+    {
+        title: "Home",
+        href: "/admin",
+        icon: "dashboard",
+        label: "Home",
+    }
+
+]
+
