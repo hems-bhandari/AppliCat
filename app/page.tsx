@@ -67,13 +67,11 @@ const COLLEGELIST = [
 
 
 const Landing = () => {
-
   return (
-    <div className="bg-black min-h-screen w-full">
-      <Drawer open={false} />
+    <div className="bg-black min-h-screen w-full overflow-x-hidden">
       <LandingNav />
 
-      <section className="text-center min-h-[calc(100vh-125px)] flex items-center justify-center relative px-4">
+      <section className="text-center bg-black min-h-[calc(100vh-125px)] flex items-center justify-center relative px-4">
         <div className="max-w-[820px] mx-auto">
           <h1 className={`${katibeh.className} text-[10rem] text-white leading-[3rem]`}>
             Applicat

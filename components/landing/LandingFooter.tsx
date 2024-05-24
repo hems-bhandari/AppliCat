@@ -4,7 +4,7 @@ import { katibeh } from "@/lib/fonts";
 
 const LandingFooter = () => {
   return (
-    <footer className="bg-red-600 w-full px-[5%] pt-24 pb-8">
+    <footer className=" w-full px-[5%] pt-24 pb-8">
       <div className="flex flex-row items-center justify-between">
         <div className="companyInfo flex flex-row items-center justify-center gap-8 ">
           <Link href="/" className="logo">
