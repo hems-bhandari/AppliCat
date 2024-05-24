@@ -33,13 +33,13 @@ const LandingNav = () => {
                 </Link>
 
                 <div className="flex space-x-8 items-center">
-                    <ul className="navLinks flex space-x-8">
+                    <ul className="navLinks flex gap-4">
 
                         <li>
                             <Link
                                 href=""
                                 onClick={() => setOpen(true)}
-                                className={`text-[18px] text-white ${roboto.className}`}
+                                className={`text-md text-white ${roboto.className}`}
                             >
                                 About
                             </Link>
@@ -48,7 +48,7 @@ const LandingNav = () => {
                             <li key={name}>
                                 <Link
                                     href={href}
-                                    className={`text-[18px] text-white ${roboto.className}`}
+                                    className={`text-md text-white ${roboto.className}`}
                                 >
                                     {name}
                                 </Link>

@@ -112,7 +112,7 @@ const Landing = () => {
         </div>
       </section>
 
-      <section className="w-full px-[5%] h-auto relative my-[96px] 2xl:max-w-[1400px] 2xl:mx-auto">
+      <section className="w-full px-[5%] h-auto relative my-16 2xl:max-w-[1400px] 2xl:mx-auto">
         <h2 className={`${katibeh.className} text-5xl text-white text-center`}>
           Consult with students from
         </h2>
