@@ -129,12 +129,6 @@ export const consultantNavItems: NavItem[] = [
         icon: "calendar",
         label: "availability",
     },
-    {
-        title: "Profile",
-        href: "/consultant/profile",
-        icon: "profile",
-        label: "Profile",
-    }
 ]
 
 export const adminNavItems: NavItem[] = [
