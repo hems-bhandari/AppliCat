@@ -80,6 +80,16 @@ const ConsultantPage = ({ params: { user } }: { params: { user: string } }) => {
               type="number"
             />
           </div>
+          <div className="flex flex-col justify-evenly w-full my-6">
+            <label htmlFor="session_charge">
+              Session Charge (NPR)
+            </label>
+            <Input
+              id="session_charge"
+              className="w-full mt-1"
+              type="number"
+            />
+          </div>
         </div>
         <div className="flex flex-row-reverse">
           <Button
