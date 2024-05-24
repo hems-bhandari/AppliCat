@@ -75,7 +75,7 @@ const Landing = () => {
 
       <section className="text-center min-h-[calc(100vh-125px)] flex items-center justify-center relative px-4">
         <div className="max-w-[820px] mx-auto">
-          <h1 className={`${katibeh.className} text-[10rem] text-white`}>
+          <h1 className={`${katibeh.className} text-[10rem] text-white leading-[3rem]`}>
             Applicat
           </h1>
           <p

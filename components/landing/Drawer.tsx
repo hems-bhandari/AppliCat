@@ -8,9 +8,12 @@ const Drawer = ({ open }: {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }) => {
   useEffect(() => {
-    document.body.classList.add("overflow-hidden");
+    if (open)
+      document.body.classList.add("overflow-hidden");
+    else document.body.classList.remove("overflow-hidden");
+
     () => document.body.classList.remove("overflow-hidden");
-  })
+  }, [open])
   return (
     <div className={`h-screen w-screen bg-[#2d2d2d] fixed top-0 left-0 bg-opacity-20 backdrop-filter backdrop-blur-lg z-50 ${open ? "" : "opacity-0 pointer-events-none"}`} onClick={() => { }} >
       <aside className="w-[min(100%,800px)] bg-black  min-h-screen ml-auto p-12" >
