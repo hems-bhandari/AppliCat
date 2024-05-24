@@ -85,7 +85,7 @@ const Landing = () => {
         </div>
       </section>
 
-      <section className="w-full h-[80vh] relative overflow-hidden ">
+      <section className="w-full h-auto relative overflow-hidden ">
         <Image
           src="/landing_big_cat.svg"
           alt="big cat"
@@ -100,10 +100,10 @@ const Landing = () => {
               <div
                 className={`bg-[#2d2d2d] bg-opacity-30 backdrop-filter backdrop-blur-lg rounded-lg px-8 py-5 flex items-center max-w-[500px] max-h-[175px] ${index == 2 && "translate-x-8"} ${index == 3 && "-translate-x-8"}`}
               >
-                <Icon className="w-[100px] h-[100px] text-white mx-auto" />
+                <Icon className="w-[100px] h-[100px] mr-4 text-white " />
                 <div>
-                  <h2 className="text-white text-[29px] font-bold">{title}</h2>
-                  <p className="text-white text-[15px] mt-3 leading-[18px]">
+                  <h2 className="text-white text-2xl font-bold">{title}</h2>
+                  <p className="text-white text-[15px] mt-2 leading-[18px]">
                     {description}
                   </p>
                 </div>
