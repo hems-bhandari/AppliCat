@@ -18,7 +18,7 @@ const LoginIfNoSession = () => {
                     : (
                         <Link
                             href="/auth"
-                            className={`bg-transparent text-[18px] font-[500] uppercase border border-1 border-white py-2 px-6 text-white ${roboto.className} flex space-x-2 items-center`}
+                            className={`bg-transparent text-md font-[500] uppercase border border-1 border-white py-2 px-6 text-white ${roboto.className} flex  items-center`}
                         >
                             Login <ArrowTopRightIcon className="w-[26px] h-[26px] font-bold" />
                         </Link>

@@ -56,14 +56,39 @@ const COLLEGELIST = [
 ]
 
 
+const USER_BUBBLES = [
+  "https://lh5.googleusercontent.com/EituGLa2LhnAd-B-SUCpw9WhJTImioKqwFLpe1qDhAx1lKq_VSNiYVi-ghrMxROfyfwz8Rfz-cKYOKBDwh-7OEMButVijE5mXKI9333g2QaiPwzAY6_8HlOSaGI5gy3xHfgia1cB0mU669xrGJ4TXHU",
+  "https://lh5.googleusercontent.com/EituGLa2LhnAd-B-SUCpw9WhJTImioKqwFLpe1qDhAx1lKq_VSNiYVi-ghrMxROfyfwz8Rfz-cKYOKBDwh-7OEMButVijE5mXKI9333g2QaiPwzAY6_8HlOSaGI5gy3xHfgia1cB0mU669xrGJ4TXHU",
+  "https://lh5.googleusercontent.com/EituGLa2LhnAd-B-SUCpw9WhJTImioKqwFLpe1qDhAx1lKq_VSNiYVi-ghrMxROfyfwz8Rfz-cKYOKBDwh-7OEMButVijE5mXKI9333g2QaiPwzAY6_8HlOSaGI5gy3xHfgia1cB0mU669xrGJ4TXHU",
+  "https://lh5.googleusercontent.com/EituGLa2LhnAd-B-SUCpw9WhJTImioKqwFLpe1qDhAx1lKq_VSNiYVi-ghrMxROfyfwz8Rfz-cKYOKBDwh-7OEMButVijE5mXKI9333g2QaiPwzAY6_8HlOSaGI5gy3xHfgia1cB0mU669xrGJ4TXHU",
+  "https://lh5.googleusercontent.com/EituGLa2LhnAd-B-SUCpw9WhJTImioKqwFLpe1qDhAx1lKq_VSNiYVi-ghrMxROfyfwz8Rfz-cKYOKBDwh-7OEMButVijE5mXKI9333g2QaiPwzAY6_8HlOSaGI5gy3xHfgia1cB0mU669xrGJ4TXHU",
+  "https://lh5.googleusercontent.com/EituGLa2LhnAd-B-SUCpw9WhJTImioKqwFLpe1qDhAx1lKq_VSNiYVi-ghrMxROfyfwz8Rfz-cKYOKBDwh-7OEMButVijE5mXKI9333g2QaiPwzAY6_8HlOSaGI5gy3xHfgia1cB0mU669xrGJ4TXHU",
+  "https://lh5.googleusercontent.com/EituGLa2LhnAd-B-SUCpw9WhJTImioKqwFLpe1qDhAx1lKq_VSNiYVi-ghrMxROfyfwz8Rfz-cKYOKBDwh-7OEMButVijE5mXKI9333g2QaiPwzAY6_8HlOSaGI5gy3xHfgia1cB0mU669xrGJ4TXHU",
+  "https://lh5.googleusercontent.com/EituGLa2LhnAd-B-SUCpw9WhJTImioKqwFLpe1qDhAx1lKq_VSNiYVi-ghrMxROfyfwz8Rfz-cKYOKBDwh-7OEMButVijE5mXKI9333g2QaiPwzAY6_8HlOSaGI5gy3xHfgia1cB0mU669xrGJ4TXHU",
+  "https://lh5.googleusercontent.com/EituGLa2LhnAd-B-SUCpw9WhJTImioKqwFLpe1qDhAx1lKq_VSNiYVi-ghrMxROfyfwz8Rfz-cKYOKBDwh-7OEMButVijE5mXKI9333g2QaiPwzAY6_8HlOSaGI5gy3xHfgia1cB0mU669xrGJ4TXHU",
+  "https://lh5.googleusercontent.com/EituGLa2LhnAd-B-SUCpw9WhJTImioKqwFLpe1qDhAx1lKq_VSNiYVi-ghrMxROfyfwz8Rfz-cKYOKBDwh-7OEMButVijE5mXKI9333g2QaiPwzAY6_8HlOSaGI5gy3xHfgia1cB0mU669xrGJ4TXHU",
+  "https://lh5.googleusercontent.com/EituGLa2LhnAd-B-SUCpw9WhJTImioKqwFLpe1qDhAx1lKq_VSNiYVi-ghrMxROfyfwz8Rfz-cKYOKBDwh-7OEMButVijE5mXKI9333g2QaiPwzAY6_8HlOSaGI5gy3xHfgia1cB0mU669xrGJ4TXHU",
+  "https://lh5.googleusercontent.com/EituGLa2LhnAd-B-SUCpw9WhJTImioKqwFLpe1qDhAx1lKq_VSNiYVi-ghrMxROfyfwz8Rfz-cKYOKBDwh-7OEMButVijE5mXKI9333g2QaiPwzAY6_8HlOSaGI5gy3xHfgia1cB0mU669xrGJ4TXHU",
+]
 
 const Landing = () => {
   return (
     <div className=" min-h-screen w-full overflow-x-hidden">
       <LandingNav />
 
-      <section className=" bg-transparent text-center min-h-[calc(100vh-125px)] flex items-center justify-center relative px-4">
-        <div className="max-w-[640px] mx-auto " >
+      <section className="2xl:max-w-[1400px] 2xl:mx-auto  bg-transparent text-center min-h-[calc(100vh-125px)] flex items-center justify-center relative px-4">
+        <div className="opacity-70 -mt-[125px] ">
+          <div className="w-14 max-md:w-8 aspect-square  left-[85%] -top-[5%] absolute bg-gradient-to-r from-red-500 to-red-500 rounded-full"></div>
+          <div className="w-52 max-md:w-36 aspect-square left-[82%] top-[25%] absolute bg-gradient-to-r from-red-500 to-red-500 rounded-full"></div>
+          <div className="w-20 max-md:w-12 aspect-square left-[50.04%] top-[0%] absolute bg-gradient-to-r from-red-500 to-red-500 rounded-full"></div>
+          <div className="w-28 max-md:w-20 aspect-square left-[71.60%] top-[80.67%] absolute bg-gradient-to-r from-red-500 to-red-500 rounded-full"></div>
+          <div className="w-40 max-md:w-28 aspect-square left-[11.53%] -top-[8.22%] absolute bg-gradient-to-r from-red-500 to-red-500 rounded-full"></div>
+          <div className="w-32 max-md:w-20 aspect-square left-[24.65%] top-[80.33%] absolute bg-gradient-to-r from-red-500 to-red-500 rounded-full"></div>
+          <div className="w-32 max-md:w-20 aspect-square left-[5%] top-[48.33%] absolute bg-gradient-to-r from-red-500 to-red-500 rounded-full"></div>
+
+        </div>
+        <div className="max-w-[640px] mx-auto z-10 " >
+
           <h1 className={`${katibeh.className} text-9xl text-white `}>
             Applicat
           </h1>
@@ -113,24 +138,37 @@ const Landing = () => {
         </div>
       </section>
 
-      <section className="w-full px-[5%] h-auto relative my-[96px] 2xl:max-w-[1400px] 2xl:mx-auto">
+      <section className="w-full px-[5%] h-auto relative my-16 2xl:max-w-[1400px] 2xl:mx-auto">
         <h2 className={`${katibeh.className} text-5xl text-white text-center`}>
           Talk to Freshmen from
         </h2>
-        <div className=" mx-auto mt-8 flex flex-row flex-wrap justify-center gap-2 ">
-          {COLLEGELIST.map((college, index) => <div className="h-[84px] max-w-[200px]"><Image
-            key={`college${index}`}
-            src={`${college}`}
-            alt="big cat"
-            className="h-full w-full bg-white rounded-lg object-contain object-center z-0"
-            height={100}
-            width={240}
-          /></div>)
-          }
+        <div className="college-lists relative mx-auto mt-8 flex flex-wrap justify-center  gap-2 max-md:w-[calc(10*(180px+32px))]  max-md:-translate-x-1/2  max-md:left-1/2 " >
+          {COLLEGELIST.map((logo, index) => (
+            <>
+              <div
+                key={index}
+                className={` ${index > 3 && index < 9 ? " w-[calc(20%-(5*0.5rem)/4)]" : "w-[21%]  "}
+              justify-center items-center p-4 bg-white rounded-md shadow-md max-md:grow ${index > 3 && index < 9 ? " max-md:w-[calc(10%-(9*0.5rem)/10)] animate-scroll-reverse" : "max-md:w-[11%]  animate-scroll"} max-md:h-20 
+            `}
+              >
+                <img src={logo} alt={logo} className=" w-full h-full max-h-16 max-w-52  object-contain" />
+              </div>
+
+              <div
+                key={index}
+                className={` hidden max-md:flex
+              justify-center items-center p-4 bg-white rounded-md shadow-md w-auto grow ${index > 3 && index < 9 ? "max-md:w-[calc(10%-(9*0.5rem)/10)] animate-scroll-reverse" : "max-md:w-[11%]  animate-scroll"} max-md:h-20 
+            `}
+              >
+                <img src={logo} alt={logo} className=" w-full h-full max-h-16 max-w-52  object-contain" />
+              </div>
+            </>
+          ))}
         </div>
+
       </section>
 
-      <section className="bg-red-600 h-48   flex flex-row  px-[5%] justify-center items-center ">
+      <section className="bg-red-600 min-h-48 py-4  flex flex-row  px-[5%] justify-center items-center ">
         <div className="flex flex-row gap-4  w-full justify-between items-end max-md:flex-col max-md:items-center max-md:justify-center 2xl:max-w-[1400px] ">
           <h2 className={`${roboto.className} text-4xl align-top max-md:text-center text-white font-bold`}>
             Book Your <br /> Session Today
