@@ -17,20 +17,20 @@ const NAV_LINKS = [
 ];
 
 const LandingNav = () => {
-  const [open, setOpen] = useState(false)
-  return (
-    <>
-      <Drawer open={open} setOpen={setOpen} />
-      <nav className="text-white flex items-center w-full h-[125px] justify-between gap-2 px-10 mx-auto 2xl:w-[1400px]  ">
-        <Link href="/" className="logo">
-          <Image
-            src="/nav_logo.svg"
-            alt="logo"
-            width={50}
-            height={50}
-            className="cursor-pointer"
-          />
-        </Link>
+    const [open, setOpen] = useState(false)
+    return (
+        <>
+            <Drawer open={open} setOpen={setOpen} />
+            <nav className="text-white flex items-center w-full h-[125px] justify-between gap-2 px-[5%] mx-auto 2xl:w-[1400px]  ">
+                <Link href="/" className="logo">
+                    <Image
+                        src="/nav_logo.svg"
+                        alt="logo"
+                        width={50}
+                        height={50}
+                        className="cursor-pointer"
+                    />
+                </Link>
 
                 <div className="flex space-x-8 items-center">
                     <ul className="navLinks flex space-x-8">
