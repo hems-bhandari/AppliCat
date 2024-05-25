@@ -87,7 +87,7 @@ const Landing = () => {
           <div className="w-32 max-md:w-20 aspect-square left-[5%] top-[48.33%] absolute bg-gradient-to-r from-red-500 to-red-500 rounded-full"></div>
 
         </div>
-        <div className="max-w-[640px] mx-auto " >
+        <div className="max-w-[640px] mx-auto z-10 " >
 
           <h1 className={`${katibeh.className} text-9xl text-white `}>
             Applicat
@@ -147,8 +147,8 @@ const Landing = () => {
             <>
               <div
                 key={index}
-                className={` ${index > 3 && index < 9 ? " w-[calc(20%-(5*0.5rem)/5)]" : "w-[21%]  "}
-              justify-center items-center p-4 bg-white rounded-md shadow-md w-auto max-md:grow ${index > 3 && index < 9 ? " max-md:w-[calc(10%-(9*0.5rem)/10)] animate-scroll-reverse" : "max-md:w-[11%]  animate-scroll"} max-md:h-20 
+                className={` ${index > 3 && index < 9 ? " w-[calc(20%-(5*0.5rem)/4)]" : "w-[21%]  "}
+              justify-center items-center p-4 bg-white rounded-md shadow-md max-md:grow ${index > 3 && index < 9 ? " max-md:w-[calc(10%-(9*0.5rem)/10)] animate-scroll-reverse" : "max-md:w-[11%]  animate-scroll"} max-md:h-20 
             `}
               >
                 <img src={logo} alt={logo} className=" w-full h-full max-h-16 max-w-52  object-contain" />
