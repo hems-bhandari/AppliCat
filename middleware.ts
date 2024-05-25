@@ -39,11 +39,11 @@ export async function middleware(req: NextRequest) {
 
         // disabling the onboarding page 
         // if already onboarded
-        if (pathname == "/auth/onboarding" && session.onboarded)
+        if (pathname == "/auth/onboarding" && session.onboarded && userType)
             return NextResponse.redirect(new URL(`/${userType}`, req.nextUrl))
 
         // disabling the auth page if already authenticated
-        if (pathname === "/auth" && session.onboarded) {
+        if (pathname === "/auth" && session.onboarded && userType) {
             return NextResponse.redirect(
                 new URL(`/${userType}`, req.nextUrl));
         }
