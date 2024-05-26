@@ -55,8 +55,7 @@ const ConsultantPage = () => {
         />
 
         {date.justDate && (
-          <>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 h-[500px] overflow-y-auto">
               {times?.map((time, index) => (
                 <div
                   key={`time-${index}`}
@@ -75,7 +74,6 @@ const ConsultantPage = () => {
                 </div>
               ))}
             </div>
-          </>
         )}
       </div>
     </div>
