@@ -70,6 +70,11 @@
     }
 }
 
+.custom-text-size {
+  font-size: 8rem; /* Adjust this value to your desired size */
+  line-height: 0.7; /* Adjust line height if needed */
+}
+
 @layer base {
     * {
         @apply border-border;
