@@ -1,4 +1,4 @@
-import { model, Schema, models } from "mongoose";
+import mongoose, { model, Schema, models } from "mongoose";
 
 const baseUserSchema = new Schema({
     name: {
@@ -26,6 +26,24 @@ const baseUserSchema = new Schema({
 
 const User = models.users || model("users", baseUserSchema);
 
+const consultantAvailablitySchema = new Schema({
+    from: {
+        type: String,
+    },
+    to: {
+        type: String,
+    },
+    sessionDuration: {
+        type: String,
+    },
+    sessionCharge: {
+        type: String,
+    },
+    Date: {
+        type: Date,
+    },
+})
+
 const consultantSchema = new Schema({
     phoneNumber: {
         type: Number,
@@ -43,12 +61,59 @@ const consultantSchema = new Schema({
             message: "Please, Specify at least one University"
         }
     },
-    // TODO: YET TO FIND A WAY TO STORE AVAILABILITY
-    // availability: {
-    //     type: String,
-    //     required: [true, "Please, tell us about your availablity"]
-    // }
+    availability: {
+        type: [consultantAvailablitySchema],
+        validate: {
+            validator: (value: any[]) => {
+                // doesnot contain any value so no problem
+                if (value.length === 0) return true;
+
+                for (let object in value) {
+                    const hasValue = Object.values(object).some(val => !val)
+                    if (!hasValue) continue
+
+                    const isValid = Object.values(object).every(val => val)
+
+                    if (isValid)
+                        continue
+
+                    // contains some value in some object but doesnot have everything entered
+                    return false
+                }
+                return true
+            }
+        }
+    },
 })
+
+
+const sessionSchema = new Schema({
+    from: {
+        type: String,
+    },
+    to: {
+        type: String,
+    },
+    sessionCharge: {
+        type: String,
+    },
+    status: {
+        enum: "pending" || "confirm",
+        default: "pending",
+    },
+    Date: {
+        type: [Date],
+        validate: {
+            validate: (value: Date[]) => value.length >= 1,
+            message: "Date Feild is required"
+        }
+    },
+    consultant: {
+        type: mongoose.Types.ObjectId,
+        ref: "User",
+    },
+});
+
 
 const ApplicantSchema = new Schema({
     phoneNumber: {
@@ -72,6 +137,29 @@ const ApplicantSchema = new Schema({
         max: 1600,
         required: false,
     },
+    sessions: {
+        type: [sessionSchema],
+        validate: {
+            validator: (value: any[]) => {
+                // doesnot contain any value so no problem
+                if (value.length === 0) return true;
+
+                for (let object in value) {
+                    const hasValue = Object.values(object).some(val => !val)
+                    if (!hasValue) continue
+
+                    const isValid = Object.values(object).every(val => val)
+
+                    if (isValid)
+                        continue
+
+                    // contains some value in some object but doesnot have everything entered
+                    return false
+                }
+                return true
+            }
+        }
+    }
 })
 
 const AdminSchema = new Schema({
