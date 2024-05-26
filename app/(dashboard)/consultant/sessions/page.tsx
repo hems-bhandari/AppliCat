@@ -56,7 +56,7 @@ export default function page() {
       cell: ({ row }) => (
         <Button
           variant="ghost"
-          onClick={() => handleMoreInfoClick(row.original.id)}
+          onClick={() => handleMoreInfoClick(row.original.id.toString())}
         >
           <Info className="h-4 w-4" />
         </Button>

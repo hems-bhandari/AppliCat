@@ -8,10 +8,6 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import BreadCrumb from "@/components/breadcrumb";
 
-// interface DateType {
-//   justDate: Date | null;
-//   dateTime: Date | null;
-// }
 function handleSubmit() {}
 
 const ConsultantPage = ({ params: { user } }: { params: { user: string } }) => {
@@ -19,14 +15,6 @@ const ConsultantPage = ({ params: { user } }: { params: { user: string } }) => {
   const breadcrumbItems = [
     { title: "Availability", link: "/consultant/availability" },
   ];
-
-  // const [date, setDate] = useState<DateType>({
-  //   justDate: null,
-  //   dateTime: null,
-  // });
-
-  // console.log(date.dateTime);
-  console.log(value);
 
   const handleDayClick = (day: Date, modifiers: any) => {
     const newValue = [...value];
@@ -81,14 +69,8 @@ const ConsultantPage = ({ params: { user } }: { params: { user: string } }) => {
             />
           </div>
           <div className="flex flex-col justify-evenly w-full my-6">
-            <label htmlFor="session_charge">
-              Session Charge (NPR)
-            </label>
-            <Input
-              id="session_charge"
-              className="w-full mt-1"
-              type="number"
-            />
+            <label htmlFor="session_charge">Session Charge (NPR)</label>
+            <Input id="session_charge" className="w-full mt-1" type="number" />
           </div>
         </div>
         <div className="flex flex-row-reverse">
