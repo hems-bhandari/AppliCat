@@ -19,7 +19,7 @@ export const POST = async (req: NextRequest) => {
             to: string,
             sessionDuration: string,
             sessionCharge: string,
-            date: Date
+            date: Date | Date[]
         } = await req.json();
 
         if (!from || !to || !sessionDuration || !sessionCharge || !date)

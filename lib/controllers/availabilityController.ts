@@ -92,7 +92,7 @@ type TpropsSetAvailablity = {
     to: string,
     sessionDuration: string,
     sessionCharge: string,
-    date: Date,
+    date: Date | Date[],
 }
 
 // sets the availabilty in consultant
@@ -100,14 +100,24 @@ export const setAvailablity = async ({ consultantId, from, to, sessionDuration, 
     Promise<any | null> => {
     try {
         const updatedConsultantAvailability = await User.findById(consultantId).then((consultant: any) => {
-            const newAvailability = {
-                from,
-                to,
-                sessionDuration,
-                sessionCharge,
-                date
-            };
+            let newAvailabilities: any;
 
+            if (!Array.isArray(date))
+                newAvailabilities = [{
+                    from,
+                    to,
+                    sessionDuration,
+                    sessionCharge,
+                    date
+                }];
+            else
+                newAvailabilities = date.map((date) => ({
+                    from,
+                    to,
+                    sessionDuration,
+                    sessionCharge,
+                    date
+                }))
 
             let existingAvailability = consultant.availability || [];
 
@@ -117,18 +127,39 @@ export const setAvailablity = async ({ consultantId, from, to, sessionDuration, 
             }
 
             if (existingAvailability.length === 0) {
-                consultant.availability = [newAvailability];
+                consultant.availability = [...newAvailabilities];
+                consultant.markModified("availability");
                 consultant.save();
                 return consultant.availability;
             }
+            let existingAvailabilityDate: any;
 
-            existingAvailability.map((availability: any) =>
-                (availability.date === date)
-                    ? newAvailability
-                    : availability
-            )
+            existingAvailability.map((availability: any) => {
+                if (Array.isArray(date)) {
+                    // finding the preexisting availability and updating it
+                    // within from the new availabilities
+                    newAvailabilities.forEach((newAvailability: any) => {
+                        if (availability.date === newAvailability.date) {
+                            existingAvailabilityDate = availability.date;
+                            availability = newAvailability
+                        }
+                    });
 
-            consultant.availability = existingAvailability;
+                    return availability;
+                }
+                else {
+                    (availability.date === date)
+                        ? newAvailabilities[0]
+                        : availability
+                }
+            })
+
+            if (Array.isArray(date))
+                consultant.availability = [...existingAvailability,
+                ...newAvailabilities.filter((availability: any) => availability.date !== existingAvailabilityDate)]
+            else
+                consultant.availability = existingAvailability;
+            consultant.markModified("availability");
             consultant.save();
 
             return consultant.availability;
