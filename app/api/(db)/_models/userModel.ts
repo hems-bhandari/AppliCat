@@ -86,35 +86,6 @@ const consultantSchema = new Schema({
     },
 })
 
-
-const sessionSchema = new Schema({
-    from: {
-        type: String,
-    },
-    to: {
-        type: String,
-    },
-    sessionCharge: {
-        type: String,
-    },
-    status: {
-        enum: "pending" || "confirm",
-        default: "pending",
-    },
-    Date: {
-        type: [Date],
-        validate: {
-            validate: (value: Date[]) => value.length >= 1,
-            message: "Date Feild is required"
-        }
-    },
-    consultant: {
-        type: mongoose.Types.ObjectId,
-        ref: "User",
-    },
-});
-
-
 const ApplicantSchema = new Schema({
     phoneNumber: {
         type: Number,
@@ -137,29 +108,6 @@ const ApplicantSchema = new Schema({
         max: 1600,
         required: false,
     },
-    sessions: {
-        type: [sessionSchema],
-        validate: {
-            validator: (value: any[]) => {
-                // doesnot contain any value so no problem
-                if (value.length === 0) return true;
-
-                for (let object in value) {
-                    const hasValue = Object.values(object).some(val => !val)
-                    if (!hasValue) continue
-
-                    const isValid = Object.values(object).every(val => val)
-
-                    if (isValid)
-                        continue
-
-                    // contains some value in some object but doesnot have everything entered
-                    return false
-                }
-                return true
-            }
-        }
-    }
 })
 
 const AdminSchema = new Schema({

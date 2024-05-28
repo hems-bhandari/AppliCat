@@ -19,6 +19,12 @@ export default function page() {
   const PAST_SESSIONS = [...sessions];
   const UPCOMMING_SESSIONS = [...sessions];
 
+  const sideBarInfo = {
+    totalIncome: "NPR 10,200",
+    totalSessions: 10,
+    perSessionCharge: "NPR 999",
+  };
+
   return (
     <ScrollArea className="h-full">
       <div className="flex w-full py-8 flex-wrap flex-col-reverse md:flex-row">
@@ -50,7 +56,7 @@ export default function page() {
           </Card>
         </div>
 
-        <SideInfoBar />
+        <SideInfoBar type="applicant" {...sideBarInfo} />
       </div>
     </ScrollArea>
   );

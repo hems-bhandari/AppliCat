@@ -2,32 +2,17 @@
 
 import { useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
-import { add, format, isSameDay } from "date-fns";
+import { isSameDay } from "date-fns";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import BreadCrumb from "@/components/breadcrumb";
 import AvailabilityForm from "./Footer";
 
-// interface DateType {
-//   justDate: Date | null;
-//   dateTime: Date | null;
-// }
-function handleSubmit() {
-
-}
 
 const ConsultantPage = ({ params: { user } }: { params: { user: string } }) => {
     const [value, setValue] = useState<Date[]>([]);
     const breadcrumbItems = [
         { title: "Availability", link: "/consultant/availability" },
     ];
-
-    // const [date, setDate] = useState<DateType>({
-    //   justDate: null,
-    //   dateTime: null,
-    // });
-
-    // console.log(date.dateTime);
-    console.log(value);
 
     const handleDayClick = (day: Date, modifiers: any) => {
         const newValue = [...value];
@@ -39,9 +24,7 @@ const ConsultantPage = ({ params: { user } }: { params: { user: string } }) => {
         }
         setValue(newValue);
     };
-
     const handleResetClick = () => setValue([]);
-
     return (
         <ScrollArea className="h-full">
             <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">

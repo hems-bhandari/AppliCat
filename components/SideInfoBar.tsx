@@ -53,7 +53,9 @@ const SideInfoBar = async () => {
                     <div className="flex items-center justify-between">
                         <p className="text-muted-foreground">Email</p>
                         <h2 className="text-[16px] leading-[18px] font-[600]">
-                            operations@applicat.tech
+                            {session?.user?.type === "applicant"
+                                ? "info@applicat.tech"
+                                : "operations@applicat.tech"}
                         </h2>
                     </div>
                     <div className="flex items-center justify-between mt-1">

@@ -30,3 +30,31 @@ const consultingSessionSchema = new Schema({
 
 export const consultingSession = models.consultingSession
     || new Model("consultingSession", consultingSessionSchema);
+
+
+/*
+const sessionSchema = new Schema({
+    from: {
+        type: String,
+    },
+    to: {
+        type: String,
+    },
+    sessionCharge: {
+        type: String,
+    },
+    status: {
+        enum: ["pending" || "confirm"],
+    },
+    Date: {
+        type: [Date],
+        validate: {
+            validate: (value: Date[]) => value.length >= 1,
+            message: "Date Feild is required"
+        }
+    },
+    consultant: {
+        type: mongoose.Types.ObjectId,
+        ref: "User",
+    },
+}); */
