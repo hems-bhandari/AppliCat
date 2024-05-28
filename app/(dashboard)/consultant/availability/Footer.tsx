@@ -1,20 +1,27 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 
 const AvailabilityForm = ({ value, resetCallander }: { value: any[], resetCallander: () => void }) => {
     if (value.length === 0) {
         return <div className="mt-4">Please pick one or more days.</div>;
     }
 
+    const [submissionStatus, setSubmissionStatus] = useState<{
+        status: "error" | "success" | "notSubmitted" | "submitting",
+        btnText: string
+    }>({ status: "notSubmitted", btnText: "Submit" })
+
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+        setSubmissionStatus({ status: "submitting", btnText: "Submitting..." });
+
         e.preventDefault();
         e.stopPropagation();
 
         const formData = new FormData(e.currentTarget);
 
         // to add multiple days support 
-        const date = value[0];
+        const date = value;
         const from = formData.get("from_time") as string;
         const to = formData.get("to_time") as string;
         const sessionDuration = formData.get("session_duration") as string;
@@ -33,15 +40,23 @@ const AvailabilityForm = ({ value, resetCallander }: { value: any[], resetCallan
                 "Content-Type": "application/json",
             },
         })
-            .then((res) => res.json())
+            .then((res) => {
+                if (res.ok)
+                    setSubmissionStatus({ status: "success", btnText: "Submitted !!" });
+                res.json()
+            })
             .then((data) => {
                 console.log(data);
             })
             .catch((err) => {
+                setSubmissionStatus({ status: "error", btnText: "Error !!" });
                 console.error(err);
-            });
-
-
+            }).finally(() => {
+                // adding a cooldown of 2 seconds.
+                setTimeout(() => {
+                    setSubmissionStatus({ status: "notSubmitted", btnText: "Submit" });
+                }, 2000);
+            })
     }
 
     return (
@@ -104,10 +119,20 @@ const AvailabilityForm = ({ value, resetCallander }: { value: any[], resetCallan
                 <Button
                     variant="outline"
                     size="lg"
-                    className="w-full"
+                    className={`w-full ${submissionStatus.status === "success"
+                        ? "bg-green-600 text-white"
+                        : submissionStatus.status === "error"
+                            ? "bg-red-500 text-white"
+                            : ""}`}
                     type="submit"
                 >
-                    Submit
+                    {submissionStatus.status === "submitting" &&
+                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                    }
+                    {submissionStatus.btnText}
                 </Button>
             </div>
         </form>
