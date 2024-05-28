@@ -1,5 +1,4 @@
-import { User } from "@/app/api/(db)/_models/userModel";
-
+import { User } from "../models/userModel";
 
 // returs user If present else returns false
 // TODO:ADD PROPER TYPE DEFINITION FOR USER

@@ -39,7 +39,7 @@ const consultantAvailablitySchema = new Schema({
     sessionCharge: {
         type: String,
     },
-    Date: {
+    date: {
         type: Date,
     },
 })
@@ -84,6 +84,13 @@ const consultantSchema = new Schema({
             }
         }
     },
+
+    // all the booked sessions are going to be stored here
+    bookedSessions: {
+        type: [mongoose.Types.ObjectId],
+        ref: "consultingSession",
+        required: false,
+    }
 })
 
 const ApplicantSchema = new Schema({
@@ -108,6 +115,11 @@ const ApplicantSchema = new Schema({
         max: 1600,
         required: false,
     },
+    bookedSessions: {
+        type: [mongoose.Types.ObjectId],
+        ref: "consultingSession",
+        required: false,
+    }
 })
 
 const AdminSchema = new Schema({

@@ -1,11 +1,9 @@
 import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import { getIfUserExistance } from "./userController";
+import { getIfUserExistance } from "./controllers/userController";
 import ConnectToDB from "./mongoose";
 import Credentials from "next-auth/providers/credentials";
-import { User } from "@/app/api/(db)/_models/userModel";
-import { ObjectId } from "mongoose";
-import { string } from "zod";
+import { User } from "./models/userModel";
 
 export const authOptions: NextAuthOptions = {
     providers: [

@@ -1,19 +1,51 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { FormEvent } from "react";
 
 const AvailabilityForm = ({ value, resetCallander }: { value: any[], resetCallander: () => void }) => {
     if (value.length === 0) {
         return <div className="mt-4">Please pick one or more days.</div>;
     }
-    // TODO:CREATE SESSION MODAL, make it work with server comps 
-    // Create an api for session uploading and make it persentent
-    //
+
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const formData = new FormData(e.currentTarget);
+
+        // to add multiple days support 
+        const date = value[0];
+        const from = formData.get("from_time") as string;
+        const to = formData.get("to_time") as string;
+        const sessionDuration = formData.get("session_duration") as string;
+        const sessionCharge = formData.get("session_charge") as string;
+
+        fetch("/api/availability", {
+            method: "POST",
+            body: JSON.stringify({
+                date,
+                from,
+                to,
+                sessionCharge,
+                sessionDuration,
+            }),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
 
 
-    const handleSubmit = () => { }
+    }
 
     return (
-        <form className="py-4">
+        <form className="py-4" onSubmit={handleSubmit}>
             <div className="mt-0">
                 <p className="text-[16px]">
                     You selected {value.length} days.
@@ -28,12 +60,20 @@ const AvailabilityForm = ({ value, resetCallander }: { value: any[], resetCallan
                 <div className="flex justify-between items-center w-full gap-3 mt-7">
                     <div className="flex flex-col w-full">
                         <label htmlFor="from_time">From:</label>{" "}
-                        <Input id="from_time" className="w-full mt-1" type="time" />
+                        <Input
+                            name="from_time"
+                            id="from_time"
+                            className="w-full mt-1"
+                            type="time" />
                     </div>
 
                     <div className="flex flex-col w-full">
                         <label htmlFor="to_time">To:</label>{" "}
-                        <Input id="to_time" className="w-full mt-1" type="time" />
+                        <Input
+                            id="to_time"
+                            name="to_time"
+                            className="w-full mt-1"
+                            type="time" />
                     </div>
                 </div>
                 <div className="flex flex-col justify-evenly w-full my-6">
@@ -42,6 +82,7 @@ const AvailabilityForm = ({ value, resetCallander }: { value: any[], resetCallan
                     </label>
                     <Input
                         id="session_duration"
+                        name="session_duration"
                         className="w-full mt-1"
                         type="number"
                     />
@@ -52,6 +93,7 @@ const AvailabilityForm = ({ value, resetCallander }: { value: any[], resetCallan
                     </label>
                     <Input
                         id="session_charge"
+                        name="session_charge"
                         className="w-full mt-1"
                         type="number"
                     />
@@ -63,7 +105,7 @@ const AvailabilityForm = ({ value, resetCallander }: { value: any[], resetCallan
                     variant="outline"
                     size="lg"
                     className="w-full"
-                    onClick={handleSubmit}
+                    type="submit"
                 >
                     Submit
                 </Button>

@@ -4,7 +4,6 @@
 
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
-import path from "node:path/win32";
 
 export { default } from "next-auth/middleware";
 
@@ -31,10 +30,7 @@ export async function middleware(req: NextRequest) {
     // getting the user type
     const session = await getToken({ req, secret })
 
-
-
     if (session) {
-
         const userType = (session._doc?.type as string)?.toLowerCase();
 
         // disabling the onboarding page 
