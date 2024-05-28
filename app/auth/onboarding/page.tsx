@@ -65,7 +65,7 @@ const MyComponent = () => {
   }, []);
   return (
     <div className="relative w-full h-screen">
-      <div className="absolute left-0 top-0 w-full md:w-1/2 h-full">
+      <div className="hidden md:block absolute left-0 top-0 w-full md:w-1/2 h-full hidden:sm">
         <Image
           src="/onboard-half-screen-gradient.svg"
           alt="big cat"
@@ -74,7 +74,7 @@ const MyComponent = () => {
           objectPosition="center"
           className="z-0"
         />
-        <div className="absolute top-0 left-0 z- m-8">
+        <div className="relative top-0 left-0 z- m-8">
           <Image
             src="/onboard_logo.svg"
             alt="top left image"
@@ -82,7 +82,7 @@ const MyComponent = () => {
             height={90}
           />
         </div>
-        <div className="absolute inset-0 flex items-center m-8 -mt-12">
+        <div className="relative inset-0 flex items-center m-8 mt-12">
           <Image
             src="/text.svg"
             alt="top left image"
@@ -91,8 +91,8 @@ const MyComponent = () => {
           />
         </div>
         <div
-          className="absolute inset-0 flex items-center m-10"
-          style={{ marginRight: "50px", height: "120px", marginTop: "480px" }}
+          className="relative inset-0 flex items-center m-10 mt-20"
+          style={{ marginRight: "50px", height: "120px"}}
         >
           <div
             className="typewriter-container"
