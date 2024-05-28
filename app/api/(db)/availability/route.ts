@@ -1,10 +1,13 @@
 import { authOptions } from "@/lib/auth-options";
 import { setAvailablity } from "@/lib/controllers/availabilityController";
+import ConnectToDB from "@/lib/mongoose";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (req: NextRequest) => {
     try {
+        await ConnectToDB();
+
         const {
             from,
             to,

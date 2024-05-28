@@ -131,7 +131,6 @@ export const setAvailablity = async ({ consultantId, from, to, sessionDuration, 
             consultant.availability = existingAvailability;
             consultant.save();
 
-            console.log(consultant.availability)
             return consultant.availability;
         })
 
