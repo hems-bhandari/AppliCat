@@ -40,14 +40,17 @@ export const POST = async (req: NextRequest) => {
         });
 
 
-        if (!updatedAvailability)
+        if (!updatedAvailability) {
+            console.log("Empty update returned", updatedAvailability)
             return NextResponse.json({ message: "Meoww!! something went wrong" }, { status: 500 });
+        }
 
         return NextResponse.json({ message: updatedAvailability },
             { status: 200 })
 
 
     } catch (error) {
+        console.log(error)
         return NextResponse.json({ message: "Meoww!! something went wrong" }, { status: 500 });
     }
 };

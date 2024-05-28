@@ -99,7 +99,7 @@ type TpropsSetAvailablity = {
 export const setAvailablity = async ({ consultantId, from, to, sessionDuration, sessionCharge, date }: TpropsSetAvailablity):
     Promise<any | null> => {
     try {
-        const updatedConsultantAvailability = await User.findById(consultantId).then((consultant: any) => {
+        const updatedConsultantAvailability = await User.findById(consultantId).then(async (consultant: any) => {
             let newAvailabilities: any;
 
             if (!Array.isArray(date))
@@ -123,14 +123,15 @@ export const setAvailablity = async ({ consultantId, from, to, sessionDuration, 
 
             // no availablity is found
             if (!existingAvailability) {
-                consultant.availability = [];
+                consultant.set("availability", []);
             }
 
             if (existingAvailability.length === 0) {
-                consultant.availability = [...newAvailabilities];
+                consultant.set("availability", [...newAvailabilities]);
                 consultant.markModified("availability");
-                consultant.save();
-                return consultant.availability;
+                const response = await consultant.save();
+                console.log({ response })
+                return [...newAvailabilities];
             }
             let existingAvailabilityDate: any;
 
@@ -155,14 +156,16 @@ export const setAvailablity = async ({ consultantId, from, to, sessionDuration, 
             })
 
             if (Array.isArray(date))
-                consultant.availability = [...existingAvailability,
-                ...newAvailabilities.filter((availability: any) => availability.date !== existingAvailabilityDate)]
+                consultant.set("availability",
+                    [...existingAvailability,
+                    ...newAvailabilities
+                        .filter((availability: any) => availability.date !== existingAvailabilityDate)])
             else
-                consultant.availability = existingAvailability;
-            consultant.markModified("availability");
+                consultant.set("availability", existingAvailability);
+            // consultant.markModified("availability");
             consultant.save();
 
-            return consultant.availability;
+            return "I am testing";
         })
 
         // returns availablity if present or else null

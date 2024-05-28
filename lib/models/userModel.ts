@@ -14,10 +14,6 @@ const baseUserSchema = new Schema({
         type: String,
         enum: ["Admin", "Consultant", "Applicant"],
     },
-    sessions: [{
-        type: Schema.Types.ObjectId,
-        // ref: 'Sessions'
-    }],
     image: {
         type: String,
     }
@@ -44,6 +40,8 @@ const consultantAvailablitySchema = new Schema({
     },
 })
 
+export const availabilitySchema = models.availability || model("availability", consultantAvailablitySchema);
+
 const consultantSchema = new Schema({
     phoneNumber: {
         type: Number,
@@ -62,8 +60,9 @@ const consultantSchema = new Schema({
         }
     },
     availability: {
-        type: [consultantAvailablitySchema],
-        validate: {
+        type: [mongoose.Types.ObjectId],
+        ref: 'availability'
+        /* validate: {
             validator: (value: any[]) => {
                 // doesnot contain any value so no problem
                 if (value.length === 0) return true;
@@ -82,9 +81,8 @@ const consultantSchema = new Schema({
                 }
                 return true
             }
-        }
+        } */
     },
-
     // all the booked sessions are going to be stored here
     bookedSessions: {
         type: [mongoose.Types.ObjectId],
