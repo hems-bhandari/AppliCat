@@ -1,6 +1,6 @@
 import mongoose, { model, Schema, models } from "mongoose";
 
-const baseUserSchema = new Schema({
+const consultantSchema = new Schema({
     name: {
         type: String,
         required: [true, "Please Provide your username"]
@@ -10,39 +10,9 @@ const baseUserSchema = new Schema({
         unique: true,
         required: [true, "Please, Provide an Email Address"]
     },
-    type: {
-        type: String,
-        enum: ["Admin", "Consultant", "Applicant"],
-    },
     image: {
         type: String,
-    }
-});
-
-
-const User = models.users || model("users", baseUserSchema);
-
-const consultantAvailablitySchema = new Schema({
-    from: {
-        type: String,
     },
-    to: {
-        type: String,
-    },
-    sessionDuration: {
-        type: String,
-    },
-    sessionCharge: {
-        type: String,
-    },
-    date: {
-        type: Date,
-    },
-})
-
-export const availabilitySchema = models.availability || model("availability", consultantAvailablitySchema);
-
-const consultantSchema = new Schema({
     phoneNumber: {
         type: Number,
         required: [true, "Please, Provide your Phone Number"],
@@ -90,52 +60,4 @@ const consultantSchema = new Schema({
         required: false,
     }
 })
-
-const ApplicantSchema = new Schema({
-    phoneNumber: {
-        type: Number,
-        required: [true, "Please, Provide your Phone Number"],
-    },
-    highSchool: {
-        type: String,
-        required: [true, "Please, Provide your High School Name"],
-    },
-    education: {
-        type: String,
-        required: [true, "Please, Provide your education"],
-    },
-    gpa: {
-        type: String,
-        required: false,
-    },
-    sat: {
-        type: Number,
-        max: 1600,
-        required: false,
-    },
-    bookedSessions: {
-        type: [mongoose.Types.ObjectId],
-        ref: "consultingSession",
-        required: false,
-    }
-})
-
-const AdminSchema = new Schema({
-    phoneNumber: {
-        type: Number,
-        required: [true, "Please, Provide your Phone Number"]
-    },
-})
-
-if (!User.discriminators?.Admin)
-    User.discriminator("Admin", AdminSchema);
-
-if (!User.discriminators?.Consultant)
-    User.discriminator("Consultant", consultantSchema);
-
-if (!User.discriminators?.Applicant)
-    User.discriminator("Applicant", ApplicantSchema)
-
-export {
-    User
-}
+export const Consultants = models.consultants || model("consultants", consultantSchema);

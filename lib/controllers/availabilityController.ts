@@ -1,5 +1,6 @@
 import { add } from "date-fns";
-import { User } from "../models/userModel"
+import { ConsultantAvailability, User } from "../models/userModel"
+import mongoose from "mongoose";
 
 // returns the sessions that are available in different dates where the consultant has
 // set therir availablity
@@ -99,77 +100,88 @@ type TpropsSetAvailablity = {
 export const setAvailablity = async ({ consultantId, from, to, sessionDuration, sessionCharge, date }: TpropsSetAvailablity):
     Promise<any | null> => {
     try {
-        const updatedConsultantAvailability = await User.findById(consultantId).then(async (consultant: any) => {
-            let newAvailabilities: any;
+        let newAvailabilities: any;
+        if (Array.isArray(date))
+            newAvailabilities = date.map((date) => ({
+                from,
+                to,
+                sessionDuration,
+                sessionCharge,
+                date,
+                consultant: consultantId,
+            }))
+        else
+            newAvailabilities = [{
+                from,
+                to,
+                sessionDuration,
+                sessionCharge,
+                date,
+                consultant: consultantId,
+            }];
 
-            if (!Array.isArray(date))
-                newAvailabilities = [{
-                    from,
-                    to,
-                    sessionDuration,
-                    sessionCharge,
-                    date
-                }];
-            else
-                newAvailabilities = date.map((date) => ({
-                    from,
-                    to,
-                    sessionDuration,
-                    sessionCharge,
-                    date
-                }))
+        let existingAvailabilities = await ConsultantAvailability.find({ consultant: consultantId }) || [];
 
-            let existingAvailability = consultant.availability || [];
+        if (existingAvailabilities.length === 0) {
+            const newAvailability = await ConsultantAvailability.create(newAvailabilities[0])
 
-            // no availablity is found
-            if (!existingAvailability) {
-                consultant.set("availability", []);
-            }
-
-            if (existingAvailability.length === 0) {
-                consultant.set("availability", [...newAvailabilities]);
-                consultant.markModified("availability");
-                const response = await consultant.save();
-                console.log({ response })
-                return [...newAvailabilities];
-            }
-            let existingAvailabilityDate: any;
-
-            existingAvailability.map((availability: any) => {
-                if (Array.isArray(date)) {
-                    // finding the preexisting availability and updating it
-                    // within from the new availabilities
-                    newAvailabilities.forEach((newAvailability: any) => {
-                        if (availability.date === newAvailability.date) {
-                            existingAvailabilityDate = availability.date;
-                            availability = newAvailability
-                        }
-                    });
-
-                    return availability;
-                }
-                else {
-                    (availability.date === date)
-                        ? newAvailabilities[0]
-                        : availability
+            await User.findByIdAndUpdate(consultantId, {
+                $push: {
+                    availability: newAvailability._id,
                 }
             })
+            return newAvailabilities;
+        }
 
-            if (Array.isArray(date))
-                consultant.set("availability",
-                    [...existingAvailability,
-                    ...newAvailabilities
-                        .filter((availability: any) => availability.date !== existingAvailabilityDate)])
-            else
-                consultant.set("availability", existingAvailability);
-            // consultant.markModified("availability");
-            consultant.save();
+        let verifiedNewAvailabilities: any[] = [];
 
-            return "I am testing";
+        existingAvailabilities.filter((availability: any) => {
+            if (Array.isArray(date)) {
+                // finding the preexisting availability and updating it
+                // within from the new availabilities
+                newAvailabilities.filter((newAvailability: any) => {
+                    if (availability.date === newAvailability.date) {
+                        // update the existing one wthe the new one
+
+                        // replacing with the new one
+                        ConsultantAvailability.replaceOne({ _id: availability._id }, availability)
+                        return;
+                    }
+
+                    verifiedNewAvailabilities.push(newAvailabilities);
+                });
+
+                //
+                //
+            }
+            else {
+                if (availability.date === date) {
+                    // replacing with the new one
+                    ConsultantAvailability.replaceOne({ _id: availability._id }, newAvailabilities[0])
+                    return;
+                }
+                verifiedNewAvailabilities.push(newAvailabilities);
+            }
         })
 
+        if (verifiedNewAvailabilities?.length < 1)
+            return newAvailabilities
+
+        const newlyInsertedAvailablities = await ConsultantAvailability.insertMany(
+            verifiedNewAvailabilities
+        );
+
+        const insertedIds: mongoose.Types.ObjectId[] = newlyInsertedAvailablities.insertedIds;
+
+        await User.findByIdAndUpdate(consultantId, {
+            $push: {
+                availability: insertedIds
+            }
+        })
+        // to add this in users
+
         // returns availablity if present or else null
-        return updatedConsultantAvailability || null
+        return newAvailabilities || null
     } catch (error) {
         console.log(error)
         return null;
