@@ -145,7 +145,7 @@ const Landing = () => {
 
     useEffect(() => {
         const newCircles: CircleData[] = [];
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 15; i++) {
             const size = generateRandom(60, 100);
             const x = generateRandom(0, window.innerWidth - size);
             const y = generateRandom(0, window.innerHeight - size);
