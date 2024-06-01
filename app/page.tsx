@@ -182,7 +182,6 @@ const Landing = () => {
             <div className="opacity-70 absolute h-screen w-full overflow-hidden">
                 {circles.map((circle, index) => (
                     <Circle
-                        key={index}
                         size={circle.size}
                         x={circle.x}
                         y={circle.y}
@@ -192,27 +191,23 @@ const Landing = () => {
             <LandingNav />
 
             <section className="2xl:max-w-[1400px] 2xl:mx-auto bg-transparent text-center min-h-[calc(100vh-125px)] flex items-center justify-center relative px-4">
-                <div className="max-w-[640px] mx-auto z-10">
-                    <motion.h1
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={heroControls}
-                        ref={heroRef}
+                <motion.div className="max-w-[640px] mx-auto z-10"
+                    ref={heroRef}
+                    animate={heroControls}
+                    initial={{ y: 20, opacity: 0 }}
+                >
+                    <h1
                         className={`${katibeh.className} text-9xl text-white`}
+                        style={katibeh.style}
                     >
                         Applicat
-                    </motion.h1>
-                    <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={heroControls}
-                        ref={heroRef}
-                        className={`text-md font-[400] text-[#e4e4e4] -mt-3 ${roboto.className}`}
+                    </h1>
+                    <p
+                        className={`text-md font-[400] text-[#e4e4e4] mt-3 ${roboto.className}`}
                     >
                         Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
-                    </motion.p>
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={heroControls}
-                        ref={heroRef}
+                    </p>
+                    <div
                     >
                         <Link
                             href="/auth"
@@ -221,8 +216,8 @@ const Landing = () => {
                             <span>Book Now</span>
                             <ArrowTopRightIcon className="w-6 h-6 font-bold" />
                         </Link>
-                    </motion.div>
-                </div>
+                    </div>
+                </motion.div>
             </section>
 
             <section className="w-full h-auto relative max-lg:overflow-hidden max-lg:bg-[url('/landing_big_cat.svg')] max-lg:bg-fixed max-lg:bg-no-repeat max-lg:bg-contain max-lg:bg-center max-lg:py-16">
@@ -239,7 +234,7 @@ const Landing = () => {
                 <div className="w-full px-[5%] 2xl:px-0 grid grid-cols-[min(500px,35vw)_min(500px,35vw)] justify-between place-items-center 2xl:max-w-[1400px] lg:max-h-[min(80vh, 1400px)] mx-auto absolute top-0 left-0 right-0 h-full max-lg:grid-cols-2 max-lg:!relative max-lg:gap-8 max-sm:grid-cols-1">
                     {SERVICES.map(({ title, description, Icon }, index) => (
                         <motion.div
-                            key={index}
+                            key={`SERVICES-${index}`}
                             className={`SERVICE_CARD bg-[#2d2d2d] bg-opacity-30 backdrop-filter backdrop-blur-lg rounded-lg px-4 py-4 flex items-start max-w-[min(500px,35vw)] max-h-[175px] max-lg:max-w-full max-lg:justify-normal ${index === 2 && 'lg:translate-x-8'} ${index === 3 && 'lg:-translate-x-8'}`}
                             initial={{ opacity: 0, y: 20 }}
                             animate={servicesControls}
@@ -262,6 +257,8 @@ const Landing = () => {
             <section className="w-full px-[5%] h-auto relative my-16 2xl:max-w-[1400px] 2xl:mx-auto">
                 <motion.h2
                     className={`${katibeh.className} text-5xl text-white text-center`}
+
+                    style={{ fontFamily: katibeh.style.fontFamily }}
                     animate={collegesControls}
                     ref={collegesRef}
                 >
@@ -271,14 +268,14 @@ const Landing = () => {
                     {COLLEGELIST.map((logo, index) => (
                         <>
                             <div
-                                key={index}
+                                key={"COLLEGECOPY-" + index}
                                 className={` ${index > 3 && index < 9 ? 'w-[calc(20%-(5*0.5rem)/4)]' : 'w-[21%]'} justify-center items-center p-4 bg-white rounded-md shadow-md max-md:grow ${index > 3 && index < 9 ? 'max-md:w-[calc(10%-(9*0.5rem)/10)] animate-scroll-reverse' : 'max-md:w-[11%] animate-scroll'} max-md:h-20`}
                             >
                                 <img src={logo} alt={logo} className="w-full h-full max-h-16 max-w-52 object-contain" />
                             </div>
 
                             <div
-                                key={index}
+                                key={`COLLEGE-${index}`}
                                 className={`hidden max-md:flex justify-center items-center p-4 bg-white rounded-md shadow-md w-auto grow ${index > 3 && index < 9 ? 'max-md:w-[calc(10%-(9*0.5rem)/10)] animate-scroll-reverse' : 'max-md:w-[11%] animate-scroll'} max-md:h-20`}
                             >
                                 <img src={logo} alt={logo} className="w-full h-full max-h-16 max-w-52 object-contain" />
