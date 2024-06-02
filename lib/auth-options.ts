@@ -3,7 +3,7 @@ import GoogleProvider from "next-auth/providers/google";
 import { getIfUserExistance } from "./controllers/userController";
 import ConnectToDB from "./mongoose";
 import Credentials from "next-auth/providers/credentials";
-import { User } from "./models/userModel";
+import { Applicant, User } from "./models/user";
 
 export const authOptions: NextAuthOptions = {
     providers: [
@@ -36,7 +36,7 @@ export const authOptions: NextAuthOptions = {
                 if (userInDb) {
                     return {
                         ...userInDb,
-                        id: userInDb._id.toString(),
+                        id: userInDb?._id.toString(),
                         onboarded: true,
                     }
                 }
@@ -46,18 +46,17 @@ export const authOptions: NextAuthOptions = {
                     email: inputCredentials.email,
                     name: inputCredentials.name,
                     image: inputCredentials.image,
-                    phonenumber: inputCredentials.phonenumber,
-                    highschool: inputCredentials.highschool,
+                    phoneNumber: inputCredentials.phonenumber,
+                    highSchool: inputCredentials.highschool,
                     education: inputCredentials.education,
                     gpa: inputCredentials.gpa,
                     sat: inputCredentials.sat,
                 }
 
                 // populating the database
-                const newUser = await User.create({
+                const newUser = await Applicant.create({
                     ...userData,
-                    type: "Applicant",
-                }).then(res => res).catch((e) => {
+                }).then((res: any) => res).catch((e: any) => {
                     console.log(e);
                     return null;
                 });

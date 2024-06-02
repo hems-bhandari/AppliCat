@@ -1,12 +1,12 @@
-import { Consultants } from "./consultantModel";
-import { Admins } from "./adminModel";
-import { Applicants } from "./applicantModel";
-import { Users } from "./userModel"
+import { Consultant } from "./consultantModel";
+import { Admin } from "./adminModel";
+import { Applicant } from "./applicantModel";
+import { User } from "./userModel"
 
 
 export {
-    Consultants,
-    Admins,
-    Applicants,
-    Users
+    Consultant,
+    Admin,
+    Applicant,
+    User
 }

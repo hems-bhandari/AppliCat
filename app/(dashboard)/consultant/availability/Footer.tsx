@@ -20,12 +20,18 @@ const AvailabilityForm = ({ value, resetCallander }: { value: any[], resetCallan
 
         const formData = new FormData(e.currentTarget);
 
-        // to add multiple days support 
-        const date = value;
+        // may or may not be an array with one or more values
+        const date = Array.isArray(value) ?
+            value.length > 1
+                ? value
+                : value[0]
+            : value
+
         const from = formData.get("from_time") as string;
         const to = formData.get("to_time") as string;
         const sessionDuration = formData.get("session_duration") as string;
         const sessionCharge = formData.get("session_charge") as string;
+
 
         fetch("/api/availability", {
             method: "POST",

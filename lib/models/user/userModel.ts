@@ -1,16 +1,27 @@
 import { model, Schema, models } from "mongoose";
 
 const UserSchema = new Schema({
-    type: {
+    name: {
         type: String,
-        enum: ["Admin", "Consultant", "Applicant"],
+        required: [true, "Please Provide your username"]
     },
-    user: {
-        ref: ["admin", "consultant", "applicant"],
-        default: "applicant",
-    }
+    email: {
+        type: String,
+        unique: true,
+        required: [true, "Please, Provide an Email Address"]
+    },
+    image: {
+        type: String,
+    },
+    phoneNumber: {
+        type: Number,
+        required: [true, "Please, Provide your Phone Number"],
+    },
+}, {
+    discriminatorKey: 'userType',
+    collection: "users"
 });
 
 
-export const Users = models.users || model("users", UserSchema);
+export const User = models.users || model("users", UserSchema);
 

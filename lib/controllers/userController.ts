@@ -1,4 +1,4 @@
-import { User } from "../models/userModel";
+import { User } from "../models/user";
 
 // returs user If present else returns false
 // TODO:ADD PROPER TYPE DEFINITION FOR USER

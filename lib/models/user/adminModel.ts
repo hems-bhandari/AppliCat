@@ -1,10 +1,5 @@
-import { model, Schema, models } from "mongoose";
+import { Schema } from "mongoose";
+import { User } from "./userModel";
 
-const AdminSchema = new Schema({
-    phoneNumber: {
-        type: Number,
-        required: [true, "Please, Provide your Phone Number"]
-    },
-})
-
-export const Admins = models.admins || model("admins", AdminSchema);
+export const Admin = User.discriminators?.Admin ||
+    User.discriminator("Admin", new Schema({})); 

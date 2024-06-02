@@ -1,16 +1,8 @@
 
 import mongoose, { model, Schema, models } from "mongoose";
+import { User } from "./userModel";
 
 const ApplicantSchema = new Schema({
-    name: {
-        type: String,
-        required: [true, "Please Provide your username"]
-    },
-    email: {
-        type: String,
-        unique: true,
-        required: [true, "Please, Provide an Email Address"]
-    },
     phoneNumber: {
         type: Number,
         required: [true, "Please, Provide your Phone Number"],
@@ -37,8 +29,5 @@ const ApplicantSchema = new Schema({
         ref: "consultingSession",
         required: false,
     },
-    image: {
-        type: String,
-    }
 })
-export const Applicants = models.applicants || model("applicants", ApplicantSchema);
+export const Applicant = User.discriminators?.Applicant || User.discriminator("Applicant", ApplicantSchema);

@@ -1,6 +1,8 @@
 import { add } from "date-fns";
-import { ConsultantAvailability, User } from "../models/userModel"
+import { Consultant } from "../models/user"
+import { ConsultantAvailability } from "../models/consultantAvailabilityModel";
 import mongoose from "mongoose";
+
 
 // returns the sessions that are available in different dates where the consultant has
 // set therir availablity
@@ -64,6 +66,7 @@ export const getSessionAvailablity = async (user: any): Promise<any | null> => {
                 sessions: sessions,
             }
         })
+
         return availableSessions;
     } catch (error) {
         console.log(error)
@@ -120,12 +123,26 @@ export const setAvailablity = async ({ consultantId, from, to, sessionDuration, 
                 consultant: consultantId,
             }];
 
-        let existingAvailabilities = await ConsultantAvailability.find({ consultant: consultantId }) || [];
+
+        let existingAvailabilities = await ConsultantAvailability.find({ consultant: consultantId });
 
         if (existingAvailabilities.length === 0) {
+            // checking if multiple dates are present
+            if (Array.isArray(date)) {
+                const newAvailability = await ConsultantAvailability.insertMany(newAvailabilities)
+                const newIds = newAvailability.map((data) => data._id);
+
+                await Consultant.findByIdAndUpdate(consultantId, {
+                    $push: {
+                        availability: newIds,
+                    }
+                })
+                return newAvailabilities;
+            }
+
             const newAvailability = await ConsultantAvailability.create(newAvailabilities[0])
 
-            await User.findByIdAndUpdate(consultantId, {
+            await Consultant.findByIdAndUpdate(consultantId, {
                 $push: {
                     availability: newAvailability._id,
                 }
@@ -133,52 +150,88 @@ export const setAvailablity = async ({ consultantId, from, to, sessionDuration, 
             return newAvailabilities;
         }
 
-        let verifiedNewAvailabilities: any[] = [];
+        // updating the existing availabilities
+        const updatedAvailabilities: any[] = [];
 
-        existingAvailabilities.filter((availability: any) => {
+        for (const availability of existingAvailabilities) {
+            const storedDateString = new Date(availability?.date).toISOString()
             if (Array.isArray(date)) {
                 // finding the preexisting availability and updating it
                 // within from the new availabilities
-                newAvailabilities.filter((newAvailability: any) => {
-                    if (availability.date === newAvailability.date) {
-                        // update the existing one wthe the new one
+                //
 
+                // since we are directly mutating the array, 
+                // it will get empty if all matches
+                if (newAvailabilities.length === 0) break;
+
+                newAvailabilities.forEach((newAvailability: any, index: number) => {
+                    const newAvailabilityDateString = new Date(newAvailability.date).toISOString()
+                    if (storedDateString === newAvailabilityDateString) {
                         // replacing with the new one
-                        ConsultantAvailability.replaceOne({ _id: availability._id }, availability)
-                        return;
+                        ConsultantAvailability.updateOne({ _id: availability._id }, {
+                            $set: {
+                                from: from,
+                                to: to,
+                                sessionDuration: sessionDuration,
+                                sessionCharge: sessionCharge,
+                                consultant: consultantId,
+                                date: newAvailability.date,
+                            }
+                        }).then((res) => {
+                            console.log({ updateResponse: res })
+                        })
+
+                        // removing the item from the array so it don't in the way of next itteration's 
+                        // comparision
+                        newAvailabilities.splice(index, 1)
+
+                        // since we are removing the matched availablity from the new availabilities
+                        updatedAvailabilities.push(newAvailability);
                     }
-
-                    verifiedNewAvailabilities.push(newAvailabilities);
                 });
-
-                //
-                //
+                continue;
             }
-            else {
-                if (availability.date === date) {
-                    // replacing with the new one
-                    ConsultantAvailability.replaceOne({ _id: availability._id }, newAvailabilities[0])
-                    return;
-                }
-                verifiedNewAvailabilities.push(newAvailabilities);
-            }
-        })
 
+            // when date is not an array only one new availability should be updated 
+            // or created
+            // converting date time to string
+            const newAvailabilityDateString = new Date(date).toISOString();
+            // only one new Availability whose date is equal to date is present
+            if (storedDateString === newAvailabilityDateString) {
+                // replacing with the new one
+                //
+                ConsultantAvailability.updateOne({ _id: availability._id }, {
+                    $set: {
+                        from,
+                        to,
+                        sessionDuration,
+                        sessionCharge,
+                        date,
+                        consultant: consultantId,
+                    }
+                });
+                newAvailabilities = []
+                updatedAvailabilities.push(newAvailabilities[0])
+                break;
+            }
+        }
+        const verifiedNewAvailabilities = newAvailabilities.filter((data: any) => data)
+        // Means only one availablity was present and was updated
         if (verifiedNewAvailabilities?.length < 1)
-            return newAvailabilities
+            return updatedAvailabilities;
 
+        // uploading the new Availabilities
         const newlyInsertedAvailablities = await ConsultantAvailability.insertMany(
             verifiedNewAvailabilities
         );
 
-        const insertedIds: mongoose.Types.ObjectId[] = newlyInsertedAvailablities.insertedIds;
-
-        await User.findByIdAndUpdate(consultantId, {
+        // getting the newly added availablities ids
+        const insertedIds = newlyInsertedAvailablities.map((data) => data._id);
+        await Consultant.findByIdAndUpdate(consultantId, {
             $push: {
                 availability: insertedIds
             }
         })
-        // to add this in users
 
         // returns availablity if present or else null
         return newAvailabilities || null
@@ -187,3 +240,4 @@ export const setAvailablity = async ({ consultantId, from, to, sessionDuration, 
         return null;
     }
 }
+

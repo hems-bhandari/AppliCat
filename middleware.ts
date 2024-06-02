@@ -1,5 +1,5 @@
 // Protecting routes with next-auth
-// https://next-auth.js.org/configuration/nextjs#middleware
+// https://next-auth.js.org/configuration/nextjs#middlewaremiddl
 // https://nextjs.org/docs/app/building-your-application/routing/middleware
 
 import { getToken } from "next-auth/jwt";
@@ -31,7 +31,7 @@ export async function middleware(req: NextRequest) {
     const session = await getToken({ req, secret })
 
     if (session) {
-        const userType = (session._doc?.type as string)?.toLowerCase();
+        const userType = (session._doc?.userType as string)?.toLowerCase();
 
         // disabling the onboarding page 
         // if already onboarded

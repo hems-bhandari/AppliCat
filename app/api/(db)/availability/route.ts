@@ -49,7 +49,6 @@ export const POST = async (req: NextRequest) => {
         return NextResponse.json({ message: updatedAvailability },
             { status: 200 })
 
-
     } catch (error) {
         console.log(error)
         return NextResponse.json({ message: "Meoww!! something went wrong" }, { status: 500 });
