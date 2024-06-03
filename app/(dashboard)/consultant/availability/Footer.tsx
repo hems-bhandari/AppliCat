@@ -1,14 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { FormEvent, useEffect, useRef, useState } from "react";
+import React, { FormEvent, useEffect, useRef, useState } from "react";
 import { TAvailability } from "./page";
 
 type TAvailabilityForm = {
     value: any[],
     resetCallander: () => void
-    defaultValue?: TAvailability | null,
+    defaultValue: TAvailability | null,
+    setDefaultAvailabilityData: React.Dispatch<React.SetStateAction<TAvailability[]>>
 }
-const AvailabilityForm = ({ value, resetCallander, defaultValue }: TAvailabilityForm) => {
+const AvailabilityForm = ({ value, resetCallander, defaultValue, setDefaultAvailabilityData }: TAvailabilityForm) => {
     const [submissionStatus, setSubmissionStatus] = useState<{
         status: "error" | "success" | "notSubmitted" | "submitting",
         btnText: string
@@ -59,6 +60,24 @@ const AvailabilityForm = ({ value, resetCallander, defaultValue }: TAvailability
                 if (res.ok)
                     setSubmissionStatus({ status: "success", btnText: "Submitted !!" });
                 return res.json()
+            }).then(data => {
+                const returnedAvailabilities = data?.availabilities;
+                console.log(returnedAvailabilities)
+                setDefaultAvailabilityData((previousAvailabilities: TAvailability[]) =>
+                    previousAvailabilities.map((availability: TAvailability) => {
+                        const availabilityDateString = new Date(availability.date).toISOString();
+
+                        const updatedAvailability = returnedAvailabilities.find((returnedAvailability: TAvailability) => {
+                            const returnedAvailabilityDateString = new Date(returnedAvailability.date).toISOString();
+                            return returnedAvailabilityDateString === availabilityDateString;
+                        })
+
+                        if (updatedAvailability) return updatedAvailability;
+
+                        return availability
+                    })
+
+                )
             })
             .catch((err) => {
                 setSubmissionStatus({ status: "error", btnText: "Error !!" });

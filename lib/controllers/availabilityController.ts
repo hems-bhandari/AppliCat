@@ -126,6 +126,7 @@ export const setAvailablity = async ({ consultantId, from, to, sessionDuration, 
 
         if (existingAvailabilities.length === 0) {
             // checking if multiple dates are present
+            // directly inserting since there are no avaialbilities in the db
             if (Array.isArray(date)) {
                 const newAvailability = await ConsultantAvailability.insertMany(newAvailabilities)
                 const newIds = newAvailability.map((data) => data._id);
@@ -187,9 +188,9 @@ export const setAvailablity = async ({ consultantId, from, to, sessionDuration, 
                         updatedAvailabilities.push(newAvailability);
                     }
                 });
+                // this acts as return since it will take the program flow to the next iteration.
                 continue;
             }
-
 
             // when date is not an array only one new availability should be updated 
             // or created
@@ -197,7 +198,6 @@ export const setAvailablity = async ({ consultantId, from, to, sessionDuration, 
             const newAvailabilityDateString = new Date(date).toISOString();
             // only one new Availability whose date is equal to date is present
             if (storedDateString === newAvailabilityDateString) {
-                console.log("Matched single", sessionCharge)
                 // replacing with the new one
                 //
                 await ConsultantAvailability.updateOne({ _id: availability._id }, {
@@ -217,9 +217,10 @@ export const setAvailablity = async ({ consultantId, from, to, sessionDuration, 
                 break;
             }
         }
+
         const verifiedNewAvailabilities = newAvailabilities.filter((data: any) => data)
-        // Means only one availablity was present and was updated
-        if (verifiedNewAvailabilities?.length < 1)
+        // Means all availabilities were already present in the db and were updated
+        if (verifiedNewAvailabilities?.length === 0)
             return updatedAvailabilities;
 
         // uploading the new Availabilities
@@ -235,8 +236,9 @@ export const setAvailablity = async ({ consultantId, from, to, sessionDuration, 
             }
         })
 
-        // returns availablity if present or else null
-        return newAvailabilities || null
+        // returns availabilities that were updated or inserted or for some reason Nothing is there then null.
+        // verifiedNewAvailabilities contains inserted ones & updatedAvailabilities contains those which are updated.
+        return [...verifiedNewAvailabilities, ...updatedAvailabilities] || null
     } catch (error) {
         console.log(error)
         return null;

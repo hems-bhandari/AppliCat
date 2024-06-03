@@ -25,16 +25,11 @@ const ConsultantPage = ({ params: { user } }: { params: { user: string } }) => {
     ];
 
     const handleDayClick = (day: Date, modifiers: any) => {
-        const newValue = [...value];
-        if (modifiers.selected) {
-            const index = value.findIndex((d) => isSameDay(day, d));
-            newValue.splice(index, 1);
-        } else {
-            newValue.push(day);
-        }
-        setValue(newValue);
+        setValue((p: Date[]) =>
+            modifiers?.selected
+                ? p.filter((_, i: number) => p.findIndex(d => isSameDay(day, d)) === i)
+                : [...p, day])
     };
-
     // getting the consultant data;
     const userSession = useSession();
     useEffect(() => {
@@ -84,13 +79,14 @@ const ConsultantPage = ({ params: { user } }: { params: { user: string } }) => {
                                 resetCallander={handleResetClick}
                                 defaultValue={
                                     defaultAvailabilityData
-                                        .find((availability: TAvailability, index: number) => {
+                                        .find((availability: TAvailability) => {
                                             const storedDateString = new Date(availability.date).toISOString();
                                             // every selected date in iso string format array
                                             const LastSelectedDateString = new Date(value[value.length - 1]).toISOString();
                                             return LastSelectedDateString === storedDateString
-                                        })
+                                        }) || null
                                 }
+                                setDefaultAvailabilityData={setDefaultAvailabilityData}
                             />
                         }
 
