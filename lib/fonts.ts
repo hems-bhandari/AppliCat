@@ -13,4 +13,5 @@ export const roboto = Roboto({
 export const katibeh = Katibeh({
     subsets: ["latin"],
     weight: ["400"],
+    adjustFontFallback: false
 })
