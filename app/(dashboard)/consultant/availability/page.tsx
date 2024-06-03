@@ -70,6 +70,7 @@ const ConsultantPage = ({ params: { user } }: { params: { user: string } }) => {
                         onDayClick={handleDayClick}
                         modifiers={{ selected: value }}
                         className="lg:w-[600px] w-full h-[550px] mb-4 md:mb-0"
+                        cellStyle={``}
                     />
                     <div className="flex justify-start sm:justify-center lg:justify-start w-full md:w-auto">
                         {value.length < 1 ?

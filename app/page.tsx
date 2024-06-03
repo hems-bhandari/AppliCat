@@ -146,8 +146,8 @@ const Landing = () => {
         const newCircles: CircleData[] = [];
         const minDistance = window.innerWidth * 0.15; // Minimum distance between circles
 
-        let mouseX = window.innerWidth / 2;
-        let mouseY = window.innerHeight / 2;
+        {/* let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2; */}
 
 
         const isFarEnough = (x: number, y: number) => {
@@ -186,16 +186,16 @@ const Landing = () => {
             const dx = circleB.x - circleA.x;
             const dy = circleB.y - circleA.y;
             const angle = Math.atan2(dy, dx);
-            const sin = Math.sin(angle);
-            const cos = Math.cos(angle);
+            const sinValue = Math.sin(angle);
+            const cosValue = Math.cos(angle);
 
             // Rotate circleA's position
             const posA = { x: 0, y: 0 };
-            const posB = { x: dx * cos + dy * sin, y: dy * cos - dx * sin };
+            const posB = { x: dx * cosValue + dy * sinValue, y: dy * cosValue - dx * sinValue };
 
             // Rotate circleA's velocity
-            const velA = { x: circleA.velocityX * cos + circleA.velocityY * sin, y: circleA.velocityY * cos - circleA.velocityX * sin };
-            const velB = { x: circleB.velocityX * cos + circleB.velocityY * sin, y: circleB.velocityY * cos - circleB.velocityX * sin };
+            const velA = { x: circleA.velocityX * cosValue + circleA.velocityY * sinValue, y: circleA.velocityY * cosValue - circleA.velocityX * sinValue };
+            const velB = { x: circleB.velocityX * cosValue + circleB.velocityY * sinValue, y: circleB.velocityY * cosValue - circleB.velocityX * sinValue };
 
             // Update velocities after collision
             const vxTotal = velA.x - velB.x;
@@ -209,12 +209,12 @@ const Landing = () => {
             posB.x += velB.x / absV * overlap;
 
             // Rotate positions back
-            const posAF = { x: posA.x * cos - posA.y * sin, y: posA.y * cos + posA.x * sin };
-            const posBF = { x: posB.x * cos - posB.y * sin, y: posB.y * cos + posB.x * sin };
+            const posAF = { x: posA.x * cosValue - posA.y * sinValue, y: posA.y * cosValue + posA.x * sinValue };
+            const posBF = { x: posB.x * cosValue - posB.y * sinValue, y: posB.y * cosValue + posB.x * sinValue };
 
             // Rotate velocities back
-            const velAF = { x: velA.x * cos - velA.y * sin, y: velA.y * cos + velA.x * sin };
-            const velBF = { x: velB.x * cos - velB.y * sin, y: velB.y * cos + velB.x * sin };
+            const velAF = { x: velA.x * cosValue - velA.y * sinValue, y: velA.y * cosValue + velA.x * sinValue };
+            const velBF = { x: velB.x * cosValue - velB.y * sinValue, y: velB.y * cosValue + velB.x * sinValue };
 
             // Adjust positions to their new locations
             circleB.x = circleA.x + posBF.x;
@@ -235,8 +235,6 @@ const Landing = () => {
                 for (let i = 0; i < circlesCopy.length; i++) {
                     let newX = circlesCopy[i].x + circlesCopy[i].velocityX;
                     let newY = circlesCopy[i].y + circlesCopy[i].velocityY;
-
-
 
                     // Only wrap around when the circle is completely off the screen
                     if (newX + circlesCopy[i].size < 0) newX = window.innerWidth;

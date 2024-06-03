@@ -26,8 +26,6 @@ module.exports = {
                 gradientStart: "#F4442A",
                 gradientStop: "#F1314A",
 
-
-
                 border: "hsl(var(--border))",
                 input: "hsl(var(--input))",
                 ring: "hsl(var(--ring))",
