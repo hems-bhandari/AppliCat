@@ -32,7 +32,7 @@ const LandingNav = () => {
                     />
                 </Link>
 
-                <div className="flex space-x-8 items-center">
+                <div className="flex space-x-8 items-center z-10">
                     <ul className="navLinks flex gap-4">
 
                         <li>
