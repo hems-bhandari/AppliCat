@@ -25,10 +25,11 @@ const ConsultantPage = ({ params: { user } }: { params: { user: string } }) => {
     ];
 
     const handleDayClick = (day: Date, modifiers: any) => {
-        setValue((p: Date[]) =>
+        console.log(day, modifiers)
+        setValue((prev: Date[]) =>
             modifiers?.selected
-                ? p.filter((_, i: number) => p.findIndex(d => isSameDay(day, d)) === i)
-                : [...p, day])
+                ? prev.filter((_, i: number) => prev.findIndex(prevDay => isSameDay(day, prevDay)) !== i)
+                : [...prev, day])
     };
     // getting the consultant data;
     const userSession = useSession();
