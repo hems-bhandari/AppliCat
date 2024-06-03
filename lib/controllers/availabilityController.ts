@@ -162,11 +162,11 @@ export const setAvailablity = async ({ consultantId, from, to, sessionDuration, 
                 // it will get empty if all matches
                 if (newAvailabilities.length === 0) break;
 
-                newAvailabilities.forEach((newAvailability: any, index: number) => {
+                newAvailabilities.forEach(async (newAvailability: any, index: number) => {
                     const newAvailabilityDateString = new Date(newAvailability.date).toISOString()
                     if (storedDateString === newAvailabilityDateString) {
                         // replacing with the new one
-                        ConsultantAvailability.updateOne({ _id: availability._id }, {
+                        await ConsultantAvailability.updateOne({ _id: availability._id }, {
                             $set: {
                                 from: from,
                                 to: to,
@@ -190,26 +190,30 @@ export const setAvailablity = async ({ consultantId, from, to, sessionDuration, 
                 continue;
             }
 
+
             // when date is not an array only one new availability should be updated 
             // or created
             // converting date time to string
             const newAvailabilityDateString = new Date(date).toISOString();
             // only one new Availability whose date is equal to date is present
             if (storedDateString === newAvailabilityDateString) {
+                console.log("Matched single", sessionCharge)
                 // replacing with the new one
                 //
-                ConsultantAvailability.updateOne({ _id: availability._id }, {
+                await ConsultantAvailability.updateOne({ _id: availability._id }, {
                     $set: {
-                        from,
-                        to,
-                        sessionDuration,
-                        sessionCharge,
-                        date,
+                        from: from,
+                        to: to,
+                        sessionDuration: sessionDuration,
+                        sessionCharge: sessionCharge,
                         consultant: consultantId,
+                        date: date,
                     }
-                });
-                newAvailabilities = []
+                })
+                // first setting the updated availability
                 updatedAvailabilities.push(newAvailabilities[0])
+                // removing it
+                newAvailabilities = []
                 break;
             }
         }
