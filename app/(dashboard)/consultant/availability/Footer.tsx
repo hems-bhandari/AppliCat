@@ -17,7 +17,6 @@ const AvailabilityForm = ({ value, resetCallander, defaultValue }: TAvailability
     const formRef = useRef<HTMLFormElement>(null);
 
     const resetForm = () => {
-        console.log("resetting form")
         if (formRef.current) {
             formRef.current.reset();
         }
