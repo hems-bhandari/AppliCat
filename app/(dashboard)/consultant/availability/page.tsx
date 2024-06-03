@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { isSameDay } from "date-fns";
@@ -8,8 +7,19 @@ import BreadCrumb from "@/components/breadcrumb";
 import AvailabilityForm from "./Footer";
 import { useSession } from "next-auth/react";
 
+export type TAvailability = {
+    _id: string,
+    consultant: string,
+    date: string,
+    from: string,
+    sessionCharge: string,
+    sessionDuration: string,
+    to: string,
+}
 const ConsultantPage = ({ params: { user } }: { params: { user: string } }) => {
     const [value, setValue] = useState<Date[]>([]);
+    const [defaultAvailabilityData, setDefaultAvailabilityData] = useState<TAvailability[]>([]);
+
     const breadcrumbItems = [
         { title: "Availability", link: "/consultant/availability" },
     ];
@@ -28,7 +38,6 @@ const ConsultantPage = ({ params: { user } }: { params: { user: string } }) => {
     // getting the consultant data;
     const userSession = useSession();
     useEffect(() => {
-
         if (userSession) {
             // FIX:manually fetching the data since the context for some reason
             // doesnot have the data that is set by the auth function in the
@@ -40,15 +49,21 @@ const ConsultantPage = ({ params: { user } }: { params: { user: string } }) => {
 
                 const consultantId = res.user?._id;
 
-                fetch(`/api/availability/?consultantId=${consultantId}`).then(res => res.json()).then((res) => {
-                    console.log(res)
-                })
+                fetch(`/api/availability/?consultantId=${consultantId}`).then(res => res.ok && res.json())
+                    .then((availabilityFromDb) => {
+                        if (!availabilityFromDb) return
 
+                        const availabilities = availabilityFromDb.availabilities
+
+                        if (availabilities)
+                            setDefaultAvailabilityData(availabilities);
+                    })
             });
             // fetching the previous availabilities
         }
 
     }, [])
+
     const handleResetClick = () => setValue([]);
     return (
         <ScrollArea className="h-full">
@@ -62,10 +77,23 @@ const ConsultantPage = ({ params: { user } }: { params: { user: string } }) => {
                         className="lg:w-[600px] w-full h-[550px] mb-4 md:mb-0"
                     />
                     <div className="flex justify-start sm:justify-center lg:justify-start w-full md:w-auto">
-                        <AvailabilityForm
-                            value={value}
-                            resetCallander={handleResetClick}
-                        />
+                        {value.length < 1 ?
+                            <div className="mt-4">Please pick one or more days.</div>
+                            : <AvailabilityForm
+                                value={value}
+                                resetCallander={handleResetClick}
+                                defaultValue={
+                                    defaultAvailabilityData
+                                        .find((availability: TAvailability, index: number) => {
+                                            const storedDateString = new Date(availability.date).toISOString();
+                                            // every selected date in iso string format array
+                                            const LastSelectedDateString = new Date(value[value.length - 1]).toISOString();
+                                            return LastSelectedDateString === storedDateString
+                                        })
+                                }
+                            />
+                        }
+
                     </div>
                 </div>
             </div>

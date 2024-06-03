@@ -1,17 +1,27 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
+import { TAvailability } from "./page";
 
-const AvailabilityForm = ({ value, resetCallander }: { value: any[], resetCallander: () => void }) => {
-    if (value.length === 0) {
-        return <div className="mt-4">Please pick one or more days.</div>;
-    }
-
+type TAvailabilityForm = {
+    value: any[],
+    resetCallander: () => void
+    defaultValue?: TAvailability | null,
+}
+const AvailabilityForm = ({ value, resetCallander, defaultValue }: TAvailabilityForm) => {
     const [submissionStatus, setSubmissionStatus] = useState<{
         status: "error" | "success" | "notSubmitted" | "submitting",
         btnText: string
     }>({ status: "notSubmitted", btnText: "Submit" })
 
+    const formRef = useRef<HTMLFormElement>(null);
+
+    const resetForm = () => {
+        console.log("resetting form")
+        if (formRef.current) {
+            formRef.current.reset();
+        }
+    }
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         setSubmissionStatus({ status: "submitting", btnText: "Submitting..." });
 
@@ -51,9 +61,6 @@ const AvailabilityForm = ({ value, resetCallander }: { value: any[], resetCallan
                     setSubmissionStatus({ status: "success", btnText: "Submitted !!" });
                 return res.json()
             })
-            .then((data) => {
-                console.log(data);
-            })
             .catch((err) => {
                 setSubmissionStatus({ status: "error", btnText: "Error !!" });
                 console.error(err);
@@ -65,8 +72,18 @@ const AvailabilityForm = ({ value, resetCallander }: { value: any[], resetCallan
             })
     }
 
+    useEffect(() => {
+        if (!defaultValue)
+            resetForm();
+    }, [value])
+
+
     return (
-        <form className="py-4" onSubmit={handleSubmit}>
+        <form
+            className="py-4"
+            onSubmit={handleSubmit}
+            ref={formRef}
+        >
             <div className="mt-0">
                 <p className="text-[16px]">
                     You selected {value.length} days.
@@ -85,7 +102,9 @@ const AvailabilityForm = ({ value, resetCallander }: { value: any[], resetCallan
                             name="from_time"
                             id="from_time"
                             className="w-full mt-1"
-                            type="time" />
+                            type="time"
+                            defaultValue={defaultValue ? defaultValue.from : ""}
+                        />
                     </div>
 
                     <div className="flex flex-col w-full">
@@ -94,7 +113,9 @@ const AvailabilityForm = ({ value, resetCallander }: { value: any[], resetCallan
                             id="to_time"
                             name="to_time"
                             className="w-full mt-1"
-                            type="time" />
+                            type="time"
+                            defaultValue={defaultValue ? defaultValue.to : ""}
+                        />
                     </div>
                 </div>
                 <div className="flex flex-col justify-evenly w-full my-6">
@@ -106,6 +127,7 @@ const AvailabilityForm = ({ value, resetCallander }: { value: any[], resetCallan
                         name="session_duration"
                         className="w-full mt-1"
                         type="number"
+                        defaultValue={defaultValue ? defaultValue.sessionDuration : ""}
                     />
                 </div>
                 <div className="flex flex-col justify-evenly w-full my-6">
@@ -117,6 +139,7 @@ const AvailabilityForm = ({ value, resetCallander }: { value: any[], resetCallan
                         name="session_charge"
                         className="w-full mt-1"
                         type="number"
+                        defaultValue={defaultValue ? defaultValue.sessionCharge : ""}
                     />
                 </div>
             </div>
