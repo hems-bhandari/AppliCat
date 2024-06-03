@@ -1,5 +1,5 @@
 import { authOptions } from "@/lib/auth-options";
-import { setAvailablity } from "@/lib/controllers/availabilityController";
+import { getAllAvailablities, setAvailablity } from "@/lib/controllers/availabilityController";
 import ConnectToDB from "@/lib/mongoose";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
@@ -54,4 +54,29 @@ export const POST = async (req: NextRequest) => {
         return NextResponse.json({ message: "Meoww!! something went wrong" }, { status: 500 });
     }
 };
+
+export const GET = async (req: NextRequest) => {
+    try {
+        await ConnectToDB();
+        const consultantId = req?.nextUrl?.searchParams.get("consultantId");
+
+        if (!consultantId)
+            return NextResponse.json({ message: "Meoww!! Availability Must be provided" }, { status: 400 });
+
+        const availabilities = await getAllAvailablities(consultantId);
+
+        if (!availabilities)
+            return NextResponse.json({ message: "Meoww!! No Availabilities Found" }, { status: 404 });
+
+        return NextResponse.json({
+            message: `${availabilities.length} Availabilities Found`,
+            availabilities
+        }, { status: 200 })
+
+    } catch (error) {
+        console.log(error)
+        return NextResponse.json({ message: "Meoww!! something went wrong" }, { status: 500 });
+    }
+
+}
 

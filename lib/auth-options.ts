@@ -107,7 +107,7 @@ export const authOptions: NextAuthOptions = {
 
         async session({ session, token }) {
             if (token._doc) {
-                Object.assign((session as any)?.user, {
+                Object.assign((session)?.user, {
                     ...(token as any)?._doc,
                     onboarded: (token as any).onboarded
                 });

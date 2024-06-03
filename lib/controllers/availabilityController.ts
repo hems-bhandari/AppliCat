@@ -1,8 +1,6 @@
 import { add } from "date-fns";
 import { Consultant } from "../models/user"
 import { ConsultantAvailability } from "../models/consultantAvailabilityModel";
-import mongoose from "mongoose";
-
 
 // returns the sessions that are available in different dates where the consultant has
 // set therir availablity
@@ -77,9 +75,9 @@ export const getSessionAvailablity = async (user: any): Promise<any | null> => {
 
 
 // returns all the availablity of consultant and no info about the sessions available
-export const getAllAvailablity = async (consultant: any): Promise<any | null> => {
+export const getAllAvailablities = async (consultantId: string): Promise<any | null> => {
     try {
-        const availablity = consultant?.availablity;
+        const availablity = await ConsultantAvailability.find({ consultant: consultantId });
 
         // returns availablity if present or else null
         return availablity || null
