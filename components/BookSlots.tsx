@@ -13,11 +13,17 @@ interface DateType {
   dateTime: Date | null;
 }
 
-const ConsultantPage = () => {
+const ConsultantPage = ({
+  setDisabled,
+}: {
+  setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const [date, setDate] = React.useState<DateType>({
     justDate: null,
     dateTime: null,
   });
+
+  const [activeIndex, setActiveIndex] = React.useState<number>(0);
 
   const [times, setTimes] = React.useState<Date[] | null>(null);
 
@@ -48,6 +54,11 @@ const ConsultantPage = () => {
     return times as Date[];
   };
 
+  const handleSubmit = async (time: Date) => {
+    // do the database stuff here
+    console.log("Submitted");
+  };
+
   const handleDayClick: DayMouseEventHandler = (day, modifiers) => {
     if (!day) return;
     const stringDate = day.toDateString();
@@ -56,6 +67,14 @@ const ConsultantPage = () => {
     if (stringDates.includes(stringDate)) {
       setDate((prev) => ({ ...prev, justDate: day }));
     }
+  };
+
+  const handleTimeClick = async (time: Date, index: number) => {
+    setActiveIndex(index);
+    setDate((prev) => ({ ...prev, dateTime: time }));
+
+    await handleSubmit(time);
+    setDisabled(false);
   };
 
   const CustomDayContent = (props: DayContentProps) => {
@@ -71,6 +90,11 @@ const ConsultantPage = () => {
           overflow: "visible",
           cursor: isAvailable ? "pointer" : "not-allowed",
           color: !isAvailable ? "gray" : "",
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
         {props.date.getDate()}
@@ -106,10 +130,12 @@ const ConsultantPage = () => {
                 <Button
                   type="button"
                   variant="outline"
-                  className="w-[100px]"
-                  onClick={() =>
-                    setDate((prev) => ({ ...prev, dateTime: time }))
-                  }
+                  className={`w-[100px] transition duration-100 ease-in-out ${
+                    activeIndex === index + 1
+                      ? "bg-primary text-black hover:bg-primary hover:text-black"
+                      : ""
+                  }`}
+                  onClick={() => handleTimeClick(time, index + 1)}
                 >
                   {format(time, "kk:mm")}
                 </Button>

@@ -12,7 +12,7 @@ export type Session = {
 };
 
 export const dummyData: Dates = {
-  "May 28, 2024": {
+  "June 4, 2024": {
     sessionDuration: "1 hour",
     costPerSession: "100",
     sessions: [
@@ -26,7 +26,7 @@ export const dummyData: Dates = {
       },
     ],
   },
-  "May 30, 2024": {
+  "June 6, 2024": {
     sessionDuration: "1 hour",
     costPerSession: "100",
     sessions: [
@@ -41,6 +41,32 @@ export const dummyData: Dates = {
       {
         booked: true,
         startingTime: "12:00",
+      },
+    ],
+  },
+  "June 7, 2024": {
+    sessionDuration: "1 hour",
+    costPerSession: "100",
+    sessions: [
+      {
+        booked: false,
+        startingTime: "10:00",
+      },
+      {
+        booked: false,
+        startingTime: "11:00",
+      },
+      {
+        booked: true,
+        startingTime: "12:00",
+      },
+      {
+        booked: false,
+        startingTime: "1:00 PM",
+      },
+      {
+        booked: false,
+        startingTime: "2:00 PM",
       },
     ],
   },

@@ -101,7 +101,19 @@ const Sessions = () => {
             </div>
           </div>
         </TabsContent>
-        <TabsContent value="booked_sessions"></TabsContent>
+        <TabsContent value="booked_sessions">
+          <div className="mt-5">
+            <h1 className="text-2xl font-bold my-6 text-center text-text-light dark:text-text-dark">
+              No booked sessions
+            </h1>
+
+            <p className="text-lg text-text-light dark:text-text-dark">
+              You have not booked any sessions yet. Book a session with a
+              consultant to get started. If you've already booked a session, it
+              will appear here after validation.
+            </p>
+          </div>
+        </TabsContent>
       </Tabs>
     </div>
   );
