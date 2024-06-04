@@ -7,15 +7,21 @@ import { DayPicker } from "react-day-picker";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 
-export type CalendarProps = React.ComponentProps<typeof DayPicker> & { cellStyle?: string };
+export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
+    cellStyle?: string, highlightedDays?: Date[],
+    highlightedDaysStyle?: string
+};
 
 function Calendar({
     className,
     classNames,
     cellStyle,
     showOutsideDays = true,
+    highlightedDays = [],
+    highlightedDaysStyle = "",
     ...props
 }: CalendarProps) {
+
     return (
         <DayPicker
             showOutsideDays={showOutsideDays}
@@ -66,6 +72,12 @@ function Calendar({
                 IconRight: ({ ...props }) => <ChevronRightIcon className="h-4 w-4" />,
             }}
             {...props}
+            modifiers={{
+                highlightedDays: highlightedDays,
+            }}
+            modifiersClassNames={{
+                highlightedDays: highlightedDaysStyle,
+            }}
         />
     );
 }
