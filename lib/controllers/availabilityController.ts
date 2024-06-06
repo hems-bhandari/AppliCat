@@ -1,49 +1,72 @@
 import { add } from "date-fns";
 import { Consultant } from "../models/user"
 import { ConsultantAvailability } from "../models/consultantAvailabilityModel";
+import { consultingSession } from "../models/sessionModel";
+import { compareAsc } from "date-fns/esm";
 
+
+type TAvailabilityWithSession = Record<string, {
+    sessionDuration: string,
+    costPerSession: string,
+    sessions: {
+        startingTime: Date,
+        booked: boolean,
+    }[]
+}>
 // returns the sessions that are available in different dates where the consultant has
 // set therir availablity
-export const getSessionAvailablity = async (user: any): Promise<any | null> => {
+export const getAllAvailabilitiesWithSession = async (consultantId: string): Promise<any | null> => {
     try {
-        if (!user) return null // no user means no availabilty
+        const availabilities = await ConsultantAvailability.find({ consultant: consultantId });
+        if (!availabilities || availabilities?.length < 1) return null // no availablity feild found means availabilty not set yet
 
-        const availablity = user.availability;
-        if (!availablity) return null // no availablity feild found means availabilty not set yet
+        // find the consulting sessions that are hosted by the consultant
+        const bookedSessions = await consultingSession.find({ consultant: consultantId });
 
-        const bookedSession: any[] = user.bookedSessions;
+        let availableSessions: TAvailabilityWithSession = {};
 
-        let availableSessions: any = {}
-
-        availablity.forEach((day: any) => {
+        availabilities.forEach((day: any) => {
             const beginningDateTime = add(
                 day?.date,
-                { hours: day?.from }
+                {
+                    hours: day?.from.split(":")[0],
+                    minutes: day?.from.split(":")[1]
+                }
             );
 
             const endingDateTime = add(
                 day?.date,
-                { hours: day?.to }
+                {
+                    hours: day?.to.split(":")[0],
+                    minutes: day?.to.split(":")[1]
+                }
             );
 
             const sessions = [];
 
-            for (let i = beginningDateTime; i <= endingDateTime;) {
-                const newTime = add(i, { minutes: day?.sessionDuration });
-                i = newTime;
+            console.log({
+                beginningDateTime,
+                endingDateTime,
+                bookedsessions: bookedSessions,
+                day,
+                comparision: compareAsc(beginningDateTime, endingDateTime)
+            })
+            // compareAsc returns -1 if the first date is before the second date
+            // 0 if both are same
+            for (let i = beginningDateTime; compareAsc(i, endingDateTime) === -1; i = add(i, { minutes: day?.sessionDuration })) {
 
                 const session = {
-                    startingTime: newTime,
+                    startingTime: i, // starting time of the session
                     booked: false,
                 }
 
-                if (bookedSession && bookedSession.length > 0) {
+                if (bookedSessions && bookedSessions.length > 0) {
                     // checking if the session exists in booked session collection
                     // hosted by the consultant
-                    const isBooked = bookedSession.some((session) => {
+                    const isBooked = bookedSessions.some((session) => {
                         const dateTime = add(session.date, {
                             hours: session.time.split(":")[0],
-                            minutes: session.time.split(":")[0]
+                            minutes: session.time.split(":")[1]
                         })
 
                         // i is the current itteration of the session chunk datetime
@@ -52,6 +75,7 @@ export const getSessionAvailablity = async (user: any): Promise<any | null> => {
 
                         return false;
                     })
+
                     session.booked = isBooked;
                 }
 
@@ -59,7 +83,7 @@ export const getSessionAvailablity = async (user: any): Promise<any | null> => {
             }
 
             availableSessions[day?.date] = {
-                constPerSession: day.sessionCharge,
+                costPerSession: day.sessionCharge,
                 sessionDuration: day.sessionDuration,
                 sessions: sessions,
             }

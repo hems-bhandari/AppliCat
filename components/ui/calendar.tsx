@@ -19,6 +19,7 @@ function Calendar({
     showOutsideDays = true,
     highlightedDays = [],
     highlightedDaysStyle = "",
+    modifiers,
     ...props
 }: CalendarProps) {
 
@@ -74,6 +75,7 @@ function Calendar({
             {...props}
             modifiers={{
                 highlightedDays: highlightedDays,
+                ...modifiers,
             }}
             modifiersClassNames={{
                 highlightedDays: highlightedDaysStyle,
