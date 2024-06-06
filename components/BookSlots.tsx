@@ -2,7 +2,7 @@
 
 import React, { useEffect } from "react";
 import { Calendar } from "@/components/ui/calendar";
-import { add, format } from "date-fns";
+import { add, format, isSameDay } from "date-fns";
 
 import { dummyData, Session } from "@/constants/some_dummy_data";
 import { Button } from "@/components/ui/button";
@@ -13,7 +13,7 @@ interface DateType {
     dateTime: Date | null;
 }
 
-const ConsultantPage = () => {
+const BookSlots = ({ consultantId }: { consultantId: string }) => {
     const [date, setDate] = React.useState<DateType>({
         justDate: null,
         dateTime: null,
@@ -21,34 +21,55 @@ const ConsultantPage = () => {
 
     const [times, setTimes] = React.useState<Date[] | null>(null);
 
+    // store the fetched data in the db
+    const [availabilities, setAvailability] = React.useState<Record<string, {
+        sessions: {
+            startingTime: string,
+            booked: boolean
+        }[];
+    }> | null>(null);
+
     useEffect(() => {
         const times = getTimes();
         if (times) setTimes(times);
     }, [date.justDate]);
 
-    const Dates = Object.keys(dummyData).map((date) => new Date(date));
+    useEffect(() => {
+        if (!consultantId) return;
+
+        // Fetch data from the server
+        fetch(`/api/sessions/${consultantId}`).then((res) => {
+            if (res.ok) {
+                res.json().then((availability) => {
+                    if (availability?.availabilities)
+                        setAvailability(availability?.availabilities);
+                });
+            }
+        });
+    }, [])
+
+    const Dates = availabilities && Object.keys(availabilities).map((date) => new Date(date)) || [];
 
     const getTimes = () => {
-        if (!date.justDate) return;
+        if (!date.justDate || !availabilities) return;
+
+        // just date contains the clicked date
         const { justDate } = date;
 
-        const stringDate = justDate.toDateString();
-        const stringDates = Dates.map((date) => date.toDateString());
+        const availability =
+            Object.keys(availabilities).find((date) => isSameDay(new Date(date), justDate))
 
-        const index = stringDates.indexOf(stringDate);
+        if (!availability)
+            return []
 
-        const times = dummyData[Object.keys(dummyData)[index]]?.sessions
-            .map(
-                (session: Session) =>
-                    session.booked === false &&
-                    new Date(`${stringDate} ${session.startingTime}`)
-            )
-            .filter(Boolean);
-
-        return times as Date[];
+        // getting the sessions that are not booked
+        // and converting the starting time string to new date.
+        return availabilities[availability].sessions
+            .filter((session) => !session.booked)
+            .map((session) => new Date(session.startingTime))
     };
 
-    const handleDayClick: DayMouseEventHandler = (day, modifiers) => {
+    const handleDayClick: DayMouseEventHandler = (day) => {
         if (!day) return;
         const stringDate = day.toDateString();
         const stringDates = Dates.map((date) => date.toDateString());
@@ -100,7 +121,7 @@ const ConsultantPage = () => {
                     }}
                 />
 
-                {date.justDate && (
+                {!!(Dates && Dates.length > 0) && (
                     <div className="flex flex-col gap-4 h-[500px] overflow-y-auto">
                         {times?.map((time, index) => (
                             <div key={`time-${index}`} className="rounded-sm bg-grey-100">
@@ -123,4 +144,4 @@ const ConsultantPage = () => {
     );
 };
 
-export default ConsultantPage;
+export default BookSlots;

@@ -42,7 +42,6 @@ const AvailabilityForm = ({ value, resetCallander, defaultValue, setDefaultAvail
         const sessionDuration = formData.get("session_duration") as string;
         const sessionCharge = formData.get("session_charge") as string;
 
-
         fetch("/api/availability", {
             method: "POST",
             body: JSON.stringify({
@@ -62,7 +61,6 @@ const AvailabilityForm = ({ value, resetCallander, defaultValue, setDefaultAvail
                 return res.json()
             }).then(data => {
                 const returnedAvailabilities = data?.availabilities;
-                console.log(returnedAvailabilities)
                 setDefaultAvailabilityData((previousAvailabilities: TAvailability[]) =>
                     previousAvailabilities.map((availability: TAvailability) => {
                         const availabilityDateString = new Date(availability.date).toISOString();

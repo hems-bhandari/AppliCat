@@ -1,4 +1,8 @@
-import { Model, Schema, models } from "mongoose"
+import {
+    Schema,
+    model,
+    models
+} from "mongoose"
 
 const consultingSessionSchema = new Schema({
     applicant: {
@@ -17,17 +21,16 @@ const consultingSessionSchema = new Schema({
     },
     status: {
         enum: ["pending" || "confirmed"],
-        default: "pending"
     },
     date: {
         type: Date,
         required: [true, "Date Must be provided"],
     },
     time: {
-        type: String, // should be hour:minutes
+        type: String, // should be hour:minutes and should represent the starting time
         required: [true, "Time must be provided"]
     },
 })
 
 export const consultingSession = models.consultingSession
-    || new Model("consultingSession", consultingSessionSchema);
+    || model("consultingSession", consultingSessionSchema);

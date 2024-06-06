@@ -25,7 +25,6 @@ const ConsultantPage = ({ params: { user } }: { params: { user: string } }) => {
     ];
 
     const handleDayClick = (day: Date, modifiers: any) => {
-        console.log(day, modifiers)
         setValue((prev: Date[]) =>
             modifiers?.selected
                 ? prev.filter((_, i: number) => prev.findIndex(prevDay => isSameDay(day, prevDay)) !== i)
@@ -56,7 +55,9 @@ const ConsultantPage = ({ params: { user } }: { params: { user: string } }) => {
                     })
             });
             // fetching the previous availabilities
+
         }
+
 
     }, [])
 
@@ -71,7 +72,6 @@ const ConsultantPage = ({ params: { user } }: { params: { user: string } }) => {
                         onDayClick={handleDayClick}
                         modifiers={{ selected: value }}
                         className="lg:w-[600px] w-full h-[550px] mb-4 md:mb-0"
-                        cellStyle={``}
                     />
                     <div className="flex justify-start sm:justify-center lg:justify-start w-full md:w-auto">
                         {value.length < 1 ?
@@ -82,10 +82,7 @@ const ConsultantPage = ({ params: { user } }: { params: { user: string } }) => {
                                 defaultValue={
                                     defaultAvailabilityData
                                         .find((availability: TAvailability) => {
-                                            const storedDateString = new Date(availability.date).toISOString();
-                                            // every selected date in iso string format array
-                                            const LastSelectedDateString = new Date(value[value.length - 1]).toISOString();
-                                            return LastSelectedDateString === storedDateString
+                                            return isSameDay(new Date(availability.date), value[value.length - 1])
                                         }) || null
                                 }
                                 setDefaultAvailabilityData={setDefaultAvailabilityData}
