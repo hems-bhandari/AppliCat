@@ -2,7 +2,7 @@ import { add } from "date-fns";
 import { Consultant } from "../models/user"
 import { ConsultantAvailability } from "../models/consultantAvailabilityModel";
 import { consultingSession } from "../models/sessionModel";
-import { compareAsc } from "date-fns/esm";
+import { compareAsc, isSameDay } from "date-fns/esm";
 
 
 type TAvailabilityWithSession = Record<string, {
@@ -177,7 +177,7 @@ export const setAvailablity = async ({ consultantId, from, to, sessionDuration, 
         const updatedAvailabilities: any[] = [];
 
         for (const availability of existingAvailabilities) {
-            const storedDateString = new Date(availability?.date).toISOString()
+            const storedDate = new Date(availability?.date);
             if (Array.isArray(date)) {
                 // finding the preexisting availability and updating it
                 // within from the new availabilities
@@ -187,9 +187,10 @@ export const setAvailablity = async ({ consultantId, from, to, sessionDuration, 
                 // it will get empty if all matches
                 if (newAvailabilities.length === 0) break;
 
-                newAvailabilities.forEach(async (newAvailability: any, index: number) => {
-                    const newAvailabilityDateString = new Date(newAvailability.date).toISOString()
-                    if (storedDateString === newAvailabilityDateString) {
+                for (const [index, newAvailability] of newAvailabilities.entries()) {
+                    const newAvailabilityDate = new Date(newAvailability.date);
+
+                    if (isSameDay(storedDate, newAvailabilityDate)) {
                         // replacing with the new one
                         await ConsultantAvailability.updateOne({ _id: availability._id }, {
                             $set: {
@@ -201,17 +202,17 @@ export const setAvailablity = async ({ consultantId, from, to, sessionDuration, 
                                 date: newAvailability.date,
                             }
                         }).then((res) => {
-                            console.log({ updateResponse: res })
+                            // removing the item from the array so it don't in the way of next itteration's 
+                            // comparision
+                            newAvailabilities.splice(index, 1)
+                            console.log(res)
+
+                            // since we are removing the matched availablity from the new availabilities
+                            updatedAvailabilities.push(newAvailability);
                         })
 
-                        // removing the item from the array so it don't in the way of next itteration's 
-                        // comparision
-                        newAvailabilities.splice(index, 1)
-
-                        // since we are removing the matched availablity from the new availabilities
-                        updatedAvailabilities.push(newAvailability);
                     }
-                });
+                }
                 // this acts as return since it will take the program flow to the next iteration.
                 continue;
             }
@@ -219,9 +220,9 @@ export const setAvailablity = async ({ consultantId, from, to, sessionDuration, 
             // when date is not an array only one new availability should be updated 
             // or created
             // converting date time to string
-            const newAvailabilityDateString = new Date(date).toISOString();
+            const newAvailabilityDate = new Date(date);
             // only one new Availability whose date is equal to date is present
-            if (storedDateString === newAvailabilityDateString) {
+            if (isSameDay(storedDate, newAvailabilityDate)) {
                 // replacing with the new one
                 //
                 await ConsultantAvailability.updateOne({ _id: availability._id }, {
@@ -243,6 +244,8 @@ export const setAvailablity = async ({ consultantId, from, to, sessionDuration, 
         }
 
         const verifiedNewAvailabilities = newAvailabilities.filter((data: any) => data)
+
+        console.log({ verifiedNewAvailabilities, newAvailabilities });
         // Means all availabilities were already present in the db and were updated
         if (verifiedNewAvailabilities?.length === 0)
             return updatedAvailabilities;
@@ -268,4 +271,3 @@ export const setAvailablity = async ({ consultantId, from, to, sessionDuration, 
         return null;
     }
 }
-

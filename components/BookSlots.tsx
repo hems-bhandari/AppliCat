@@ -2,9 +2,8 @@
 
 import React, { useEffect } from "react";
 import { Calendar } from "@/components/ui/calendar";
-import { add, format, isSameDay } from "date-fns";
+import { format, isSameDay } from "date-fns";
 
-import { dummyData, Session } from "@/constants/some_dummy_data";
 import { Button } from "@/components/ui/button";
 import { DayContentProps, DayMouseEventHandler } from "react-day-picker";
 
@@ -13,7 +12,7 @@ interface DateType {
     dateTime: Date | null;
 }
 
-const BookSlots = ({ consultantId }: { consultantId: string }) => {
+const BookSlots = ({ consultantId, setDisabled }: { consultantId: string, setDisabled: boolean }) => {
     const [date, setDate] = React.useState<DateType>({
         justDate: null,
         dateTime: null,
@@ -92,6 +91,11 @@ const BookSlots = ({ consultantId }: { consultantId: string }) => {
                     overflow: "visible",
                     cursor: isAvailable ? "pointer" : "not-allowed",
                     color: !isAvailable ? "gray" : "",
+                    width: "100%",
+                    height: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
                 }}
             >
                 {props.date.getDate()}
@@ -107,7 +111,6 @@ const BookSlots = ({ consultantId }: { consultantId: string }) => {
                     modifiers={{
                         available: Dates,
                     }}
-                    highlightedDays={[new Date(2024, 5, 5)]}
                     fromDate={new Date()}
                     modifiersClassNames={{
                         available: "cursor-pointer text-red",

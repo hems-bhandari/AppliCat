@@ -8,26 +8,24 @@ import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
-    cellStyle?: string, highlightedDays?: Date[],
-    highlightedDaysStyle?: string
+    cellStyle?: string;
 };
 
 function Calendar({
     className,
     classNames,
-    cellStyle,
     showOutsideDays = true,
-    highlightedDays = [],
-    highlightedDaysStyle = "",
-    modifiers,
     ...props
 }: CalendarProps) {
-
     return (
         <DayPicker
             showOutsideDays={showOutsideDays}
             className={cn("p-3", className)}
             classNames={{
+                button: cn(
+                    buttonVariants({ variant: "ghost" }),
+                    "!p-0"
+                ),
                 months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
                 month: "space-y-4",
                 caption: "flex justify-center pt-1 relative items-center",
@@ -48,13 +46,11 @@ function Calendar({
                     "relative p-0 text-center m-1 w-10 aspect-square text-[40px] focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-accent w-full overflow-hidden flex items-center justify-center",
                     props.mode === "range"
                         ? "[&:has(>.day-range-end)]:rounded-r-md [&:has(>.day-range-start)]:rounded-l-md first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md"
-                        : "[&:has([aria-selected])]:rounded-md",
-                    // to add custom styles from the props
-                    cellStyle
+                        : "[&:has([aria-selected])]:rounded-md"
                 ),
                 day: cn(
                     buttonVariants({ variant: "ghost" }),
-                    "h-full w-full  font-normal aria-selected:opacity-100"
+                    "h-full w-full font-normal aria-selected:opacity-100"
                 ),
                 day_range_start: "day-range-start",
                 day_range_end: "day-range-end",
@@ -73,13 +69,6 @@ function Calendar({
                 IconRight: ({ ...props }) => <ChevronRightIcon className="h-4 w-4" />,
             }}
             {...props}
-            modifiers={{
-                highlightedDays: highlightedDays,
-                ...modifiers,
-            }}
-            modifiersClassNames={{
-                highlightedDays: highlightedDaysStyle,
-            }}
         />
     );
 }

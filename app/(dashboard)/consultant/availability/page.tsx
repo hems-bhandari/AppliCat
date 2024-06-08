@@ -25,11 +25,12 @@ const ConsultantPage = ({ params: { user } }: { params: { user: string } }) => {
     ];
 
     const handleDayClick = (day: Date, modifiers: any) => {
-        setValue((prev: Date[]) =>
+        setValue((p: Date[]) =>
             modifiers?.selected
-                ? prev.filter((_, i: number) => prev.findIndex(prevDay => isSameDay(day, prevDay)) !== i)
-                : [...prev, day])
+                ? p.filter((_, i: number) => p.findIndex(d => isSameDay(day, d)) !== i)
+                : [...p, day])
     };
+
     // getting the consultant data;
     const userSession = useSession();
     useEffect(() => {
@@ -55,9 +56,7 @@ const ConsultantPage = ({ params: { user } }: { params: { user: string } }) => {
                     })
             });
             // fetching the previous availabilities
-
         }
-
 
     }, [])
 
@@ -82,7 +81,10 @@ const ConsultantPage = ({ params: { user } }: { params: { user: string } }) => {
                                 defaultValue={
                                     defaultAvailabilityData
                                         .find((availability: TAvailability) => {
-                                            return isSameDay(new Date(availability.date), value[value.length - 1])
+                                            const storedDateString = new Date(availability.date)
+                                            // every selected date in iso string format array
+                                            const LastSelectedDateString = new Date(value[value.length - 1])
+                                            return isSameDay(storedDateString, LastSelectedDateString)
                                         }) || null
                                 }
                                 setDefaultAvailabilityData={setDefaultAvailabilityData}

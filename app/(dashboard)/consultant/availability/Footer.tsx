@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import React, { FormEvent, useEffect, useRef, useState } from "react";
 import { TAvailability } from "./page";
+import { isSameDay } from "date-fns";
 
 type TAvailabilityForm = {
     value: any[],
@@ -15,12 +16,11 @@ const AvailabilityForm = ({ value, resetCallander, defaultValue, setDefaultAvail
         btnText: string
     }>({ status: "notSubmitted", btnText: "Submit" })
 
-    const formRef = useRef<HTMLFormElement>(null);
+    const [formData, setFormData] = useState<TAvailability | null>(null);
 
+    // resets the input feilds of the form
     const resetForm = () => {
-        if (formRef.current) {
-            formRef.current.reset();
-        }
+        setFormData(null);
     }
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         setSubmissionStatus({ status: "submitting", btnText: "Submitting..." });
@@ -60,22 +60,35 @@ const AvailabilityForm = ({ value, resetCallander, defaultValue, setDefaultAvail
                     setSubmissionStatus({ status: "success", btnText: "Submitted !!" });
                 return res.json()
             }).then(data => {
-                const returnedAvailabilities = data?.availabilities;
-                setDefaultAvailabilityData((previousAvailabilities: TAvailability[]) =>
-                    previousAvailabilities.map((availability: TAvailability) => {
-                        const availabilityDateString = new Date(availability.date).toISOString();
+                if (!data) return
+                const returnedAvailabilities: TAvailability[] = data?.availabilities;
+                setDefaultAvailabilityData((previousAvailabilities: TAvailability[]) => {
+                    return [...
+                        [...previousAvailabilities].map((availability: TAvailability) => {
+                            const availabilityDate = new Date(availability.date);
+                            const updatedAvailability = returnedAvailabilities?.find((returnedAvailability: TAvailability, index: number) => {
+                                const returnedAvailabilityDate = new Date(returnedAvailability.date);
+                                if (isSameDay(returnedAvailabilityDate, availabilityDate)) {
+                                    // removing the availability which matches the date
+                                    // since it is an update
+                                    returnedAvailabilities.splice(index, 1);
+                                    return returnedAvailability;
+                                }
+                            })
 
-                        const updatedAvailability = returnedAvailabilities.find((returnedAvailability: TAvailability) => {
-                            const returnedAvailabilityDateString = new Date(returnedAvailability.date).toISOString();
-                            return returnedAvailabilityDateString === availabilityDateString;
+
+                            // it means the availability is updated
+                            if (updatedAvailability) {
+                                return updatedAvailability
+                            }
+                            return availability;
                         })
+                        , ...returnedAvailabilities]
 
-                        if (updatedAvailability) return updatedAvailability;
-
-                        return availability
-                    })
-
-                )
+                    // previous availabilities will contain the previous and updated and returned 
+                    // will contain the new ones as we are directly
+                    // mutating the array when we find the availability that matches the date.
+                })
             })
             .catch((err) => {
                 setSubmissionStatus({ status: "error", btnText: "Error !!" });
@@ -88,17 +101,26 @@ const AvailabilityForm = ({ value, resetCallander, defaultValue, setDefaultAvail
             })
     }
 
+    const updateFormData = (key: string, value: string) => {
+        setFormData((prev) => {
+            if (!prev) return null;
+
+            return { ...prev, [key]: value }
+        })
+    }
+
     useEffect(() => {
         if (!defaultValue)
-            resetForm();
-    }, [value])
+            return resetForm();
+
+        setFormData(defaultValue);
+    }, [value, defaultValue])
 
 
     return (
         <form
             className="py-4"
             onSubmit={handleSubmit}
-            ref={formRef}
         >
             <div className="mt-0">
                 <p className="text-[16px]">
@@ -119,7 +141,8 @@ const AvailabilityForm = ({ value, resetCallander, defaultValue, setDefaultAvail
                             id="from_time"
                             className="w-full mt-1"
                             type="time"
-                            defaultValue={defaultValue ? defaultValue.from : ""}
+                            value={formData ? formData.from : ""}
+                            onChange={(e) => { updateFormData("from", e.target.value) }}
                         />
                     </div>
 
@@ -130,7 +153,8 @@ const AvailabilityForm = ({ value, resetCallander, defaultValue, setDefaultAvail
                             name="to_time"
                             className="w-full mt-1"
                             type="time"
-                            defaultValue={defaultValue ? defaultValue.to : ""}
+                            value={formData ? formData.to : ""}
+                            onChange={(e) => { updateFormData("to", e.target.value) }}
                         />
                     </div>
                 </div>
@@ -143,7 +167,8 @@ const AvailabilityForm = ({ value, resetCallander, defaultValue, setDefaultAvail
                         name="session_duration"
                         className="w-full mt-1"
                         type="number"
-                        defaultValue={defaultValue ? defaultValue.sessionDuration : ""}
+                        value={formData ? formData.sessionDuration : ""}
+                        onChange={(e) => { updateFormData("sessionDuration", e.target.value) }}
                     />
                 </div>
                 <div className="flex flex-col justify-evenly w-full my-6">
@@ -155,7 +180,8 @@ const AvailabilityForm = ({ value, resetCallander, defaultValue, setDefaultAvail
                         name="session_charge"
                         className="w-full mt-1"
                         type="number"
-                        defaultValue={defaultValue ? defaultValue.sessionCharge : ""}
+                        value={formData ? formData.sessionCharge : ""}
+                        onChange={(e) => { updateFormData("sessionCharge", e.target.value) }}
                     />
                 </div>
             </div>
