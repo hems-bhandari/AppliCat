@@ -12,107 +12,106 @@ import { Info } from "lucide-react";
 
 // dialog
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
 } from "@/components/ui/dialog";
 import Image from "next/image";
 
 const breadcrumbItems = [{ title: "Sessions", link: "/consultant/sessions" }];
 
 export default function page() {
-  const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(false);
 
-  const handleMoreInfoClick = (id: string) => {
-    setOpen(true);
-    console.log(id);
-  };
+    const handleMoreInfoClick = (id: string) => {
+        setOpen(true);
+    };
 
-  const columns: ColumnDef<User>[] = [
-    {
-      accessorKey: "name",
-      header: "NAME",
-    },
-    {
-      accessorKey: "SessionType",
-      header: "SESSION TYPE",
-    },
-    {
-      accessorKey: "school",
-      header: "SCHOOL",
-    },
-    {
-      accessorKey: "status",
-      header: "STATUS",
-    },
-    {
-      accessorKey: "time",
-      header: "TIME",
-    },
-    {
-      id: "actions",
-      cell: ({ row }) => (
-        <Button
-          variant="ghost"
-          onClick={() => handleMoreInfoClick(row.original.id.toString())}
-        >
-          <Info className="h-4 w-4" />
-        </Button>
-      ),
-    },
-  ];
+    const columns: ColumnDef<User>[] = [
+        {
+            accessorKey: "name",
+            header: "NAME",
+        },
+        {
+            accessorKey: "SessionType",
+            header: "SESSION TYPE",
+        },
+        {
+            accessorKey: "school",
+            header: "SCHOOL",
+        },
+        {
+            accessorKey: "status",
+            header: "STATUS",
+        },
+        {
+            accessorKey: "time",
+            header: "TIME",
+        },
+        {
+            id: "actions",
+            cell: ({ row }) => (
+                <Button
+                    variant="ghost"
+                    onClick={() => handleMoreInfoClick(row.original.id.toString())}
+                >
+                    <Info className="h-4 w-4" />
+                </Button>
+            ),
+        },
+    ];
 
-  const DialogBox = ({
-    data,
-    open,
-    setOpen,
-  }: {
-    data: StudentInformation;
-    open: boolean;
-    setOpen: (value: boolean) => void;
-  }) => {
+    const DialogBox = ({
+        data,
+        open,
+        setOpen,
+    }: {
+        data: StudentInformation;
+        open: boolean;
+        setOpen: (value: boolean) => void;
+    }) => {
+        return (
+            <Dialog open={open} onOpenChange={setOpen}>
+                <DialogContent className="sm:max-w-[425px]">
+                    <DialogHeader>
+                        <DialogTitle>Student Information</DialogTitle>
+                        <DialogDescription>
+                            Here's the information about the student you are consulting.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <div className="grid gap-4 py-4">
+                        <div className="mx-auto">
+                            <Image
+                                src={data.image}
+                                alt="Student Image"
+                                width={100}
+                                height={100}
+                                className="object-cover rounded-full w-[150px] h-[150px]"
+                            />
+                        </div>
+                        {Object.entries(data).map(
+                            ([key, value]) =>
+                                key !== "image" && (
+                                    <div key={key} className="flex text-[16px]">
+                                        <span className="font-bold capitalize">{key}:</span> &nbsp;
+                                        <p>{value}</p>
+                                    </div>
+                                )
+                        )}
+                    </div>
+                </DialogContent>
+            </Dialog>
+        );
+    };
     return (
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Student Information</DialogTitle>
-            <DialogDescription>
-              Here's the information about the student you are consulting.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <div className="mx-auto">
-              <Image
-                src={data.image}
-                alt="Student Image"
-                width={100}
-                height={100}
-                className="object-cover rounded-full w-[150px] h-[150px]"
-              />
+        <>
+            <div className="flex-1 space-y-4  p-4 md:p-8 pt-6">
+                <BreadCrumb items={breadcrumbItems} />
+                <UserClient data={sessions} columns={columns} />
+                <DialogBox data={studentInformation} open={open} setOpen={setOpen} />
             </div>
-            {Object.entries(data).map(
-              ([key, value]) =>
-                key !== "image" && (
-                  <div key={key} className="flex text-[16px]">
-                    <span className="font-bold capitalize">{key}:</span> &nbsp;
-                    <p>{value}</p>
-                  </div>
-                )
-            )}
-          </div>
-        </DialogContent>
-      </Dialog>
+        </>
     );
-  };
-  return (
-    <>
-      <div className="flex-1 space-y-4  p-4 md:p-8 pt-6">
-        <BreadCrumb items={breadcrumbItems} />
-        <UserClient data={sessions} columns={columns} />
-        <DialogBox data={studentInformation} open={open} setOpen={setOpen} />
-      </div>
-    </>
-  );
 }

@@ -44,13 +44,6 @@ export const getAllAvailabilitiesWithSession = async (consultantId: string): Pro
 
             const sessions = [];
 
-            console.log({
-                beginningDateTime,
-                endingDateTime,
-                bookedsessions: bookedSessions,
-                day,
-                comparision: compareAsc(beginningDateTime, endingDateTime)
-            })
             // compareAsc returns -1 if the first date is before the second date
             // 0 if both are same
             for (let i = beginningDateTime; compareAsc(i, endingDateTime) === -1; i = add(i, { minutes: day?.sessionDuration })) {

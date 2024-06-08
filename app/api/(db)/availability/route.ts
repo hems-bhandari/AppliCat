@@ -41,7 +41,6 @@ export const POST = async (req: NextRequest) => {
 
 
         if (!updatedAvailability) {
-            console.log("Empty update returned", updatedAvailability)
             return NextResponse.json({ message: "Meoww!! something went wrong" }, { status: 500 });
         }
 
