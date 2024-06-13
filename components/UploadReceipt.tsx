@@ -42,7 +42,6 @@ const UploadReceipt = ({
   handleSubmit: (data: ConfirmationFormValues) => void;
   children?: React.ReactNode;
 }) => {
-
   const defaultValues = {
     email: "",
     imgUrl: "",
@@ -55,47 +54,47 @@ const UploadReceipt = ({
   });
 
   return (
-    <div className="w-full min-w-[400px] max-w-[500px] mx-auto">
+    <div className="w-full h-full">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleSubmit)}
-          className="space-y-8 w-full"
+          className="w-full h-full"
         >
-          <FormField
-            control={form.control}
-            name="imgUrl"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Upload receipt</FormLabel>
-                <FormControl>
-                  <FileUpload
-                    onChange={field.onChange}
-                    value={field.value}
-                    onRemove={field.onChange}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="w-full min-w-[400px] max-w-[500px] mx-auto h-[calc(100%-58px)]">
+            <FormField
+              control={form.control}
+              name="imgUrl"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Upload receipt</FormLabel>
+                  <FormControl>
+                    <FileUpload
+                      onChange={field.onChange}
+                      value={field.value}
+                      onRemove={field.onChange}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Your Email</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="aashish@gmail.com"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          {children}
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Your Email</FormLabel>
+                  <FormControl>
+                    <Input placeholder="aashish@gmail.com" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <div className="mt-auto">{children}</div>
         </form>
       </Form>
     </div>

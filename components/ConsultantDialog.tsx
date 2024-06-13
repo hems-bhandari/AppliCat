@@ -52,13 +52,7 @@ const ConsultantDialog = ({
 
     if (stage === 2) {
       // upload the receipt and confirm the booking
-      console.log("Receipt uploaded");
-
-      // hit the API here
-    }
-
-    if (stage === 1) {
-      setDisabled(true);
+      console.log("Receipt upload");
     }
 
     if (stage === 3) {
@@ -102,8 +96,13 @@ const ConsultantDialog = ({
       <Button onClick={handleBack} variant="destructive" size="lg">
         {stage === 0 ? "Close" : "Back"}
       </Button>
-      <Button type="submit" onClick={handleNext} size="lg" disabled={disabled}>
-        Next
+      <Button
+        type="submit"
+        onClick={() => stage !== 2 && handleNext()}
+        size="lg"
+        disabled={disabled}
+      >
+        {stage === 2 ? "Confirm" : "Next"}
       </Button>
     </div>
   );
@@ -129,20 +128,31 @@ const ConsultantDialog = ({
         <div className="grid gap-4 pt-4">
           <div className="mx-auto min-h-[500px] flex flex-col w-full justify-between">
             {stage === 0 && (
-              <BookSlots
-                consultantId={data?._id}
-                date={date}
-                setDate={setDate}
-                setDisabled={setDisabled}
-              />
+              <>
+                <BookSlots
+                  consultantId={data?._id}
+                  date={date}
+                  setDate={setDate}
+                  setDisabled={setDisabled}
+                />
+                <Buttons />
+              </>
             )}
 
-            {stage === 1 && <PaymentPage CHARGE={1000} />}
+            {stage === 1 && (
+              <>
+                <PaymentPage CHARGE={1000} />
+                <Buttons />
+              </>
+            )}
 
-            {stage === 2 && <UploadReceipt handleSubmit={handleSubmit} />}
+            {stage === 2 && (
+              <UploadReceipt handleSubmit={handleSubmit}>
+                <Buttons />
+              </UploadReceipt>
+            )}
 
             {stage === 3 && <BookingConfirmation />}
-            {stage !== 3 && <Buttons />}
           </div>
         </div>
       </DialogContent>
