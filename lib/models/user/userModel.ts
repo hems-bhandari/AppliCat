@@ -4,6 +4,7 @@ const UserSchema = new Schema({
     name: {
         type: String,
         required: [true, "Please Provide your username"]
+
     },
     email: {
         type: String,
