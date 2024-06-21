@@ -32,7 +32,6 @@ export const getSessionInfoForSideBar = async (props: getSessionInfoForSideBarPr
         }
     }
 
-
     const sessionData = await consultingSession.find({ applicant: props.userId });
     return {
         totalSessions: sessionData?.length || 0,
@@ -45,11 +44,12 @@ interface getSessionsProps {
     delimeter: "upcoming" | "previous",
     date: Date,
 }
+
 export interface Tsession {
     applicant: string,
     consultant: string,
     sessionType: string,
-    status: "pending" | "confirmed",
+    status: "progress" | "pending" | "confirmed",
     sessionCharge: number,
     sessionDuration: number,
     date: string,
@@ -78,3 +78,35 @@ export const getConsultingSessions = async (props: getSessionsProps): Promise<Ts
     }
 
 }
+
+interface createOnProgressSessionProps extends Omit<Tsession, "status"> {
+    status: "progress"
+}
+
+
+// creates a new consulting sesson with the status progress.
+export const createOnProgressSession = async (props: createOnProgressSessionProps): Promise<"Done" | null> => {
+    try {
+        const arePropsValid = Object.keys(props).every((key) => key === "status" && props[key] === "progress" && props[key])
+
+        if (!arePropsValid) throw new Error("Invalid props were provided during creation of pending session, so aborting. :( Meow Meow!!");
+
+        // checking existing sessions 
+        const existingSession = await consultingSession.find({ applicant: props.applicant });
+        if (!!existingSession.length)
+            throw new Error("Session Booking failed it is already booked, :( Sorry Meow!!")
+
+        // session can be created safely
+        const newConsultingSession = await consultingSession.create({
+            ...props
+        });
+
+        if (newConsultingSession) return "Done";
+
+        return null;
+    } catch (e) {
+        console.log(e);
+        return null;
+    }
+}
+

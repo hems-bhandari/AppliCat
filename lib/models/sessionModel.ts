@@ -20,10 +20,10 @@ const consultingSessionSchema = new Schema({
         required: [true, "Session type must be provided"]
     },
     status: {
-        enum: ["pending" || "confirmed"],
+        enum: ["progress" || "pending" || "confirmed"],
     },
     date: {
-        type: Date,
+        type: String,
         required: [true, "Date Must be provided"],
     },
     time: {

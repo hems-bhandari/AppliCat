@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 // dialog
 import {
@@ -18,6 +18,8 @@ import { Button } from "./ui/button";
 import PaymentPage from "./PaymentPage";
 import UploadReceipt, { ConfirmationFormValues } from "./UploadReceipt";
 import BookingConfirmation from "./BookingConfirmation";
+import { createOnProgressSession } from "@/lib/controllers/sessionController";
+import { useSession } from "next-auth/react";
 
 export interface DateType {
     justDate: Date | null;
@@ -25,14 +27,16 @@ export interface DateType {
 }
 
 const ConsultantDialog = ({
-    data,
+    consultantData,
     open,
     setOpen,
 }: {
-    data: Consultant;
+    consultantData: Consultant;
     open: boolean;
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+    const authUserSession = useSession();
+
     const [stage, setStage] = React.useState<number>(0);
     const [disabled, setDisabled] = React.useState<boolean>(true);
 
@@ -43,9 +47,20 @@ const ConsultantDialog = ({
 
     const handleNext = () => {
         if (stage === 0) {
+
+            if (!date.justDate || !date.dateTime || !authUserSession.data?.user) return;
             // make the time pending
-            console.log("Time slot selected");
-            console.log(date);
+            "use server";
+            createOnProgressSession({
+                consultant: consultantData._id,
+                status: "progress",
+                date: date.justDate.toISOString(),
+                time: date.dateTime.toISOString(),
+                applicant: authUserSession.data.user._id,
+                sessionType: '', // TODO: Fetch this data
+                sessionCharge: 123,
+                sessionDuration: 123,
+            });
 
             // hit the API here
         }
@@ -112,11 +127,11 @@ const ConsultantDialog = ({
             <DialogContent className="sm:max-w-[1000px] shadow-lg shadow-gray-300/10">
                 <DialogHeader>
                     <DialogTitle>
-                        {data?.name} - {data?.university}
+                        {consultantData?.name} - {consultantData?.university}
                     </DialogTitle>
                     <DialogDescription>
                         {stage === 0 &&
-                            `Choose a time slot to book a session with ${data?.name}`}
+                            `Choose a time slot to book a session with ${consultantData?.name}`}
 
                         {stage === 1 && `Pay the session charge to confirm the booking.`}
 
@@ -130,7 +145,7 @@ const ConsultantDialog = ({
                         {stage === 0 && (
                             <>
                                 <BookSlots
-                                    consultantId={data?._id}
+                                    consultantId={consultantData?._id}
                                     date={date}
                                     setDate={setDate}
                                     setDisabled={setDisabled}

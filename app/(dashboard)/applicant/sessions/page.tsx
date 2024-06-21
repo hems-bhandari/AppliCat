@@ -36,7 +36,7 @@ const Sessions = () => {
                 </TabsList>
                 <TabsContent value="all_sessions">
                     <ConsultantDialog
-                        data={selectedConsultant as Consultant}
+                        consultantData={selectedConsultant as Consultant}
                         open={open}
                         setOpen={setOpen}
                     />
