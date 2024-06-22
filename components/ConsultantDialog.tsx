@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 // dialog
 import {
@@ -18,8 +18,9 @@ import { Button } from "./ui/button";
 import PaymentPage from "./PaymentPage";
 import UploadReceipt, { ConfirmationFormValues } from "./UploadReceipt";
 import BookingConfirmation from "./BookingConfirmation";
-import { createOnProgressSession } from "@/lib/controllers/sessionController";
+import { confirmPendingSession, createOnProgressSession } from "@/lib/controllers/sessionController";
 import { useSession } from "next-auth/react";
+import { isSameDay } from "date-fns";
 
 export interface DateType {
     justDate: Date | null;
@@ -37,45 +38,73 @@ const ConsultantDialog = ({
 }) => {
     const authUserSession = useSession();
 
-    const [stage, setStage] = React.useState<number>(0);
-    const [disabled, setDisabled] = React.useState<boolean>(true);
+    const [stage, setStage] = useState<number>(0);
+    const [disabled, setDisabled] = useState<boolean>(true);
+
+    // consultant availability
+    const [availabilities, setAvailability] = React.useState<Record<
+        string,
+        {
+            costPerSession: number;
+            sessionDuration: number;
+            sessionTitle: string;
+
+            sessions: {
+                startingTime: string;
+                booked: boolean;
+            }[];
+        }
+    > | null>(null);
 
     const [date, setDate] = React.useState<DateType>({
         justDate: null,
         dateTime: null,
     });
 
-    const handleNext = () => {
+    const handleNext = async () => {
         if (stage === 0) {
-
             if (!date.justDate || !date.dateTime || !authUserSession.data?.user) return;
-            // make the time pending
-            "use server";
-            createOnProgressSession({
+
+            // filtering the active availability.
+
+
+            if (!availabilities || !date.justDate) return;
+            const selectedAvailability = Object.keys(availabilities).find((availableDate) =>
+                date.justDate && isSameDay(new Date(availableDate), date.justDate)
+            );
+            if (!selectedAvailability) return;
+
+            const activeAvailability = availabilities[selectedAvailability]
+
+            const insertedAvailabilityId = await createOnProgressSession({
                 consultant: consultantData._id,
-                status: "progress",
                 date: date.justDate.toISOString(),
                 time: date.dateTime.toISOString(),
                 applicant: authUserSession.data.user._id,
-                sessionType: '', // TODO: Fetch this data
-                sessionCharge: 123,
-                sessionDuration: 123,
+
+                sessionTitle: activeAvailability.sessionTitle,
+                sessionCharge: activeAvailability.costPerSession,
+                sessionDuration: activeAvailability.sessionDuration,
             });
 
-            // hit the API here
+            console.log(insertedAvailabilityId, stage)
+            if (!insertedAvailabilityId) return;
+
+            // storing the session id in db into localstorage for reload events.
+            localStorage.setItem("processingSessionId", insertedAvailabilityId);
+
+            // updating the stage.
+            setStage((prev) => prev + 1);
         }
 
-        if (stage === 2) {
-            // upload the receipt and confirm the booking
-            console.log("Receipt upload");
+
+        if (stage === 1) {
+            setStage((prev) => prev + 1);
         }
 
         if (stage === 3) {
-            // close the dialog
             setOpen(false);
         }
-
-        setStage((prev) => prev + 1);
     };
 
     const handleBack = () => {
@@ -98,13 +127,27 @@ const ConsultantDialog = ({
         };
     }, [open]);
 
-    const handleSubmit = async (data: ConfirmationFormValues) => {
-        try {
-            console.log("data ==>", data);
-        } catch (error: any) {
-        } finally {
-        }
-    };
+    const submitConfirmation = async (data: ConfirmationFormValues) => {
+        // upload the receipt
+        const processingSessionId = localStorage.getItem("processingSessionId");
+
+        if (!processingSessionId || !data.image || !data.email) return;
+
+        // confirming the session.
+        const confirmedSession = await confirmPendingSession({
+            sessionId: processingSessionId,
+            receiptUrl: data.image?.fileUrl,
+            email: data.email,
+        });
+
+        if (!confirmedSession) return;
+
+        // removing the temp data in the localstorage since the session is confirmed.
+        localStorage.removeItem("processingSessionId");
+
+        //updating the stage
+        setStage((prev) => prev + 1);
+    }
 
     const Buttons = () => (
         <div className="flex justify-between gap-4 mt-4 w-full mx-auto">
@@ -149,6 +192,8 @@ const ConsultantDialog = ({
                                     date={date}
                                     setDate={setDate}
                                     setDisabled={setDisabled}
+                                    availabilities={availabilities}
+                                    setAvailability={setAvailability}
                                 />
                                 <Buttons />
                             </>
@@ -162,7 +207,10 @@ const ConsultantDialog = ({
                         )}
 
                         {stage === 2 && (
-                            <UploadReceipt handleSubmit={handleSubmit}>
+                            <UploadReceipt handleSubmit={(data) => {
+                                submitConfirmation(data);
+                            }
+                            }>
                                 <Buttons />
                             </UploadReceipt>
                         )}
@@ -171,7 +219,7 @@ const ConsultantDialog = ({
                     </div>
                 </div>
             </DialogContent>
-        </Dialog>
+        </Dialog >
     );
 };
 

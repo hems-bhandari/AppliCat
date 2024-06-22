@@ -19,7 +19,6 @@ const confirmationSchema = z.object({
     image: z
         .any()
         .refine((file) => {
-            console.log(file)
             return file?.size <= MAX_FILE_SIZE, `Max image size is 5MB.`
         }),
     email: z.string().email({ message: "Invalid email" }),

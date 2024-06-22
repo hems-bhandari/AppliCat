@@ -13,9 +13,11 @@ export type TAvailability = {
     date: string,
     from: string,
     sessionCharge: string,
+    sessionTitle: string,
     sessionDuration: string,
     to: string,
 }
+
 const ConsultantPage = ({ params: { user } }: { params: { user: string } }) => {
     const [value, setValue] = useState<Date[]>([]);
     const [defaultAvailabilityData, setDefaultAvailabilityData] = useState<TAvailability[]>([]);
@@ -33,12 +35,16 @@ const ConsultantPage = ({ params: { user } }: { params: { user: string } }) => {
 
     // getting the consultant data;
     const userSession = useSession();
+
     useEffect(() => {
+
         if (userSession) {
+            console.log(userSession)
             // FIX:manually fetching the data since the context for some reason
             // doesnot have the data that is set by the auth function in the
             // auth-options session callback. this needs to be updated, but is of for the time
-            // being
+            // being. Due to some reason only the consultant is facing that error.
+
             fetch(`/api/auth/session`).then(res => res.json()).then((res) => {
                 const user = res.user;
                 if (!user) return;
@@ -49,13 +55,13 @@ const ConsultantPage = ({ params: { user } }: { params: { user: string } }) => {
                     .then((availabilityFromDb) => {
                         if (!availabilityFromDb) return
 
+
                         const availabilities = availabilityFromDb.availabilities
 
                         if (availabilities)
                             setDefaultAvailabilityData(availabilities);
                     })
             });
-            // fetching the previous availabilities
         }
 
     }, [])

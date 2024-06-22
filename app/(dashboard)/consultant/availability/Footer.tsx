@@ -1,27 +1,46 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import React, { FormEvent, useEffect, useRef, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { TAvailability } from "./page";
 import { isSameDay } from "date-fns";
 
 type TAvailabilityForm = {
-    value: any[],
+    value: Date[],
     resetCallander: () => void
     defaultValue: TAvailability | null,
     setDefaultAvailabilityData: React.Dispatch<React.SetStateAction<TAvailability[]>>
 }
+
+
+// I want only the type excluding the _id and consultant
+
+type TFormData = Pick<TAvailability, Exclude<keyof TAvailability, "_id" | "consultant" | "date">>;
+
 const AvailabilityForm = ({ value, resetCallander, defaultValue, setDefaultAvailabilityData }: TAvailabilityForm) => {
     const [submissionStatus, setSubmissionStatus] = useState<{
         status: "error" | "success" | "notSubmitted" | "submitting",
         btnText: string
     }>({ status: "notSubmitted", btnText: "Submit" })
 
-    const [formData, setFormData] = useState<TAvailability | null>(null);
+    const [formData, setFormData] = useState<TFormData>({
+        from: "",
+        to: "",
+        sessionCharge: "",
+        sessionDuration: "",
+        sessionTitle: ""
+    });
 
     // resets the input feilds of the form
     const resetForm = () => {
-        setFormData(null);
+        setFormData({
+            from: "",
+            to: "",
+            sessionCharge: "",
+            sessionDuration: "",
+            sessionTitle: ""
+        });
     }
+
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         setSubmissionStatus({ status: "submitting", btnText: "Submitting..." });
 
@@ -41,6 +60,7 @@ const AvailabilityForm = ({ value, resetCallander, defaultValue, setDefaultAvail
         const to = formData.get("to_time") as string;
         const sessionDuration = formData.get("session_duration") as string;
         const sessionCharge = formData.get("session_charge") as string;
+        const sessionTitle = formData.get("sessionTitle") as string;
 
         fetch("/api/availability", {
             method: "POST",
@@ -50,6 +70,7 @@ const AvailabilityForm = ({ value, resetCallander, defaultValue, setDefaultAvail
                 to,
                 sessionCharge,
                 sessionDuration,
+                sessionTitle,
             }),
             headers: {
                 "Content-Type": "application/json",
@@ -101,10 +122,8 @@ const AvailabilityForm = ({ value, resetCallander, defaultValue, setDefaultAvail
             })
     }
 
-    const updateFormData = (key: string, value: string) => {
+    const updateFormData = (key: keyof TAvailability, value: string) => {
         setFormData((prev) => {
-            if (!prev) return null;
-
             return { ...prev, [key]: value }
         })
     }
@@ -122,7 +141,7 @@ const AvailabilityForm = ({ value, resetCallander, defaultValue, setDefaultAvail
             className="py-4"
             onSubmit={handleSubmit}
         >
-            <div className="mt-0">
+            <div className="mt-0 space-y-6">
                 <p className="text-[16px]">
                     You selected {value.length} days.
                     <Button
@@ -133,7 +152,23 @@ const AvailabilityForm = ({ value, resetCallander, defaultValue, setDefaultAvail
                         Reset
                     </Button>
                 </p>
-                <div className="flex justify-between items-center w-full gap-3 mt-7">
+
+                <div className="flex flex-col w-full">
+                    <label htmlFor="from_time">Session Title: </label>
+                    <Input
+                        name="sessionTitle"
+                        id="sessionTitle"
+                        className="w-full mt-1"
+                        type="text"
+                        value={formData.sessionTitle}
+                        onChange={(e) => {
+                            updateFormData("sessionTitle", e.target.value)
+                        }}
+                        required
+                    />
+                </div>
+
+                <div className="flex justify-between items-center w-full gap-3">
                     <div className="flex flex-col w-full">
                         <label htmlFor="from_time">From:</label>{" "}
                         <Input
@@ -141,8 +176,9 @@ const AvailabilityForm = ({ value, resetCallander, defaultValue, setDefaultAvail
                             id="from_time"
                             className="w-full mt-1"
                             type="time"
-                            value={formData ? formData.from : ""}
+                            value={formData.from}
                             onChange={(e) => { updateFormData("from", e.target.value) }}
+                            required
                         />
                     </div>
 
@@ -153,59 +189,63 @@ const AvailabilityForm = ({ value, resetCallander, defaultValue, setDefaultAvail
                             name="to_time"
                             className="w-full mt-1"
                             type="time"
-                            value={formData ? formData.to : ""}
+                            value={formData.to}
                             onChange={(e) => { updateFormData("to", e.target.value) }}
+                            required
                         />
                     </div>
                 </div>
-                <div className="flex flex-col justify-evenly w-full my-6">
+                <div className="flex flex-col justify-evenly w-full ">
                     <label htmlFor="session_duration">
-                        Session Duration (in minutes)
+                        Session Duration (in minutes):
                     </label>
                     <Input
                         id="session_duration"
                         name="session_duration"
                         className="w-full mt-1"
                         type="number"
-                        value={formData ? formData.sessionDuration : ""}
+                        value={formData.sessionDuration}
                         onChange={(e) => { updateFormData("sessionDuration", e.target.value) }}
+                        required
                     />
                 </div>
-                <div className="flex flex-col justify-evenly w-full my-6">
+                <div className="flex flex-col justify-evenly w-full ">
                     <label htmlFor="session_charge">
-                        Session Charge (NPR)
+                        Session Charge (NPR):
                     </label>
                     <Input
                         id="session_charge"
                         name="session_charge"
                         className="w-full mt-1"
                         type="number"
-                        value={formData ? formData.sessionCharge : ""}
+                        value={formData.sessionCharge}
                         onChange={(e) => { updateFormData("sessionCharge", e.target.value) }}
+                        required
                     />
+                </div>
+
+                <div className="flex flex-row-reverse">
+                    <Button
+                        variant="outline"
+                        size="lg"
+                        className={`w-full ${submissionStatus.status === "success"
+                            ? "bg-green-600 text-white"
+                            : submissionStatus.status === "error"
+                                ? "bg-red-500 text-white"
+                                : ""}`}
+                        type="submit"
+                    >
+                        {submissionStatus.status === "submitting" &&
+                            <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                        }
+                        {submissionStatus.btnText}
+                    </Button>
                 </div>
             </div>
 
-            <div className="flex flex-row-reverse">
-                <Button
-                    variant="outline"
-                    size="lg"
-                    className={`w-full ${submissionStatus.status === "success"
-                        ? "bg-green-600 text-white"
-                        : submissionStatus.status === "error"
-                            ? "bg-red-500 text-white"
-                            : ""}`}
-                    type="submit"
-                >
-                    {submissionStatus.status === "submitting" &&
-                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                    }
-                    {submissionStatus.btnText}
-                </Button>
-            </div>
         </form>
     );
 };

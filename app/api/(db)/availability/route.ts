@@ -13,12 +13,14 @@ export const POST = async (req: NextRequest) => {
             to,
             sessionDuration,
             sessionCharge,
+            sessionTitle,
             date,
         }: {
             from: string,
             to: string,
             sessionDuration: string,
             sessionCharge: string,
+            sessionTitle: string,
             date: Date | Date[]
         } = await req.json();
 
@@ -35,6 +37,7 @@ export const POST = async (req: NextRequest) => {
             to,
             sessionDuration,
             sessionCharge,
+            sessionTitle,
             date,
             consultantId: userSession?.user?._id
         });

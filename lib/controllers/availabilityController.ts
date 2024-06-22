@@ -6,6 +6,7 @@ import { compareAsc, isSameDay } from "date-fns/esm";
 
 
 type TAvailabilityWithSession = Record<string, {
+    sessionTitle: string,
     sessionDuration: string,
     costPerSession: string,
     sessions: {
@@ -76,6 +77,7 @@ export const getAllAvailabilitiesWithSession = async (consultantId: string): Pro
             }
 
             availableSessions[day?.date] = {
+                sessionTitle: day.sessionTitle || "",
                 costPerSession: day.sessionCharge,
                 sessionDuration: day.sessionDuration,
                 sessions: sessions,
@@ -111,11 +113,12 @@ type TpropsSetAvailablity = {
     to: string,
     sessionDuration: string,
     sessionCharge: string,
+    sessionTitle: string,
     date: Date | Date[],
 }
 
 // sets the availabilty in consultant
-export const setAvailablity = async ({ consultantId, from, to, sessionDuration, sessionCharge, date }: TpropsSetAvailablity):
+export const setAvailablity = async ({ consultantId, from, to, sessionDuration, sessionCharge, date, sessionTitle }: TpropsSetAvailablity):
     Promise<any | null> => {
     try {
         let newAvailabilities: any;
@@ -125,7 +128,8 @@ export const setAvailablity = async ({ consultantId, from, to, sessionDuration, 
                 to,
                 sessionDuration,
                 sessionCharge,
-                date,
+                sessionTitle,
+                date: new Date(date),
                 consultant: consultantId,
             }))
         else
@@ -134,10 +138,10 @@ export const setAvailablity = async ({ consultantId, from, to, sessionDuration, 
                 to,
                 sessionDuration,
                 sessionCharge,
-                date,
+                sessionTitle,
+                date: new Date(date),
                 consultant: consultantId,
             }];
-
 
         let existingAvailabilities = await ConsultantAvailability.find({ consultant: consultantId });
 
@@ -185,20 +189,20 @@ export const setAvailablity = async ({ consultantId, from, to, sessionDuration, 
 
                     if (isSameDay(storedDate, newAvailabilityDate)) {
                         // replacing with the new one
-                        await ConsultantAvailability.updateOne({ _id: availability._id }, {
+                        await ConsultantAvailability.findOneAndUpdate({ _id: availability._id }, {
                             $set: {
                                 from: from,
                                 to: to,
                                 sessionDuration: sessionDuration,
                                 sessionCharge: sessionCharge,
                                 consultant: consultantId,
+                                sessionTitle: sessionTitle,
                                 date: newAvailability.date,
                             }
                         }).then((res) => {
                             // removing the item from the array so it don't in the way of next itteration's 
                             // comparision
                             newAvailabilities.splice(index, 1)
-                            console.log(res)
 
                             // since we are removing the matched availablity from the new availabilities
                             updatedAvailabilities.push(newAvailability);
@@ -218,16 +222,20 @@ export const setAvailablity = async ({ consultantId, from, to, sessionDuration, 
             if (isSameDay(storedDate, newAvailabilityDate)) {
                 // replacing with the new one
                 //
-                await ConsultantAvailability.updateOne({ _id: availability._id }, {
+                const updated = await ConsultantAvailability.findOneAndUpdate({ _id: availability._id }, {
                     $set: {
                         from: from,
                         to: to,
                         sessionDuration: sessionDuration,
                         sessionCharge: sessionCharge,
                         consultant: consultantId,
+                        sessionTitle: sessionTitle,
                         date: date,
-                    }
-                })
+                    },
+                },
+                    { new: true }
+                )
+
                 // first setting the updated availability
                 updatedAvailabilities.push(newAvailabilities[0])
                 // removing it
@@ -238,7 +246,6 @@ export const setAvailablity = async ({ consultantId, from, to, sessionDuration, 
 
         const verifiedNewAvailabilities = newAvailabilities.filter((data: any) => data)
 
-        console.log({ verifiedNewAvailabilities, newAvailabilities });
         // Means all availabilities were already present in the db and were updated
         if (verifiedNewAvailabilities?.length === 0)
             return updatedAvailabilities;

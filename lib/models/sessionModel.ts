@@ -15,21 +15,40 @@ const consultingSessionSchema = new Schema({
         ref: "User",
         required: [true, "Consultant, Info cannot be empty"]
     },
-    sessionType: {
+    sessionTitle: {
         type: String,
-        required: [true, "Session type must be provided"]
+        required: [true, "Session title must be provided"]
     },
     status: {
-        enum: ["progress" || "pending" || "confirmed"],
+        type: String,
+        enum: ["progress", "pending", "confirmed"],
+        default: "progress",
+    },
+    sessionCharge: {
+        type: Number,
+        required: [true, "Session Charge must be provided"],
+    },
+    sessionDuration: {
+        type: Number,
+        required: [true, "Session Duration must be provided"]
     },
     date: {
-        type: String,
+        type: Date,
         required: [true, "Date Must be provided"],
     },
     time: {
         type: String, // should be hour:minutes and should represent the starting time
         required: [true, "Time must be provided"]
     },
+    receipt: {
+        type: String, // uploaded receipt url
+    },
+    updatedOn: {
+        type: Date,
+    },
+    sessionEmail: {
+        type: String,
+    }
 })
 
 export const consultingSession = models.consultingSession

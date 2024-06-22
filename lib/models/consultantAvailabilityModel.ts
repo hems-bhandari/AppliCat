@@ -17,6 +17,10 @@ const consultantAvailablitySchema = new Schema({
         type: String,
         required: [true, "Duration must be provided"],
     },
+    sessionTitle: {
+        type: String,
+        required: [true, "Session Title must be provided"],
+    },
     sessionCharge: {
         type: String,
         required: [true, "Session Charge must be provided"],

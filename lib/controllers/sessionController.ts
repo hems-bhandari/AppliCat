@@ -1,6 +1,8 @@
+"use server";
 import { compareAsc } from "date-fns";
 import { consultingSession } from "../models/sessionModel";
 import ConnectToDB from "../mongoose";
+import { revalidatePath } from "next/cache";
 
 interface getSessionInfoForSideBarProps {
     userType?: "Consultant" | "Applicant" | null;
@@ -48,12 +50,13 @@ interface getSessionsProps {
 export interface Tsession {
     applicant: string,
     consultant: string,
-    sessionType: string,
     status: "progress" | "pending" | "confirmed",
     sessionCharge: number,
     sessionDuration: number,
+    sessionTitle: string,
     date: string,
     time: string,
+    receipt?: string,
 }
 
 export const getConsultingSessions = async (props: getSessionsProps): Promise<Tsession[]> => {
@@ -79,29 +82,43 @@ export const getConsultingSessions = async (props: getSessionsProps): Promise<Ts
 
 }
 
-interface createOnProgressSessionProps extends Omit<Tsession, "status"> {
-    status: "progress"
-}
-
+type createOnProgressSessionProps = Omit<Tsession, "status">
 
 // creates a new consulting sesson with the status progress.
-export const createOnProgressSession = async (props: createOnProgressSessionProps): Promise<"Done" | null> => {
+export const createOnProgressSession = async (props: createOnProgressSessionProps): Promise<string | null> => {
     try {
-        const arePropsValid = Object.keys(props).every((key) => key === "status" && props[key] === "progress" && props[key])
+        await ConnectToDB();
+
+        console.log({ props })
+        const arePropsValid = Object.values(props).every((values) => values);
 
         if (!arePropsValid) throw new Error("Invalid props were provided during creation of pending session, so aborting. :( Meow Meow!!");
 
-        // checking existing sessions 
-        const existingSession = await consultingSession.find({ applicant: props.applicant });
-        if (!!existingSession.length)
-            throw new Error("Session Booking failed it is already booked, :( Sorry Meow!!")
+        // NOTE: checking existing sessions 
+        //  finding the session has been already booked or not is difficult and will 
+        // require additional validation.
+        //
+        // TODO:
+        // Future Note:
+        // - filter all the sessions by the consultant and compare the booking dateand time of the current session
+        // - if the session is already booked then throw an error. 
+        // - Since, one consultant can only have one session at a time, this will be a valid check.
+        //
+        //
+        // FIX: const existingSession = await consultingSession.find({ applicant: props.applicant });
+        // if (!!existingSession.length)
+        //     throw new Error("Session Booking failed it is already booked, :( Sorry Meow!!")
 
         // session can be created safely
         const newConsultingSession = await consultingSession.create({
-            ...props
+            ...props,
+            updatedOn: new Date(),
         });
 
-        if (newConsultingSession) return "Done";
+        if (newConsultingSession) {
+            revalidatePath("/applicant/sessions");
+            return newConsultingSession._id.toString();
+        }
 
         return null;
     } catch (e) {
@@ -110,3 +127,26 @@ export const createOnProgressSession = async (props: createOnProgressSessionProp
     }
 }
 
+export const confirmPendingSession = async (props: { sessionId: string, receiptUrl: string, email: string }): Promise<boolean> => {
+    try {
+        await ConnectToDB();
+
+        const session = await consultingSession.findById(props.sessionId);
+
+        if (!session) throw new Error("Session not found");
+
+        session.receipt = props.receiptUrl;
+        session.status = "pending";
+        session.sessionEmail = props.email;
+        session.updatedOn = new Date();
+
+        await session.save();
+
+        revalidatePath("/consultant/sessions");
+
+        return true;
+    } catch (e) {
+        console.log(e);
+        return false;
+    }
+}
