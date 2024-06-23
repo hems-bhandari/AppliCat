@@ -3,6 +3,7 @@ import { compareAsc } from "date-fns";
 import { consultingSession } from "../models/sessionModel";
 import ConnectToDB from "../mongoose";
 import { revalidatePath } from "next/cache";
+import { Applicant, Consultant } from "../models/user";
 
 interface getSessionInfoForSideBarProps {
     userType?: "Consultant" | "Applicant" | null;
@@ -42,7 +43,7 @@ export const getSessionInfoForSideBar = async (props: getSessionInfoForSideBarPr
 
 interface getSessionsProps {
     userId: string,
-    userType: "Consultant" | "Applicant" | null;
+    userType: "Consultant" | "Applicant";
     delimeter: "upcoming" | "previous",
     date: Date,
 }
@@ -59,22 +60,34 @@ export interface Tsession {
     receipt?: string,
 }
 
+// TODO: 
+// -- giving proper types.
+
 export const getConsultingSessions = async (props: getSessionsProps): Promise<Tsession[]> => {
     try {
         if (!props.userId || !props.delimeter || !props.userType || props.userType && !["Consultant", "Applicant"].includes(props.userType)) {
             throw new Error("Invalid props cannot get user sessions")
         }
-        const sessions: Tsession[] = await consultingSession.find({ [props.userType.toLowerCase()]: props.userId });
+        const sessions = await consultingSession.find({ [props.userType.toLowerCase()]: props.userId });
 
         const filteredSessions = sessions.filter((session) => {
             const timeSplit = session.time.split(":");
             const dateWithTime = new Date(session.date).setHours(parseInt(timeSplit[0]), parseInt(timeSplit[1]), 0, 0);
             return props.delimeter === "previous"
-                ? compareAsc(dateWithTime, props.date)
-                : compareAsc(props.date, dateWithTime) && session.status === "confirmed"
+                ? compareAsc(dateWithTime, props.date) && session.status !== "progress" // showing only the sessions that are fully processed.
+                : compareAsc(props.date, dateWithTime) && session.status === "confirmed" // showing only the sessions that are confirmed by the admin.
         })
 
-        return filteredSessions;
+        const filteredSessionWithSubDocs = [];
+        // fetching the additional data of the consultant and the applicant.
+        for (const session of filteredSessions) {
+            const consultant = await Consultant.findById(session.consultant);
+            const applicant = await Applicant.findById(session.applicant);
+
+            filteredSessionWithSubDocs.push({ ...session._doc, applicant, consultant });
+        }
+
+        return filteredSessionWithSubDocs;
     } catch (e) {
         console.log(e);
         return [];

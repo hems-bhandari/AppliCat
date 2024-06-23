@@ -20,7 +20,7 @@ import UploadReceipt, { ConfirmationFormValues } from "./UploadReceipt";
 import BookingConfirmation from "./BookingConfirmation";
 import { confirmPendingSession, createOnProgressSession } from "@/lib/controllers/sessionController";
 import { useSession } from "next-auth/react";
-import { isSameDay } from "date-fns";
+import { format, isSameDay } from "date-fns";
 
 export interface DateType {
     justDate: Date | null;
@@ -79,7 +79,7 @@ const ConsultantDialog = ({
             const insertedAvailabilityId = await createOnProgressSession({
                 consultant: consultantData._id,
                 date: date.justDate.toISOString(),
-                time: date.dateTime.toISOString(),
+                time: format(date.dateTime, "kk:mm"),
                 applicant: authUserSession.data.user._id,
 
                 sessionTitle: activeAvailability.sessionTitle,

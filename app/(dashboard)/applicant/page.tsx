@@ -9,19 +9,22 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import SideInfoBar from "@/components/SideInfoBar";
 import DashboardCurrentTime from "@/components/DashboardCurrentTime";
+import { getConsultingSessions, getSessionInfoForSideBar } from "@/lib/controllers/sessionController";
 
-import { sessions } from "@/constants/data";
-// Saroj please get data from backend, I won't filter the data by date
-// you do that in the backend, we have to use less bandwidth
-// and please sort it in ascending order -> recent session first
+// next auth
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth-options";
 
-export default function page() {
-    const PAST_SESSIONS = [...sessions];
-    const UPCOMMING_SESSIONS = [...sessions];
+export default async function page() {
+    const userSession = await getServerSession(authOptions);
 
-    const sideBarInfo = {
-        totalSessions: 10,
-    };
+    if (!userSession?.user)
+        return;
+
+    const userData = {
+        userType: userSession.user.userType as "Applicant" | "Consultant",
+        userId: userSession.user._id,
+    }
 
     return (
         <ScrollArea className="h-full">
@@ -29,35 +32,59 @@ export default function page() {
                 <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
                     <DashboardCurrentTime />
 
-                    <Card className="col-span-4 md:col-span-3">
-                        <CardHeader>
-                            <CardTitle>Upcomming Sessions</CardTitle>
-                            <CardDescription>
-                                You have {PAST_SESSIONS.length} sessions coming up
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <SessionHistory sessions={PAST_SESSIONS.splice(0, 4)} />
-                        </CardContent>
-                    </Card>
-
-                    <Card className="col-span-4 md:col-span-3">
-                        <CardHeader>
-                            <CardTitle>Past Sessions</CardTitle>
-                            <CardDescription>
-                                You had {UPCOMMING_SESSIONS.length} sessions
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <SessionHistory sessions={UPCOMMING_SESSIONS.splice(0, 4)} />
-                        </CardContent>
-                    </Card>
+                    <PastSessions {...userData} />
+                    <UpcomingSessions {...userData} />
                 </div>
-
-                <SideInfoBar
-                    totalSessions={sideBarInfo.totalSessions}
-                />
+                <SideInfoBar userSession={userSession} />
             </div>
         </ScrollArea>
     );
+}
+
+const PastSessions = async ({ userId, userType }: { userId: string, userType: "Applicant" | "Consultant" }) => {
+    const pastSessions = await getConsultingSessions({
+        userId,
+        userType,
+        delimeter: "previous",
+        date: new Date()
+    });
+
+
+    return (
+        <Card className="col-span-4 md:col-span-3">
+            <CardHeader>
+                <CardTitle>Upcomming Sessions</CardTitle>
+                <CardDescription>
+                    You have {pastSessions.length} sessions coming up
+                </CardDescription>
+            </CardHeader>
+            <CardContent>
+                <SessionHistory sessions={pastSessions.splice(0, 4)} />
+            </CardContent>
+        </Card>
+    )
+};
+
+const UpcomingSessions = async ({ userId, userType }: { userId: string, userType: "Applicant" | "Consultant" }) => {
+    const upcomingSessions = await getConsultingSessions({
+        userId,
+        userType,
+        delimeter: "upcoming",
+        date: new Date()
+    });
+
+    return (
+        <Card className="col-span-4 md:col-span-3">
+            <CardHeader>
+                <CardTitle>Past Sessions</CardTitle>
+                <CardDescription>
+                    You had {upcomingSessions.length} sessions
+                </CardDescription>
+            </CardHeader>
+            <CardContent>
+                <SessionHistory sessions={upcomingSessions.splice(0, 4)} />
+            </CardContent>
+        </Card>
+
+    )
 }

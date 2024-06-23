@@ -36,7 +36,6 @@ const BookSlots = ({
     setDate: React.Dispatch<React.SetStateAction<DateType>>;
     availabilities: AvailabilityData | null;
     setAvailability: React.Dispatch<React.SetStateAction<AvailabilityData | null>>;
-
 }) => {
     const [activeIndex, setActiveIndex] = React.useState<number>(0);
 
