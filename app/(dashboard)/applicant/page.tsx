@@ -9,7 +9,7 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import SideInfoBar from "@/components/SideInfoBar";
 import DashboardCurrentTime from "@/components/DashboardCurrentTime";
-import { getConsultingSessions, getSessionInfoForSideBar } from "@/lib/controllers/sessionController";
+import { getConsultingSessions } from "@/lib/controllers/sessionController";
 
 // next auth
 import { getServerSession } from "next-auth";

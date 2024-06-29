@@ -30,7 +30,8 @@ export const getSessionInfoForSideBar = async (props: getSessionInfoForSideBarPr
         return {
             totalSessions: sessionData?.length || 0,
             totalIncome: sessionData?.length > 0
-                ? sessionData.reduce((total, sessionData) => total + sessionData.sessionCharge)
+                ? sessionData.reduce(
+                    (total, sessionData) => total + sessionData.sessionCharge, 0)
                 : 0
         }
     }
@@ -44,7 +45,7 @@ export const getSessionInfoForSideBar = async (props: getSessionInfoForSideBarPr
 interface getSessionsProps {
     userId: string,
     userType: "Consultant" | "Applicant";
-    delimeter: "upcoming" | "previous",
+    delimeter: "upcoming" | "previous" | "all",
     date: Date,
 }
 
@@ -65,7 +66,10 @@ export interface Tsession {
 
 export const getConsultingSessions = async (props: getSessionsProps): Promise<Tsession[]> => {
     try {
-        if (!props.userId || !props.delimeter || !props.userType || props.userType && !["Consultant", "Applicant"].includes(props.userType)) {
+        if (!props.userId
+            || !props.delimeter
+            || !props.userType
+            || props.userType && !["Consultant", "Applicant"].includes(props.userType)) {
             throw new Error("Invalid props cannot get user sessions")
         }
         const sessions = await consultingSession.find({ [props.userType.toLowerCase()]: props.userId });

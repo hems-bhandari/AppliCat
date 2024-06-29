@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React from "react";
 import Greeting from "@/components/landing/Greeting";
 import {
     Card,
@@ -50,6 +50,7 @@ const SideInfoBar = ({ userSession }: { userSession: Session }) => {
 
 const SessionsInfo = async ({ userType, userId }: { userType: "Consultant" | "Applicant", userId: string }) => {
     const sessionData = await getSessionInfoForSideBar({ userId, userType });
+
     return (<>
         {
             userType === "Consultant" &&
