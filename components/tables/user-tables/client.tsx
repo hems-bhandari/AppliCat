@@ -46,7 +46,7 @@ export const UserClient = ({ columns }: ProductsClientProps) => {
             </div>
             <Separator />
 
-            <DataTable searchKey="Applicant Name" columns={columns} data={consultingSessionData} />
+            <DataTable searchKey="applicant_name" columns={columns} data={consultingSessionData} />
         </>
     );
 };

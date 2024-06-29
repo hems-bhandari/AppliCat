@@ -17,20 +17,19 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { Input } from "./input";
+import { Button } from "./button";
 import { ScrollArea, ScrollBar } from "./scroll-area";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
     searchKey: string;
-    searchPlaceholderName: string;
 }
 
 export function DataTable<TData, TValue>({
     columns,
     data,
     searchKey,
-    searchPlaceholderName
 }: DataTableProps<TData, TValue>) {
     const table = useReactTable({
         data,
@@ -45,12 +44,10 @@ export function DataTable<TData, TValue>({
     return (
         <>
             <Input
-                placeholder={`Search ${searchPlaceholderName}...`}
+                placeholder={`Search ${searchKey}...`}
                 value={(table.getColumn(searchKey)?.getFilterValue() as string) ?? ""}
-                onChange={(event) => {
-                    console.log(table);
+                onChange={(event) =>
                     table.getColumn(searchKey)?.setFilterValue(event.target.value)
-                }
                 }
                 className="w-full md:max-w-sm"
             />
