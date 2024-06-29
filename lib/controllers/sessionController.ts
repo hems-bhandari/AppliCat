@@ -64,7 +64,7 @@ export interface Tsession {
     sessionCharge: number,
     sessionDuration: number,
     sessionTitle: string,
-    date: string,
+    date: Date,
     time: string,
     receipt?: string,
 }
@@ -76,12 +76,18 @@ export type TsessionWithSubDoc = Omit<Tsession, "consultant" | "consultant"> & {
         education: string,
         gpa: string,
         sat: number,
+        image: string,
+        name: string,
+        email: string,
     },
     consultant: {
         phoneNumber: number,
         highSchool: string,
         acceptedUniversity: string[],
         avaliablity: mongoose.Types.ObjectId[],
+        image: string,
+        email: string,
+        name: string,
     }
 };
 

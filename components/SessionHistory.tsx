@@ -1,11 +1,11 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Session } from "@/constants/data";
+import { TsessionWithSubDoc } from "@/lib/controllers/sessionController";
 import { add } from "date-fns";
 import { format } from "date-fns/esm";
 
-export function SessionHistory({ sessions }: { sessions: Session[] }) {
+export function SessionHistory({ sessions }: { sessions: TsessionWithSubDoc[] }) {
 
-    const SessionCard = ({ session }: { session: Session }) => {
+    const SessionCard = ({ session }: { session: TsessionWithSubDoc }) => {
         return (
             <div className="flex items-center">
                 <Avatar className="h-9 w-9">
@@ -25,8 +25,8 @@ export function SessionHistory({ sessions }: { sessions: Session[] }) {
                 <div className="ml-auto font-medium text-center"
                     dangerouslySetInnerHTML={{
                         __html: format(add(session.date, {
-                            hours: session.time.split(":")[0],
-                            minutes: session.time.split(":")[1]
+                            hours: parseInt(session.time.split(":")[0]),
+                            minutes: parseInt(session.time.split(":")[1])
                         }),
                             "do MMMM yyyy 'at' h:mm a"
                         ).split("at")

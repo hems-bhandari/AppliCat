@@ -25,7 +25,6 @@ export const UserClient = ({ columns }: ProductsClientProps) => {
                 delimeter: "all",
                 date: new Date(),
             }).then((sessions) => {
-                console.log(sessions);
                 if (sessions.length > 0)
                     setConsultingSessionData(sessions);
             })
@@ -33,9 +32,6 @@ export const UserClient = ({ columns }: ProductsClientProps) => {
 
         loadSession();
     }, [])
-
-    console.log(columns)
-
     return (
         <>
             <div className="flex items-start justify-between">
