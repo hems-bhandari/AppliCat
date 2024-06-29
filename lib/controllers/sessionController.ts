@@ -85,9 +85,6 @@ export type TsessionWithSubDoc = Omit<Tsession, "consultant" | "consultant"> & {
     }
 };
 
-// TODO: 
-// -- giving proper types.
-
 export const getConsultingSessions = async (props: getSessionsProps): Promise<TsessionWithSubDoc[]> => {
     try {
         if (!props.userId

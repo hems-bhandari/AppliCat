@@ -28,11 +28,6 @@ export default function page() {
     const [open, setOpen] = useState(false);
 
     const userSession = useSession();
-    const user = userSession?.data?.user;
-
-    if (!user || !["Consultant", "Applicant"].includes(user.userType))
-        return;
-
 
     const handleMoreInfoClick = (id: string) => {
         setOpen(true);
@@ -76,8 +71,13 @@ export default function page() {
         <>
             <div className="flex-1 space-y-4  p-4 md:p-8 pt-6">
                 <BreadCrumb items={breadcrumbItems} />
-                <UserClient user={{ id: user._id, type: user.userType as "Consultant" | "Applicant", }} columns={columns} />
-                <DialogBox data={studentInformation} open={open} setOpen={setOpen} />
+                <UserClient columns={columns} />
+
+                <DialogBox
+                    data={studentInformation}
+                    open={open}
+                    setOpen={setOpen}
+                />
             </div>
         </>
     );

@@ -17,7 +17,6 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { Input } from "./input";
-import { Button } from "./button";
 import { ScrollArea, ScrollBar } from "./scroll-area";
 
 interface DataTableProps<TData, TValue> {
