@@ -93,6 +93,9 @@ export const getConsultingSessions = async (props: getSessionsProps): Promise<Ts
             || props.userType && !["Consultant", "Applicant"].includes(props.userType)) {
             throw new Error("Invalid props cannot get user sessions")
         }
+
+        await ConnectToDB();
+
         const sessions = await consultingSession.find({ [props.userType.toLowerCase()]: props.userId });
 
         const filteredSessions = sessions.filter((session) => {

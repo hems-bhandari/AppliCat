@@ -20,30 +20,25 @@ import {
 } from "@/components/ui/dialog";
 
 import Image from "next/image";
-import { useSession } from "next-auth/react";
+import { TsessionWithSubDoc } from "@/lib/controllers/sessionController";
 
 const breadcrumbItems = [{ title: "Sessions", link: "/consultant/sessions" }];
 
 export default function page() {
     const [open, setOpen] = useState(false);
+    const [activeConsultantInfo, setActiveConsultantInfo] = useState();
 
-    const userSession = useSession();
-
-    const handleMoreInfoClick = (id: string) => {
-        setOpen(true);
-    };
-
-    const columns: ColumnDef<User>[] = [
+    const columns: ColumnDef<TsessionWithSubDoc>[] = [
         {
-            accessorKey: "name",
-            header: "NAME",
+            accessorKey: "applicant.name",
+            header: "Applicant Name",
         },
         {
-            accessorKey: "SessionType",
+            accessorKey: "sessionTitle",
             header: "SESSION TYPE",
         },
         {
-            accessorKey: "school",
+            accessorKey: "applicant.highSchool",
             header: "SCHOOL",
         },
         {
@@ -59,10 +54,13 @@ export default function page() {
             cell: ({ row }) => (
                 <Button
                     variant="ghost"
-                    onClick={() => handleMoreInfoClick(row.original.id.toString())}
+                    onClick={() => {
+                        setOpen(true);
+                        setActiveConsultantInfo(row.original.applicant);
+                    }}
                 >
                     <Info className="h-4 w-4" />
-                </Button>
+                </Button >
             ),
         },
     ];
@@ -73,11 +71,13 @@ export default function page() {
                 <BreadCrumb items={breadcrumbItems} />
                 <UserClient columns={columns} />
 
-                <DialogBox
-                    data={studentInformation}
-                    open={open}
-                    setOpen={setOpen}
-                />
+                {activeConsultantInfo &&
+                    <DialogBox
+                        data={activeConsultantInfo}
+                        open={open}
+                        setOpen={setOpen}
+                    />
+                }
             </div>
         </>
     );
@@ -92,6 +92,7 @@ const DialogBox = ({
     open: boolean;
     setOpen: (value: boolean) => void;
 }) => {
+
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogContent className="sm:max-w-[425px]">
@@ -113,7 +114,7 @@ const DialogBox = ({
                     </div>
                     {Object.entries(data).map(
                         ([key, value]) =>
-                            key !== "image" && (
+                            !["image", "_id", "__v"].includes(key) && value && (
                                 <div key={key} className="flex text-[16px]">
                                     <span className="font-bold capitalize">{key}:</span> &nbsp;
                                     <p>{value}</p>

@@ -25,7 +25,7 @@ export const UserClient = ({ columns }: ProductsClientProps) => {
                 delimeter: "all",
                 date: new Date(),
             }).then((sessions) => {
-                console.log({ user, sessions })
+                console.log(sessions);
                 if (sessions.length > 0)
                     setConsultingSessionData(sessions);
             })
