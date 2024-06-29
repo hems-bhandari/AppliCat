@@ -34,6 +34,8 @@ export const UserClient = ({ columns }: ProductsClientProps) => {
         loadSession();
     }, [])
 
+    console.log(columns)
+
     return (
         <>
             <div className="flex items-start justify-between">
@@ -44,7 +46,7 @@ export const UserClient = ({ columns }: ProductsClientProps) => {
             </div>
             <Separator />
 
-            <DataTable searchKey="name" columns={columns} data={consultingSessionData} />
+            <DataTable searchKey="Applicant Name" columns={columns} data={consultingSessionData} />
         </>
     );
 };

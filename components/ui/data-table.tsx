@@ -23,12 +23,14 @@ interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
     searchKey: string;
+    searchPlaceholderName: string;
 }
 
 export function DataTable<TData, TValue>({
     columns,
     data,
     searchKey,
+    searchPlaceholderName
 }: DataTableProps<TData, TValue>) {
     const table = useReactTable({
         data,
@@ -43,10 +45,12 @@ export function DataTable<TData, TValue>({
     return (
         <>
             <Input
-                placeholder={`Search ${searchKey}...`}
+                placeholder={`Search ${searchPlaceholderName}...`}
                 value={(table.getColumn(searchKey)?.getFilterValue() as string) ?? ""}
-                onChange={(event) =>
+                onChange={(event) => {
+                    console.log(table);
                     table.getColumn(searchKey)?.setFilterValue(event.target.value)
+                }
                 }
                 className="w-full md:max-w-sm"
             />
