@@ -24,10 +24,5 @@ const ApplicantSchema = new Schema({
         max: 1600,
         required: false,
     },
-    bookedSessions: {
-        type: [mongoose.Types.ObjectId],
-        ref: "consultingSession",
-        required: false,
-    },
 })
 export const Applicant = User.discriminators?.Applicant || User.discriminator("Applicant", ApplicantSchema);

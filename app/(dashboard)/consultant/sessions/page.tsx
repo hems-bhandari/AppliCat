@@ -18,12 +18,21 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
+
 import Image from "next/image";
+import { useSession } from "next-auth/react";
 
 const breadcrumbItems = [{ title: "Sessions", link: "/consultant/sessions" }];
 
 export default function page() {
     const [open, setOpen] = useState(false);
+
+    const userSession = useSession();
+    const user = userSession?.data?.user;
+
+    if (!user || !["Consultant", "Applicant"].includes(user.userType))
+        return;
+
 
     const handleMoreInfoClick = (id: string) => {
         setOpen(true);
@@ -63,55 +72,56 @@ export default function page() {
         },
     ];
 
-    const DialogBox = ({
-        data,
-        open,
-        setOpen,
-    }: {
-        data: StudentInformation;
-        open: boolean;
-        setOpen: (value: boolean) => void;
-    }) => {
-        return (
-            <Dialog open={open} onOpenChange={setOpen}>
-                <DialogContent className="sm:max-w-[425px]">
-                    <DialogHeader>
-                        <DialogTitle>Student Information</DialogTitle>
-                        <DialogDescription>
-                            Here's the information about the student you are consulting.
-                        </DialogDescription>
-                    </DialogHeader>
-                    <div className="grid gap-4 py-4">
-                        <div className="mx-auto">
-                            <Image
-                                src={data.image}
-                                alt="Student Image"
-                                width={100}
-                                height={100}
-                                className="object-cover rounded-full w-[150px] h-[150px]"
-                            />
-                        </div>
-                        {Object.entries(data).map(
-                            ([key, value]) =>
-                                key !== "image" && (
-                                    <div key={key} className="flex text-[16px]">
-                                        <span className="font-bold capitalize">{key}:</span> &nbsp;
-                                        <p>{value}</p>
-                                    </div>
-                                )
-                        )}
-                    </div>
-                </DialogContent>
-            </Dialog>
-        );
-    };
     return (
         <>
             <div className="flex-1 space-y-4  p-4 md:p-8 pt-6">
                 <BreadCrumb items={breadcrumbItems} />
-                <UserClient data={sessions} columns={columns} />
+                <UserClient user={{ id: user._id, type: user.userType as "Consultant" | "Applicant", }} columns={columns} />
                 <DialogBox data={studentInformation} open={open} setOpen={setOpen} />
             </div>
         </>
     );
 }
+
+const DialogBox = ({
+    data,
+    open,
+    setOpen,
+}: {
+    data: StudentInformation;
+    open: boolean;
+    setOpen: (value: boolean) => void;
+}) => {
+    return (
+        <Dialog open={open} onOpenChange={setOpen}>
+            <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                    <DialogTitle>Student Information</DialogTitle>
+                    <DialogDescription>
+                        Here's the information about the student you are consulting.
+                    </DialogDescription>
+                </DialogHeader>
+                <div className="grid gap-4 py-4">
+                    <div className="mx-auto">
+                        <Image
+                            src={data.image}
+                            alt="Student Image"
+                            width={100}
+                            height={100}
+                            className="object-cover rounded-full w-[150px] h-[150px]"
+                        />
+                    </div>
+                    {Object.entries(data).map(
+                        ([key, value]) =>
+                            key !== "image" && (
+                                <div key={key} className="flex text-[16px]">
+                                    <span className="font-bold capitalize">{key}:</span> &nbsp;
+                                    <p>{value}</p>
+                                </div>
+                            )
+                    )}
+                </div>
+            </DialogContent>
+        </Dialog>
+    );
+};

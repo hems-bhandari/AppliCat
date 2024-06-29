@@ -4,6 +4,7 @@ import { consultingSession } from "../models/sessionModel";
 import ConnectToDB from "../mongoose";
 import { revalidatePath } from "next/cache";
 import { Applicant, Consultant } from "../models/user";
+import mongoose from "mongoose";
 
 interface getSessionInfoForSideBarProps {
     userType?: "Consultant" | "Applicant" | null;
@@ -68,10 +69,26 @@ export interface Tsession {
     receipt?: string,
 }
 
+export type TsessionWithSubDoc = Omit<Tsession, "consultant" | "consultant"> & {
+    applicant: {
+        phoneNumber: number,
+        highSchool: string,
+        education: string,
+        gpa: string,
+        sat: number,
+    },
+    consultant: {
+        phoneNumber: number,
+        highSchool: string,
+        acceptedUniversity: string[],
+        avaliablity: mongoose.Types.ObjectId[],
+    }
+};
+
 // TODO: 
 // -- giving proper types.
 
-export const getConsultingSessions = async (props: getSessionsProps): Promise<Tsession[]> => {
+export const getConsultingSessions = async (props: getSessionsProps): Promise<TsessionWithSubDoc[]> => {
     try {
         if (!props.userId
             || !props.delimeter

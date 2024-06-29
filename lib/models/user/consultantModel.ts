@@ -22,11 +22,5 @@ const consultantSchema = new Schema({
         type: [mongoose.Types.ObjectId],
         ref: 'availability'
     },
-    // all the booked sessions are going to be stored here
-    bookedSessions: {
-        type: [mongoose.Types.ObjectId],
-        ref: "consultingSession",
-        required: false,
-    }
 })
 export const Consultant = User.discriminators?.Consultant || User.discriminator("Consultant", consultantSchema);
