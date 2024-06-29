@@ -1,26 +1,13 @@
-import { SessionHistory } from "@/components/SessionHistory";
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import SideInfoBar from "@/components/SideInfoBar";
 import DashboardCurrentTime from "@/components/DashboardCurrentTime";
 
-import { sessions } from "@/constants/data";
 import { authOptions } from "@/lib/auth-options";
 import { getServerSession } from "next-auth";
-import { getConsultingSessions } from "@/lib/controllers/sessionController";
 import { PastSessions, UpcomingSessions } from "@/components/sessions/PreviousSession";
 
 
 export default async function page() {
-    const PAST_SESSIONS = [...sessions];
-    const UPCOMMING_SESSIONS = [...sessions];
-
     const userSession = await getServerSession(authOptions);
 
     if (!userSession?.user)

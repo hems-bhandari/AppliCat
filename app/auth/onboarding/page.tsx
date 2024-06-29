@@ -1,10 +1,10 @@
 "use client";
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import Image from "next/image";
 import Typewriter from "typewriter-effect";
 
 // fonts
-import { katibeh, roboto } from "@/lib/fonts";
+import { roboto } from "@/lib/fonts";
 import { signIn, useSession } from "next-auth/react";
 
 const MyComponent = () => {

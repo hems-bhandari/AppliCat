@@ -4,9 +4,7 @@ import { useState } from "react";
 
 import BreadCrumb from "@/components/breadcrumb";
 import { UserClient } from "@/components/tables/user-tables/client";
-import { sessions, studentInformation } from "@/constants/data";
 import { ColumnDef } from "@tanstack/react-table";
-import { User, StudentInformation } from "@/constants/data";
 import { Button } from "@/components/ui/button";
 import { Info } from "lucide-react";
 
@@ -56,7 +54,7 @@ export default function page() {
                     variant="ghost"
                     onClick={() => {
                         setOpen(true);
-                        setActiveConsultantInfo(row.original.applicant);
+                        setActiveConsultantInfo(row.original.applicant as any);
                     }}
                 >
                     <Info className="h-4 w-4" />
@@ -88,7 +86,7 @@ const DialogBox = ({
     open,
     setOpen,
 }: {
-    data: StudentInformation;
+    data: any;
     open: boolean;
     setOpen: (value: boolean) => void;
 }) => {
@@ -112,15 +110,16 @@ const DialogBox = ({
                             className="object-cover rounded-full w-[150px] h-[150px]"
                         />
                     </div>
-                    {Object.entries(data).map(
-                        ([key, value]) =>
-                            !["image", "_id", "__v"].includes(key) && value && (
-                                <div key={key} className="flex text-[16px]">
-                                    <span className="font-bold capitalize">{key}:</span> &nbsp;
-                                    <p>{value}</p>
-                                </div>
-                            )
-                    )}
+                    {
+                        Object.entries(data).map(
+                            ([key, value]: [any, any]) =>
+                                !["image", "_id", "__v"].includes(key) && value && (
+                                    <div key={key} className="flex text-[16px]">
+                                        <span className="font-bold capitalize">{key}:</span> &nbsp;
+                                        <p>{value}</p>
+                                    </div>
+                                )
+                        )}
                 </div>
             </DialogContent>
         </Dialog>

@@ -1,5 +1,4 @@
-import { Icons } from "@/components/icons";
-import { NavItem, SidebarNavItem } from "@/types";
+import { NavItem } from "@/types";
 
 export type User = {
     id: number;
@@ -9,72 +8,6 @@ export type User = {
     status: string;
     time: string;
 };
-export const users: User[] = [
-    {
-        id: 1,
-        name: "Ram Thapa",
-        school: "Rato Bangla School",
-        SessionType: "General Application Consultation",
-        status: "Pending",
-        time: "May 24, 7 PM",
-    },
-    {
-        id: 2,
-        name: "Shyam Khanal",
-        school: "Budhanilkantha School",
-        SessionType: "EC Session",
-        status: "Confirmed",
-        time: "May 24, 7 PM",
-    },
-    {
-        id: 3,
-        name: "Shyam Khanal",
-        school: "Budhanilkantha School",
-        SessionType: "EC Session",
-        status: "Confirmed",
-        time: "May 24, 7 PM",
-    },
-    {
-        id: 4,
-        name: "Ram Thapa",
-        school: "Rato Bangla School",
-        SessionType: "General Application Consultation",
-        status: "Pending",
-        time: "May 24, 7 PM",
-    },
-    {
-        id: 5,
-        name: "Shyam Khanal",
-        school: "Budhanilkantha School",
-        SessionType: "EC Session",
-        status: "Confirmed",
-        time: "May 24, 7 PM",
-    },
-    {
-        id: 6,
-        name: "Ram Thapa",
-        school: "Rato Bangla School",
-        SessionType: "General Application Consultation",
-        status: "Pending",
-        time: "May 24, 7 PM",
-    },
-    {
-        id: 7,
-        name: "Shyam Khanal",
-        school: "Budhanilkantha School",
-        SessionType: "EC Session",
-        status: "Confirmed",
-        time: "May 24, 7 PM",
-    },
-    {
-        id: 8,
-        name: "Ram Thapa",
-        school: "Rato Bangla School",
-        SessionType: "General Application Consultation",
-        status: "Pending",
-        time: "May 24, 7 PM",
-    },
-];
 
 export type Session = {
     id: string;
@@ -85,73 +18,6 @@ export type Session = {
     time: string;
 };
 
-export const sessions: Session[] = [
-    {
-        id: "1",
-        name: "Ram Thapa",
-        school: "Rato Bangla School",
-        SessionType: "General Application Consultation",
-        status: "Pending",
-        time: "May 24, 7 PM",
-    },
-    {
-        id: "2",
-        name: "Shyam Khanal",
-        school: "Budhanilkantha School",
-        SessionType: "EC Session",
-        status: "Confirmed",
-        time: "May 24, 7 PM",
-    },
-    {
-        id: "3",
-        name: "Shyam Khanal",
-        school: "Budhanilkantha School",
-        SessionType: "EC Session",
-        status: "Confirmed",
-        time: "May 24, 7 PM",
-    },
-    {
-        id: "4",
-        name: "Ram Thapa",
-        school: "Rato Bangla School",
-        SessionType: "General Application Consultation",
-        status: "Pending",
-        time: "May 24, 7 PM",
-    },
-    {
-        id: "5",
-        name: "Shyam Khanal",
-        school: "Budhanilkantha School",
-        SessionType: "EC Session",
-        status: "Confirmed",
-        time: "May 24, 7 PM",
-    },
-    {
-        id: "6",
-        name: "Ram Thapa",
-        school: "Rato Bangla School",
-        SessionType: "General Application Consultation",
-        status: "Pending",
-        time: "May 24, 7 PM",
-    },
-    {
-        id: "7",
-        name: "Shyam Khanal",
-        school: "Budhanilkantha School",
-        SessionType: "EC Session",
-        status: "Confirmed",
-        time: "May 24, 7 PM",
-    },
-    {
-        id: "8",
-        name: "Ram Thapa",
-        school: "Rato Bangla School",
-        SessionType: "General Application Consultation",
-        status: "Pending",
-        time: "May 24, 7 PM",
-    },
-];
-
 export type StudentInformation = {
     email: string;
     userName: string;
@@ -161,18 +27,6 @@ export type StudentInformation = {
     gpa: string;
     sat: string | null;
     image: string;
-};
-
-export const studentInformation: StudentInformation = {
-    userName: "fakeusername",
-    highschool: "Fake High School",
-    education: "Fake Education",
-    gpa: "4.0",
-    sat: "1600",
-    email: "fakeemail@example.com",
-    phonenumber: "1234567890",
-    image:
-        "https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
 };
 
 export const applicantNavItems: NavItem[] = [
