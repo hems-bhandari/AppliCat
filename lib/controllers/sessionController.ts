@@ -27,18 +27,25 @@ export const getSessionInfoForSideBar = async (props: getSessionInfoForSideBarPr
             consultant: props.userId
         });
 
+        // filtering the sessions that are still in the progress
+        const notInProgressSessionData = sessionData.filter((session) => session.status !== "progress")
+
         return {
-            totalSessions: sessionData?.length || 0,
-            totalIncome: sessionData?.length > 0
-                ? sessionData.reduce(
+            totalSessions: notInProgressSessionData?.length || 0,
+            totalIncome: notInProgressSessionData?.length > 0
+                ? notInProgressSessionData.reduce(
                     (total, sessionData) => total + sessionData.sessionCharge, 0)
                 : 0
         }
     }
 
     const sessionData = await consultingSession.find({ applicant: props.userId });
+
+    // filtering the sessions that are still in the progress
+    const notInProgressSessionData = sessionData.filter((session) => session.status !== "progress")
+
     return {
-        totalSessions: sessionData?.length || 0,
+        totalSessions: notInProgressSessionData?.length || 0,
     }
 }
 

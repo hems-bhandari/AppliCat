@@ -22,6 +22,9 @@ const consultingSessionSchema = new Schema({
     status: {
         type: String,
         enum: ["progress", "pending", "confirmed"],
+        // progress means that the session is now in the process of being boooked by the applicant
+        // pending means the sessions and the payment receipt has been uploaded and confirmed by the applicant.
+        // confirmed means that the admin has confirmed the session.
         default: "progress",
     },
     sessionCharge: {
