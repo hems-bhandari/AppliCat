@@ -98,14 +98,16 @@ export const getConsultingSessions = async (props: getSessionsProps): Promise<Ts
         const filteredSessions = sessions.filter((session) => {
             const timeSplit = session.time.split(":");
             const dateWithTime = new Date(session.date).setHours(parseInt(timeSplit[0]), parseInt(timeSplit[1]), 0, 0);
+
+
             return props.delimeter === "previous"
-                ? compareAsc(dateWithTime, props.date) && session.status !== "progress" // showing only the sessions that are fully processed.
-                : compareAsc(props.date, dateWithTime) && session.status === "confirmed" // showing only the sessions that are confirmed by the admin.
+                ? (compareAsc(props.date, new Date(dateWithTime)) !== 1) && session.status === "completed"
+                : compareAsc(new Date(dateWithTime), props.date) && session.status !== "progress"
         })
 
         const filteredSessionWithSubDocs = [];
         // fetching the additional data of the consultant and the applicant.
-        for (const session of filteredSessions) {
+        for (const session of props.delimeter === "all" ? sessions : filteredSessions) {
             const consultant = await Consultant.findById(session.consultant);
             const applicant = await Applicant.findById(session.applicant);
 

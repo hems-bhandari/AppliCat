@@ -5,8 +5,6 @@ import {
     TsessionWithSubDoc,
     getConsultingSessions
 } from "@/lib/controllers/sessionController";
-import { getServerSession } from "next-auth";
-import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 interface ProductsClientProps {
@@ -16,11 +14,11 @@ interface ProductsClientProps {
 export const UserClient = ({ columns }: ProductsClientProps) => {
     const [consultingSessionData, setConsultingSessionData] = useState<TsessionWithSubDoc[]>([]);
 
-    const user = useSession().data?.user;
-
     useEffect(() => {
         const loadSession = async () => {
+            const user = await fetch(`/api/auth/session`).then(res => res.json()).then(userSession => userSession.user);
             if (!user) return;
+
             getConsultingSessions({
                 userId: user._id,
                 userType: user.userType as "Consultant" | "Applicant",
