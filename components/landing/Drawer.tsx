@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { katibeh } from "@/lib/fonts";
 import Image from "next/image";
@@ -40,8 +40,8 @@ const Drawer = ({ open, setOpen }: {
                     <h2 style={katibeh.style} className={`${katibeh.className} text-6xl text-red-600  `}>
                         Who are we?
                     </h2>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standardLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standardLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standardLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standardLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard</p>
-                    <p className="mt-4">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standardLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standardLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standardLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standardLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard</p>
+                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry s standardLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry s standardLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry s standardLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry s standardLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry s standard</p>
+                    <p className="mt-4">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry s standardLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry s standardLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry s standardLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry s standardLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry s standard</p>
                 </div>
 
                 <div className="flex flex-col">

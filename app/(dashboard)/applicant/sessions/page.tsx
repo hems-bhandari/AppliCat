@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -53,7 +54,7 @@ const Sessions = () => {
                                 >
                                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                                         <CardTitle className="text-[16px] text-center font-medium w-full capitalize">
-                                            {consultant?.university} '
+                                            {consultant?.university} &#39;
                                             {consultant.classOf.toString().slice(-2)}
                                         </CardTitle>
                                     </CardHeader>
@@ -96,7 +97,7 @@ const Sessions = () => {
                         </h1>
                         <p className="text-lg text-text-light dark:text-text-dark">
                             You have not booked any sessions yet. Book a session with a
-                            consultant to get started. If you've already booked a session, it
+                            consultant to get started. If you&#39;ve already booked a session, it
                             will appear here after validation.
                         </p>
                     </div>

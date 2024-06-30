@@ -5,6 +5,7 @@ import {
     TsessionWithSubDoc,
     getConsultingSessions
 } from "@/lib/controllers/sessionController";
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 interface ProductsClientProps {
@@ -13,25 +14,23 @@ interface ProductsClientProps {
 
 export const UserClient = ({ columns }: ProductsClientProps) => {
     const [consultingSessionData, setConsultingSessionData] = useState<TsessionWithSubDoc[]>([]);
+    const userSession = useSession();
 
     useEffect(() => {
-        const loadSession = async () => {
-            const user = await fetch(`/api/auth/session`).then(res => res.json()).then(userSession => userSession.user);
-            if (!user) return;
+        const user = userSession.data?.user;
+        if (!user?._id || !user.userType) return;
 
-            getConsultingSessions({
-                userId: user._id,
-                userType: user.userType as "Consultant" | "Applicant",
-                delimeter: "all",
-                date: new Date(),
-            }).then((sessions) => {
-                if (sessions.length > 0)
-                    setConsultingSessionData(sessions);
-            })
-        }
+        getConsultingSessions({
+            userId: user._id,
+            userType: user.userType as "Consultant" | "Applicant",
+            delimeter: "all",
+            date: new Date(),
+        }).then((sessions) => {
+            if (sessions.length > 0)
+                setConsultingSessionData(sessions);
+        })
+    }, [userSession]);
 
-        loadSession();
-    }, [])
     return (
         <>
             <div className="flex items-start justify-between">

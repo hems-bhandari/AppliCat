@@ -22,7 +22,7 @@ import { TsessionWithSubDoc } from "@/lib/controllers/sessionController";
 
 const breadcrumbItems = [{ title: "Sessions", link: "/consultant/sessions" }];
 
-export default function page() {
+function page() {
     const [open, setOpen] = useState(false);
     const [activeConsultantInfo, setActiveConsultantInfo] = useState();
 
@@ -97,7 +97,7 @@ const DialogBox = ({
                 <DialogHeader>
                     <DialogTitle>Student Information</DialogTitle>
                     <DialogDescription>
-                        Here's the information about the student you are consulting.
+                        Here&#39;s the information about the student you are consulting.
                     </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
@@ -125,3 +125,5 @@ const DialogBox = ({
         </Dialog>
     );
 };
+
+export default page;

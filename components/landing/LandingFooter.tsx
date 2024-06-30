@@ -19,7 +19,7 @@ const LandingFooter = () => {
                     </Link>
                     <div className="max-w-[300px] flex flex-col justify-between">
                         <h2 style={katibeh.style} className={`${katibeh.className} text-5xl text-white leading-none`}>Applicat</h2>
-                        <p className="text-md">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's </p>
+                        <p className="text-md">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry s </p>
                     </div>
                 </div>
                 <div className="flex flex-row  max-md:gap-8 max-md:w-full max-md:justify-between gap-24 max-md:flex-wrap">
