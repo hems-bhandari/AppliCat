@@ -18,7 +18,7 @@ export type TAvailability = {
     to: string,
 }
 
-const ConsultantPage = ({ params: { user } }: { params: { user: string } }) => {
+const ConsultantPage = () => {
     const [value, setValue] = useState<Date[]>([]);
     const [defaultAvailabilityData, setDefaultAvailabilityData] = useState<TAvailability[]>([]);
 
@@ -37,34 +37,22 @@ const ConsultantPage = ({ params: { user } }: { params: { user: string } }) => {
     const userSession = useSession();
 
     useEffect(() => {
-
         if (userSession) {
-            console.log(userSession)
-            // FIX:manually fetching the data since the context for some reason
-            // doesnot have the data that is set by the auth function in the
-            // auth-options session callback. this needs to be updated, but is of for the time
-            // being. Due to some reason only the consultant is facing that error.
+            const consultantId = userSession.data?.user?._id;
+            if (!consultantId) return;
 
-            fetch(`/api/auth/session`).then(res => res.json()).then((res) => {
-                const user = res.user;
-                if (!user) return;
+            fetch(`/api/availability/?consultantId=${consultantId}`).then(res => res.ok && res.json())
+                .then((availabilityFromDb) => {
+                    if (!availabilityFromDb) return
 
-                const consultantId = res.user?._id;
+                    const availabilities = availabilityFromDb.availabilities
 
-                fetch(`/api/availability/?consultantId=${consultantId}`).then(res => res.ok && res.json())
-                    .then((availabilityFromDb) => {
-                        if (!availabilityFromDb) return
-
-
-                        const availabilities = availabilityFromDb.availabilities
-
-                        if (availabilities)
-                            setDefaultAvailabilityData(availabilities);
-                    })
-            });
+                    if (availabilities)
+                        setDefaultAvailabilityData(availabilities);
+                })
         }
 
-    }, [])
+    }, [userSession])
 
     const handleResetClick = () => setValue([]);
     return (
