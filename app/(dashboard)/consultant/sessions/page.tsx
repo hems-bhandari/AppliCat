@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 
 import BreadCrumb from "@/components/breadcrumb";
 import { UserClient } from "@/components/tables/user-tables/client";
@@ -23,6 +23,15 @@ import { TsessionWithSubDoc } from "@/lib/controllers/sessionController";
 const breadcrumbItems = [{ title: "Sessions", link: "/consultant/sessions" }];
 
 function page() {
+    return (
+        <Suspense fallback={<> loading.. </>}>
+            <SessionPage />
+        </Suspense>
+    )
+}
+
+
+const SessionPage = () => {
     const [open, setOpen] = useState(false);
     const [activeConsultantInfo, setActiveConsultantInfo] = useState();
 
@@ -79,6 +88,7 @@ function page() {
             </div>
         </>
     );
+
 }
 
 const DialogBox = ({

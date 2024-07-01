@@ -78,7 +78,7 @@ const ConsultantDialog = ({
 
             const insertedAvailabilityId = await createOnProgressSession({
                 consultant: consultantData._id,
-                date: date.justDate.toISOString(),
+                date: date.justDate,
                 time: format(date.dateTime, "kk:mm"),
                 applicant: authUserSession.data.user._id,
 

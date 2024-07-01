@@ -130,6 +130,10 @@ const Landing = () => {
         const newCircles: CircleData[] = [];
         const minDistance = window.innerWidth * 0.15; // Minimum distance between circles
 
+        {/* let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2; */}
+
+
         const isFarEnough = (x: number, y: number) => {
             return newCircles.every(circle => {
                 const dx = circle.x - x;
@@ -169,11 +173,11 @@ const Landing = () => {
             const sinValue = Math.sin(angle);
             const cosValue = Math.cos(angle);
 
-            // Rotate circleA's position
+            // Rotate circleAs position
             const posA = { x: 0, y: 0 };
             const posB = { x: dx * cosValue + dy * sinValue, y: dy * cosValue - dx * sinValue };
 
-            // Rotate circleA's velocity
+            // Rotate circleAs velocity
             const velA = { x: circleA.velocityX * cosValue + circleA.velocityY * sinValue, y: circleA.velocityY * cosValue - circleA.velocityX * sinValue };
             const velB = { x: circleB.velocityX * cosValue + circleB.velocityY * sinValue, y: circleB.velocityY * cosValue - circleB.velocityX * sinValue };
 
@@ -269,7 +273,7 @@ const Landing = () => {
                         Applicat
                     </motion.h1>
                     <motion.p style={{ opacity: 0 }} animate={{ opacity: 1, y: -14 }} className={`text-md font-[400] max-w-[640px] text-[#e4e4e4] -mt-3 ${roboto.className}`}>
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard
                     </motion.p>
                     <motion.div style={{ opacity: 0 }} animate={{ opacity: 1, y: -14 }}>
                         <Link href="/auth" className={`bg-gradient-to-r from-[#F4442A] to-[#F1314A] text-xl font-[500] uppercase rounded-[8px] flex items-center justify-center space-x-2 mx-auto mt-5 w-[260px] h-[55px] py-2 px-6 text-white ${roboto.className}`}>
@@ -326,7 +330,7 @@ const Landing = () => {
                         <>
                             <div
                                 key={"COLLEGE-" + index}
-                                className={` ${index > 3 && index < 9 ? 'w-[calc(20%-(5*0.5rem)/4)]' : 'w-[21%]'} justify-center items-center p-4 bg-white rounded-md shadow-md max-md:grow animate-none ${index > 3 && index < 9 ? 'max-md:w-[calc(10%-(9*0.5rem)/10)] animate-scroll-reverse' : 'max-md:w-[11%] animate-scroll'} max-md:h-20`}
+                                className={` ${index > 3 && index < 9 ? "w-[calc(20%-(5*0.5rem)/4)]" : "w-[21%]"} justify-center items-center p-4 bg-white rounded-md shadow-md max-md:grow animate-none ${index > 3 && index < 9 ? 'max-md:w-[calc(10%-(9*0.5rem)/10)] animate-scroll-reverse' : 'max-md:w-[11%] animate-scroll'} max-md:h-20`}
                             >
                                 <img src={logo} alt={logo} className="w-full h-full max-h-16 max-w-52 object-contain" />
                             </div>

@@ -31,7 +31,7 @@ export async function middleware(req: NextRequest) {
     const session = await getToken({ req, secret })
 
     if (session) {
-        const userType = (session._doc?.userType as string)?.toLowerCase();
+        const userType = ((session._doc as any)?.userType as string)?.toLowerCase();
 
         // disabling the onboarding page 
         // if already onboarded

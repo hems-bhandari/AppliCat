@@ -23,7 +23,7 @@ export function UserNav() {
             if (!session.user)
                 return router.replace('/auth');
 
-            const userBasePathName = session?.user?.type?.toLowerCase();
+            const userBasePathName = session?.user?.userType?.toLowerCase();
             if (!userBasePathName)
                 return router.replace('/auth');
 
