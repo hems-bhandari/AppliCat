@@ -447,6 +447,7 @@ const Landing = () => {
         </div>
       </section>
       <LandingFooter />
+      <SpeedInsights />
     </div>
   );
 };
