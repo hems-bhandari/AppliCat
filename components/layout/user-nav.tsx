@@ -29,8 +29,8 @@ export function UserNav() {
 
             const redirectMap = {
                 landing: `/`,
-                home: `/${userBasePathName}/profile`,
-                profile: `/${userBasePathName}/profile`,
+                home: `/${userBasePathName}`,
+                profile: `/${userBasePathName}`,
             }
 
             return router.replace(redirectMap[to]);

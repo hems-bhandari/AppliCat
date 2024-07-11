@@ -42,12 +42,6 @@ export const applicantNavItems: NavItem[] = [
         icon: "calendar",
         label: "calendar",
     },
-    {
-        title: "Profile",
-        href: "/applicant/profile",
-        icon: "profile",
-        label: "profile",
-    },
 ];
 
 export const consultantNavItems: NavItem[] = [
