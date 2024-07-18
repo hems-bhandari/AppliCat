@@ -11,7 +11,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
     return (
         <>
             <Header />
-            <div className="flex h-screen overflow-hidden">
+            <div className="flex h-screen">
                 <main className="w-full pt-16">{children}</main>
             </div>
         </>
