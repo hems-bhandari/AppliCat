@@ -13,22 +13,21 @@ export async function middleware(req: NextRequest) {
     const publicPaths = ["/", "/auth", "/auth/onboarding"];
     const isPublic = publicPaths.includes(pathname);
 
-    const token = (req.cookies.get("next-auth.session-token")) || "";
+    // next auth secret for signin the token
+    const secret = process.env.NEXTAUTH_SECRET || "";
+
+    // getting the user type
+    const session = await getToken({ req, secret })
 
     if (pathname.startsWith("/_next")) return NextResponse.next();
 
-    if (!isPublic && !token)
+    if (!isPublic && !session)
         return NextResponse.redirect(new URL('/auth', req.nextUrl));
 
     // checking every other request in the below mentioned routes
     // getting the request url
     const url = req.nextUrl.clone();
 
-    // next auth secret for signin the token
-    const secret = process.env.NEXTAUTH_SECRET || "";
-
-    // getting the user type
-    const session = await getToken({ req, secret })
 
     if (session) {
         const userType = ((session._doc as any)?.userType as string)?.toLowerCase();
