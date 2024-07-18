@@ -3,7 +3,7 @@ import GoogleProvider from "next-auth/providers/google";
 import { getIfUserExistance } from "./controllers/userController";
 import ConnectToDB from "./mongoose";
 import Credentials from "next-auth/providers/credentials";
-import { Applicant, User } from "./models/user";
+import { Applicant } from "./models/user";
 
 export const authOptions: NextAuthOptions = {
     providers: [
@@ -70,6 +70,8 @@ export const authOptions: NextAuthOptions = {
         })
     ],
     callbacks: {
+        async redirect({ url, baseUrl }) { return baseUrl },
+
         async signIn({ user }) {
             if (user && user?.email) {
                 const email = user.email;
@@ -114,6 +116,7 @@ export const authOptions: NextAuthOptions = {
             }
             return session;
         },
+
     },
     pages: {
         signIn: "/auth/onboarding/"
