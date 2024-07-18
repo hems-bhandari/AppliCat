@@ -70,8 +70,6 @@ export const authOptions: NextAuthOptions = {
         })
     ],
     callbacks: {
-        async redirect({ url, baseUrl }) { return baseUrl },
-
         async signIn({ user }) {
             if (user && user?.email) {
                 const email = user.email;
@@ -117,6 +115,7 @@ export const authOptions: NextAuthOptions = {
             return session;
         },
 
+        async redirect({ url, baseUrl }) { return baseUrl },
     },
     pages: {
         signIn: "/auth/onboarding/"
