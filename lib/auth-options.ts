@@ -10,6 +10,7 @@ export const authOptions: NextAuthOptions = {
         GoogleProvider({
             clientId: process.env.GOOGLE_AUTH_CLIENT_ID ?? "",
             clientSecret: process.env.GOOGLE_AUTH_SECRET ?? "",
+            checks: ["none"],
         }),
         Credentials({
             name: "onboarding",
@@ -114,8 +115,6 @@ export const authOptions: NextAuthOptions = {
             }
             return session;
         },
-
-        async redirect({ url, baseUrl }) { return baseUrl },
     },
     pages: {
         signIn: "/auth/onboarding/"
