@@ -25,6 +25,10 @@ jobs:
       - name: Installing dependencies
         run: pnpm i
 
+      - name: copying env files
+        run: |
+          cp /home/applicat/projects/Applicat/.env .
+
       - name: Building :)
         run: pnpm build
 
