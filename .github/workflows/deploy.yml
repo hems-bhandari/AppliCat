@@ -1,0 +1,45 @@
+name: Building and Running Applicat 
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: self-hosted 
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Installing pnpm
+        run: npm install -g pnpm
+
+      - name: Install dependencies
+        run: pnpm i
+
+      - name: Building :)
+        run: pnpm build
+
+      - name: Run the application using pm2
+        run: |
+          pnpm install pm2 -g
+          pm2 start "pnpm start" --name "applicat" 
+
+          # using curl to look at the headers
+          curl -I http://localhost:3000/
+
+          # non zero status usually means error
+          if [[ $? -ne 0 ]]; then
+            echo "Server is not running something went wrong"
+          else
+            echo "Meow!! Meow !! we are live now."
+          fi
+
