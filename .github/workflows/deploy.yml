@@ -10,10 +10,10 @@ jobs:
     runs-on: self-hosted 
 
     steps:
-      - name: Checkout repository
+      - name: Checking out the files
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Setting up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
@@ -22,13 +22,13 @@ jobs:
       - name: Installing pnpm
         run: npm install -g pnpm
 
-      - name: Install dependencies
+      - name: Installing dependencies
         run: pnpm i
 
       - name: Building :)
         run: pnpm build
 
-      - name: Run the application using pm2
+      - name: Running the application using pm2
         run: |
           npm install pm2 -g
           pm2 start "pnpm start" --name "applicat" 
