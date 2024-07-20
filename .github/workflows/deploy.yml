@@ -27,8 +27,7 @@ jobs:
 
       - name: copying env files
         run: |
-          echo $(pwd)
-          cp /home/applicat/projects/Applicat/.env .
+          cp /home/applicat/projects/AppliCat/.env ./
 
       - name: Building :)
         run: pnpm build
