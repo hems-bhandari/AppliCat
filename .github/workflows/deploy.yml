@@ -35,8 +35,15 @@ jobs:
       - name: Running the application using pm2
         run: |
           npm install pm2 -g
+          prevProcesses=$(pm2 pid applicat)
 
-          # removing previous pm2 applications.
-          pm2 delete $(pm2 pid)
+          if [ -z "$prevProcesses"  ]; then
+             pm2 start "pnpm start" --name applicat
+          else
+             pm2 delete $prevProcesses
+             pm2 start "pnpm start" --name applicat
+          fi
+
           pm2 save --force
-          pm2 start "pnpm start" --name "applicat" 
+
+
