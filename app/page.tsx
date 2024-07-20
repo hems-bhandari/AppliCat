@@ -319,7 +319,7 @@ const Landing = () => {
                         animate={{ opacity: 1, y: -14 }}
                         className={`text-md font-[400] max-w-[640px] text-[#e4e4e4] -mt-3 ${roboto.className}`}
                     >
-                        Lorem no more. will be updated now
+                        Lorem no testing of workflow. will be updated now
                     </motion.p>
                     <motion.div style={{ opacity: 0 }} animate={{ opacity: 1, y: -14 }}>
                         <Link
