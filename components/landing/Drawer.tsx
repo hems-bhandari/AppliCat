@@ -15,10 +15,10 @@ const TeamCard = ({
     designation: string;
 }) => {
     return (
-        <div className="flex flex-col justify-center items-center w-[calc(33.33%-(1rem))] max-md:w-[calc(50%-1rem)] ">
-            <div className="w-full h-auto">
+        <div className="flex flex-col justify-center items-center w-[calc(33.33%-(1rem))] max-md:w-[calc(50%-1rem)]">
+            <div className="w-full h-auto rounded-md overflow-clip">
                 <Image
-                    src="/nav_logo.svg"
+                    src={url ?? "/nav_logo.svg"}
                     alt="logo"
                     width={200}
                     height={200}
@@ -58,7 +58,7 @@ const Drawer = ({
                 className={`transition-transform ease-in-out ${open ? "translate-x-0" : "translate-x-full"
                     } w-[min(100%,900px)] bg-black  min-h-screen ml-auto p-12 flex flex-col gap-8`}
             >
-                <div className="absolute top-8 right-8 p-4 bg-white/40 rounded-lg"> <Icons.close onClick={() => setOpen(false)} className="w-8 h-8 text-white cursor-pointer" /></div>
+                <div className="absolute top-8 right-8 p-4 bg-white/40 rounded-lg md:hidden"> <Icons.close onClick={() => setOpen(false)} className="w-8 h-8 text-white cursor-pointer" /></div>
                 <div className="flex flex-col">
                     <h2
                         style={katibeh.style}
@@ -88,24 +88,24 @@ const Drawer = ({
                         <TeamCard
                             name="Hemanta Bhandari"
                             designation="Co-Founder & CEO"
-                            url=""
+                            url="/team/hemz.png"
                         />
                         <TeamCard
                             name="Saroj Regmi"
                             designation="Co-Founder & CTO"
-                            url=""
+                            url="/team/saroj.png"
                         />
                         <TeamCard
                             name="Sanskar Lamsal"
                             designation="Branding & Design Head"
-                            url=""
+                            url="/team/Sanskar.png"
                         />
                         <TeamCard
                             name="Ashish Panthi"
                             designation="Backend Developer"
-                            url=""
+                            url="/team/aasish.png"
                         />
-                        <TeamCard name="Shreejay Subedi" designation="Developer" url="" />
+                        <TeamCard name="Shreejay Subedi" designation="Developer" url="/team/shreejay.png" />
                     </div>
                 </div>
             </aside>
