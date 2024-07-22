@@ -36,7 +36,7 @@ const Terms = () => {
         <div className="policy">
           <h2>3. User Eligibility</h2>
           <p>
-            Users of AppliCat must be at least 18 years old or the legal age of
+            Users of AppliCat must be at least 16 years old or the legal age of
             majority in their jurisdiction. High school students seeking
             counseling must obtain parental consent before using the services.
           </p>
