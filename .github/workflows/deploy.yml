@@ -40,10 +40,8 @@ jobs:
           if [ -z "$prevProcesses"  ]; then
              pm2 start "pnpm start" --name applicat
           else
-             pm2 delete $prevProcesses
+             pm2 delete applicat
              pm2 start "pnpm start" --name applicat
           fi
 
           pm2 save --force
-
-
