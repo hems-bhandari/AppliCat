@@ -1,7 +1,7 @@
 "use client";
 import { FormEvent, useEffect, useState } from "react";
 import Image from "next/image";
-import Typewriter from "typewriter-effect";
+// import Typewriter from "typewriter-effect";
 
 // fonts
 import { roboto } from "@/lib/fonts";
@@ -90,11 +90,11 @@ const MyComponent = () => {
             height={450}
           />
         </div>
-        <div
+        {/* <div
           className="relative inset-0 flex items-center m-10 mt-20"
           style={{ marginRight: "50px", height: "120px" }}
-        >
-          <div
+        > */}
+        {/* <div
             className="typewriter-container"
             style={{ height: "100%", overflow: "hidden" }}
           >
@@ -107,8 +107,8 @@ const MyComponent = () => {
                 loop: true,
               }}
             />
-          </div>
-        </div>
+          </div> */}
+        {/* </div> */}
       </div>
       <div className="absolute right-0 top-0 w-full md:w-1/2 h-full flex items-center justify-center">
         <div
@@ -165,7 +165,7 @@ const MyComponent = () => {
 
             <div className="input">
               <label htmlFor="highschool" className="text-sm md:text-xs">
-                High School*
+                Recent High School*
               </label>
               <input
                 type="text"
@@ -199,7 +199,7 @@ const MyComponent = () => {
 
             <div className="input">
               <label htmlFor="gpa" className="text-sm md:text-xs">
-                GPA/Grades*
+                Recent GPA/Grades*
               </label>
               <input
                 type="text"
