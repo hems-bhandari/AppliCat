@@ -7,7 +7,7 @@ export async function GET() {
     try {
         await ConnectToDB();
         const consultants = await Consultant.find({});
-        if (!consultants)
+        if (!consultants || (consultants && consultants.length < 1))
             return NextResponse.json({
                 message: "Meoww :( No consultants found",
             }, { status: 404 });
