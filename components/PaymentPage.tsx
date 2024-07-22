@@ -4,8 +4,8 @@ import QRCode from "../public/QR_code.webp";
 
 const PaymentPage = ({ CHARGE }: { CHARGE: number }) => {
   const ACCOUNT_DETAILS = {
-    "Account Number": "9867526910",
-    "Account Holder": "Hemanta Bhandari",
+    // "Account Number": "9867526910",
+    // "Account Holder": "Hemanta Bhandari",
     Amount: `NPR ${CHARGE}`,
   };
 
@@ -18,7 +18,7 @@ const PaymentPage = ({ CHARGE }: { CHARGE: number }) => {
           className="w-[300px] h-[300px] bg-white mb-2"
         />
         <span className="text-[16px] font-[500] mb-2">
-          Scan the QR Code to pay
+          Scan the QR Code to pay through Khalti App
         </span>
 
         <div className="text-[16px] mt-2 text-left">
