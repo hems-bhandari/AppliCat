@@ -13,28 +13,18 @@ jobs:
       - name: Checking out the files
         uses: actions/checkout@v4
 
-      - name: Setting up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'pnpm'
-
-      - name: Installing pnpm
-        run: npm install -g pnpm
-
       - name: Installing dependencies
-        run: pnpm i
+        run: bun i
 
       - name: copying env files
         run: |
           cp /home/applicat/.applicat-env ./env
 
       - name: Building :)
-        run: pnpm build
+        run: bun run build
 
       - name: Running the application using pm2
         run: |
-          npm install pm2 -g
           prevProcesses=$(pm2 pid applicat)
 
           if [ -z "$prevProcesses"  ]; then
