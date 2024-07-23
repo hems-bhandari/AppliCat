@@ -28,7 +28,7 @@ jobs:
           prevProcesses=$(pm2 ls | grep -i "applicat")
 
           if [ -z "$prevProcesses"  ]; then
-             pm2 start "pnpm start" --name applicat
+             pm2 start "bun start" --name applicat
           else
              pm2 restart applicat 
           fi
