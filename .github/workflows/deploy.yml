@@ -25,7 +25,7 @@ jobs:
 
       - name: Running the application using pm2
         run: |
-          prevProcesses=$(pm2 ls | grep "applicat")
+          prevProcesses=$(pm2 ls | grep -i "applicat")
 
           if [ -z "$prevProcesses"  ]; then
              pm2 start "pnpm start" --name applicat
