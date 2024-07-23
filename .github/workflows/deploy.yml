@@ -27,7 +27,7 @@ jobs:
 
       - name: copying env files
         run: |
-          cp /home/applicat/projects/AppliCat/.env ./
+          cp /home/applicat/.applicat-env ./env
 
       - name: Building :)
         run: pnpm build

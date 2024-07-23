@@ -15,8 +15,7 @@ export async function GET() {
         return NextResponse.json({
             message: "Hurrey, Meoww!! we did it.",
             consultants: consultants
-        },
-            { status: 200 })
+        }, { status: 200 })
     } catch (error) {
         console.log(error);
         return NextResponse.json({ message: "Meoww!! something went wrong" }, { status: 500 });
