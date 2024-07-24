@@ -14,7 +14,7 @@ export const PastSessions = async ({ userId, userType }: { userId: string, userT
     return (
         <Card className="col-span-4 md:col-span-3">
             <CardHeader>
-                <CardTitle>Upcomming Sessions</CardTitle>
+                <CardTitle>Past Sessions</CardTitle>
                 <CardDescription>
                     You have {pastSessions.length} sessions coming up
                 </CardDescription>
@@ -37,7 +37,7 @@ export const UpcomingSessions = async ({ userId, userType }: { userId: string, u
     return (
         <Card className="col-span-4 md:col-span-3">
             <CardHeader>
-                <CardTitle>Past Sessions</CardTitle>
+                <CardTitle>Upcomming Sessions</CardTitle>
                 <CardDescription>
                     You had {upcomingSessions.length} sessions
                 </CardDescription>
