@@ -216,6 +216,7 @@ export const confirmPendingSession = async (props: {
   sessionId: string;
   receiptUrl: string;
   email: string;
+  consultantEmail: string;
 }): Promise<boolean> => {
   try {
     await ConnectToDB();
@@ -236,6 +237,13 @@ export const confirmPendingSession = async (props: {
       props.email,
       "Session Booking Confirmation",
       `Your session has been booked successfully.`
+    );
+
+    // send a confirmation email to the consultant.
+    sendMail(
+      session.consultant.email,
+      "Session Booking Confirmation",
+      `A new session has been booked with you. Bruh! you are earning money.`
     );
 
     revalidatePath("/consultant/sessions");
