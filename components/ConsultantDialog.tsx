@@ -43,6 +43,7 @@ const ConsultantDialog = ({
 
     const [stage, setStage] = useState<number>(0);
     const [disabled, setDisabled] = useState<boolean>(true);
+    const [sessionCharge, setSessionCharge] = useState<number>(1000);
 
     // consultant availability
     const [availabilities, setAvailability] = React.useState<Record<
@@ -91,8 +92,14 @@ const ConsultantDialog = ({
                 sessionDuration: activeAvailability.sessionDuration,
             });
 
-            console.log(insertedAvailabilityId, stage);
-            if (!insertedAvailabilityId) return;
+
+            // setting the session charge or moving with 1000 as the default charge
+            setSessionCharge(activeAvailability.costPerSession || 1000);
+
+            if (!insertedAvailabilityId) {
+                alert("Couldn't create availablity");
+                return;
+            }
 
             // storing the session id in db into localstorage for reload events.
             localStorage.setItem("processingSessionId", insertedAvailabilityId);
@@ -205,7 +212,7 @@ const ConsultantDialog = ({
 
                         {stage === 1 && (
                             <>
-                                <PaymentPage CHARGE={1000} />
+                                <PaymentPage CHARGE={sessionCharge} />
                                 <Buttons />
                             </>
                         )}
