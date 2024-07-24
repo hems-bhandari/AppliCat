@@ -27,6 +27,7 @@ export default async function page() {
                     <UpcomingSessions {...userData} />
                     <PastSessions {...userData} />
                 </div>
+
                 <SideInfoBar userSession={userSession} />
             </div>
         </ScrollArea>
