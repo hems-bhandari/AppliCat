@@ -13,20 +13,8 @@ export const metadata: Metadata = {
 export default function AuthenticationPage() {
     return (
         <div className="relative flex-col items-center justify-center h-screen md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
-            <div className="relative flex-col hidden h-full p-10 text-white bg-muted dark:border-r lg:flex">
-                <div className="absolute inset-0 bg-zinc-900" />
-                <div className="relative z-20 flex items-center text-lg font-medium">
-                    AppliCat
-                </div>
-                <div className="middleSection"></div>
-                <div className="relative z-20 mt-auto">
-                    <blockquote className="space-y-2">
-                        <p className="text-lg">
-                            Get purrsonalized guidance with AppliCat.
-                        </p>
-                        <footer className="text-sm">- Car</footer>
-                    </blockquote>
-                </div>
+            <div className="relative bg-gradient-to-r from-[#F4442A] to-[#F1314A]  flex-col hidden items-center justify-center h-full p-10 text-white bg-muted dark:border-r lg:flex bg">
+                <img src="/catOnlyWhite.png" className="scale-x-[-1.2] scale-y-[1.2]" />
             </div>
             <div className="flex items-center h-full p-4 lg:p-8">
                 <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
