@@ -10,8 +10,8 @@ const consultantSchema = new Schema({
         type: String,
         required: [true, "Please, Provide your High School Name"],
     },
-    acceptedUniversity: {
-        type: [String],
+    university: {
+        type: String,
         required: true,
         validate: {
             validator: (value: string[]) => value.length >= 1,
