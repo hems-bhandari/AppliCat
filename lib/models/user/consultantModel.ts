@@ -22,5 +22,9 @@ const consultantSchema = new Schema({
         type: [mongoose.Types.ObjectId],
         ref: 'availability'
     },
+    classOf: {
+        type: Number,
+        required: [true, "Please, provide the classof Consultant"],
+    }
 })
 export const Consultant = User.discriminators?.Consultant || User.discriminator("Consultant", consultantSchema);
