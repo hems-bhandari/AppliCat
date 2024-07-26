@@ -18,7 +18,8 @@ export default async function RootLayout({
     children: React.ReactNode;
 }) {
     const session = await getServerSession();
-
+    // TODO: Research on this piece of code and why and who wrote this.
+    // is this the reason all of our code is server rendered on demand.
     return (
         <html lang="en" suppressHydrationWarning>
             <body className={`${inter.className}`}>
