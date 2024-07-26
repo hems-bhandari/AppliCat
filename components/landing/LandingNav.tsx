@@ -16,6 +16,7 @@ const NAV_LINKS = [
 
 const LandingNav = () => {
     const [open, setOpen] = useState(false)
+
     return (
         <>
             <Drawer open={open} setOpen={setOpen} />
