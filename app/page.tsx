@@ -13,7 +13,7 @@ import { katibeh, roboto } from "@/lib/fonts";
 // icons
 import { ArrowTopRightIcon, ReaderIcon } from "@radix-ui/react-icons";
 import LandingFooter from "@/components/landing/LandingFooter";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import { motion, useAnimation, useInView } from "framer-motion";
 import Particles from "@/components/ui/Particles";
 
@@ -55,32 +55,6 @@ const COLLEGELIST = [
     "https://www.reed.edu/public-affairs/assets/downloads/logos/reed-college-lockup-red.png",
     "https://www.kenyon.edu/files/resources/logotype_kenyon-purple_rgb.png",
 ];
-
-interface CircleProps {
-    size: number;
-    x: number;
-    y: number;
-}
-
-const Circle: React.FC<CircleProps> = ({ size, x, y }) => {
-    return (
-        <div
-            className="absolute rounded-full bg-gradient-to-r from-[#F4442A] to-[#F1314A]  blur-[80px]"
-            style={{ width: size, height: size, left: x, top: y }}
-        />
-    );
-};
-
-interface CircleData {
-    size: number;
-    x: number;
-    y: number;
-    velocityX: number;
-    velocityY: number;
-}
-
-const generateRandom = (min: number, max: number) =>
-    Math.random() * (max - min) + min;
 
 const Landing = () => {
     const heroControls = useAnimation();

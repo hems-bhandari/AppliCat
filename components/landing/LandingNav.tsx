@@ -7,12 +7,10 @@ import React, { useState } from "react";
 import { roboto } from "@/lib/fonts";
 
 // icon
-import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import LoginIfNoSession from "./LoginIfNoSession";
 import Drawer from "./Drawer";
 
 const NAV_LINKS = [
-    // { name: "About", href: "#about" },
     { name: "Contact", href: "/contact" },
 ];
 

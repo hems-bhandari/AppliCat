@@ -19,7 +19,7 @@ export function UserNav() {
     const router = useRouter();
 
     if (session) {
-        const redirectTo = (to: "home" | "profile" | "landing") => {
+        const redirectTo = (to: "home" | "landing") => {
             if (!session.user)
                 return router.replace('/auth');
 
@@ -30,7 +30,6 @@ export function UserNav() {
             const redirectMap = {
                 landing: `/`,
                 home: `/${userBasePathName}`,
-                profile: `/${userBasePathName}`,
             }
 
             return router.replace(redirectMap[to]);
@@ -65,9 +64,6 @@ export function UserNav() {
                         <DropdownMenuItem
                             onClick={() => redirectTo("home")}>
                             Home
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => redirectTo("profile")}>
-                            Profile
                         </DropdownMenuItem>
                     </DropdownMenuGroup>
                     <DropdownMenuSeparator />
