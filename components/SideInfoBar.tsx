@@ -14,9 +14,7 @@ const SideInfoBar = () => {
         <div className="flex-col items-center justify-between gap-10 min-w-[400px] px-4 md:pr-8 md:pl-0 pt-5">
             <Greeting />
             {
-                userSession.status !== "loading" && userId
-                    ? <SessionsInfoCard userType={userType as "Consultant" | "Applicant"} userId={userId} />
-                    : <> loading session data </>
+                <SessionsInfoCard userType={userType as "Consultant" | "Applicant"} userId={userId || ""} />
             }
             <Card className="col-span-4 md:col-span-3 mt-4">
                 <CardHeader>

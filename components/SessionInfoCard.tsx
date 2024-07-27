@@ -1,6 +1,7 @@
 "use client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getSessionInfoForSideBar } from "@/lib/controllers/sessionController";
+import { cn } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 
 const SessionsInfoCard = ({
@@ -10,7 +11,7 @@ const SessionsInfoCard = ({
     userType: "Consultant" | "Applicant";
     userId: string;
 }) => {
-    const { isLoading, isError, data } = useQuery(
+    const { isLoading, data } = useQuery(
         {
             queryKey: ['sessionData'],
             queryFn: async () => await getSessionInfoForSideBar({ userId, userType })
@@ -20,8 +21,10 @@ const SessionsInfoCard = ({
     return (
         <>
             {
-                (userType === "Consultant" && !isLoading)
-                    ? (
+                isLoading
+                    ? <CardSkeleton />
+                    : userType === "Consultant"
+                    && (
                         <Card className="col-span-4 md:col-span-3 mt-8">
                             <CardHeader>
                                 <CardTitle>Total income</CardTitle>
@@ -35,7 +38,6 @@ const SessionsInfoCard = ({
                             </CardContent>
                         </Card>
                     )
-                    : <CardSkeleton />
             }
 
             {
@@ -66,11 +68,21 @@ const CardSkeleton = () => {
         <>
             <Card className="col-span-4 md:col-span-3 mt-8">
                 <CardHeader>
-                    <CardTitle></CardTitle>
+                    <CardTitle className={cn("bg-gray-200 text-transparent rounded-md animate-pulse",
+                        // dark theme
+                        "dark:bg-black"
+                    )}>
+                        loading
+                    </CardTitle>
                 </CardHeader>
                 <CardContent>
                     <div className="flex items-center justify-between">
-                        <h2 className="text-[24px] leading-[28px] font-[600]"></h2>
+                        <h2 className={cn("text-[24px] leading-[28px] font-[600] bg-gray-200 text-transparent rounded-md w-full animate-pulse",
+                            // dark theme
+                            "dark:bg-black"
+                        )}>
+                            loading
+                        </h2>
                     </div>
                 </CardContent>
             </Card>
