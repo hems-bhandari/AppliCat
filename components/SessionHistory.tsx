@@ -2,7 +2,6 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { TsessionWithSubDoc } from "@/lib/controllers/sessionController";
-import { randomUUID } from "crypto";
 import { add } from "date-fns";
 import { format } from "date-fns/esm";
 import { Skeleton } from "./ui/skeleton";
@@ -13,7 +12,7 @@ function SessionHistory({ sessions }: { sessions: TsessionWithSubDoc[] }) {
         <div className="space-y-8">
             {sessions?.map((session, index) => {
                 return (
-                    <SessionCard session={session} key={`session-${index}-${randomUUID()}`} />
+                    <SessionCard session={session} key={`session-${index}`} />
                 )
             }
             )}
@@ -40,7 +39,7 @@ const SessionCard = ({ session }: { session: TsessionWithSubDoc }) => {
                 */}
             <div className="ml-auto font-medium text-center"
                 dangerouslySetInnerHTML={{
-                    __html: format(add(session.date, {
+                    __html: format(add(new Date(session.date), {
                         hours: parseInt(session.time.split(":")[0]),
                         minutes: parseInt(session.time.split(":")[1])
                     }),

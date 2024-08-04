@@ -97,6 +97,7 @@ export const getConsultingSessions = async (
     props: getSessionsProps
 ): Promise<TsessionWithSubDoc[]> => {
     try {
+        console.log({ date: props.date })
         const userSession = await getServerSession(authOptions);
         const userData = userSession?.user;
 
@@ -123,11 +124,19 @@ export const getConsultingSessions = async (
                 0
             );
 
-            return props.delimeter === "previous"
-                ? compareAsc(props.date, new Date(dateWithTime)) !== 1 &&
-                session.status === "completed"
-                : compareAsc(new Date(dateWithTime), props.date) &&
-                session.status !== "progress";
+            // removing all the non confirmed sessions
+            if (session?.status === "progress")
+                return false;
+
+            // looking for sessions that are before today
+            // i.e second date is before the first date 
+            //
+            // first date = today
+            // second date = session date
+            if (props.delimeter === "previous")
+                return compareAsc(props.date, new Date(dateWithTime)) === 1
+
+            return compareAsc(new Date(dateWithTime), props.date) === 1;
         });
 
         const filteredSessionWithSubDocs = [];
@@ -140,25 +149,25 @@ export const getConsultingSessions = async (
 
             filteredSessionWithSubDocs.push(
                 {
-                    { _id: session._id.toString(), ...session._doc },
-                applicant,
-                consultant,
+                    ...session._doc,
+                    applicant,
+                    consultant,
                 }
             );
         }
 
-// suggestions from stack overflow since the _id in the responose is a complex
-// object it is not simple enough to be passed to a client component hence an error
-// Warning: Only plain objects can be passed to Client Components from Server Components. Objects with toJSON methods are not supported. Convert it manually to a simple value before passing it to props.
-// {_id: {buffer: ...}, applicant: ..., consultant: ..., sessionTitle: ..., status: ..., sessionCharge: ..., sessionDuration: ..., date: ..., time: ..., updatedOn: ..., __v: ..., receipt: ..., sessionEmail: ...}
-// occures:
-//
-// that is why we are first converting it to json and then parsing it again.
-return JSON.parse(JSON.stringify(filteredSessionWithSubDocs));
+        // suggestions from stack overflow since the _id in the responose is a complex
+        // object it is not simple enough to be passed to a client component hence an error
+        // Warning: Only plain objects can be passed to Client Components from Server Components. Objects with toJSON methods are not supported. Convert it manually to a simple value before passing it to props.
+        // {_id: {buffer: ...}, applicant: ..., consultant: ..., sessionTitle: ..., status: ..., sessionCharge: ..., sessionDuration: ..., date: ..., time: ..., updatedOn: ..., __v: ..., receipt: ..., sessionEmail: ...}
+        // occures:
+        //
+        // that is why we are first converting it to json and then parsing it again.
+        return JSON.parse(JSON.stringify(filteredSessionWithSubDocs));
     } catch (e) {
-    console.log(e);
-    return [];
-}
+        console.log(e);
+        return [];
+    }
 };
 
 type createOnProgressSessionProps = Omit<Tsession, "status">;

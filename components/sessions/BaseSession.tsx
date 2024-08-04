@@ -7,13 +7,12 @@ import { useQuery } from "@tanstack/react-query";
 
 export const BaseSession = (props: Pick<getSessionsProps, "delimeter">) => {
     const { data, isLoading } = useQuery({
-        queryKey: ["sessions"],
+        queryKey: [props.delimeter],
         queryFn: async () => {
             const data = await getConsultingSessions({
                 delimeter: props.delimeter,
                 date: new Date(),
             });
-
             return data
         }
     })
@@ -24,17 +23,17 @@ export const BaseSession = (props: Pick<getSessionsProps, "delimeter">) => {
                 <CardTitle className="capitalize">{props.delimeter} Sessions</CardTitle>
                 {isLoading
                     ? <CardDescription>
-                        We are getting your {props.delimeter} Sessions
+                        We are getting your {props.delimeter} Sessions...
                     </CardDescription>
                     : <CardDescription>
-                        You have {data?.length} past sessions coming up
+                        You have {data?.length} {props.delimeter} sessions.
                     </CardDescription>
                 }
             </CardHeader>
             <CardContent>
                 {isLoading
                     ? <SessionHistorySkeleton />
-                    : data && <SessionHistory sessions={data.splice(0, 4)} />
+                    : data && <SessionHistory sessions={data} />
                 }
             </CardContent>
         </Card>
