@@ -2,7 +2,7 @@
 
 import React, { useEffect } from "react";
 import { Calendar } from "@/components/ui/calendar";
-import { format, isSameDay } from "date-fns";
+import { format, isSameDay, compareAsc } from "date-fns";
 
 import { Button } from "@/components/ui/button";
 import { DayContentProps, DayMouseEventHandler } from "react-day-picker";
@@ -37,8 +37,7 @@ const BookSlots = ({
     availabilities: AvailabilityData | null;
     setAvailability: React.Dispatch<React.SetStateAction<AvailabilityData | null>>;
 }) => {
-    const [activeIndex, setActiveIndex] = React.useState<number>(0);
-
+    const [activeTimeIndex, setActiveTimeIndex] = React.useState<number>(-1);
     const [times, setTimes] = React.useState<Date[] | null>(null);
 
 
@@ -51,7 +50,7 @@ const BookSlots = ({
         if (!consultantId) return;
 
         // Fetch data from the server
-        fetch(`/api/sessions/${consultantId}`).then((res) => {
+        fetch(`/api/sessions/${consultantId}?today=${new Date()}`).then((res) => {
             if (res.ok) {
                 res.json().then((availability) => {
                     if (availability?.availabilities)
@@ -63,8 +62,16 @@ const BookSlots = ({
 
     const Dates =
         (availabilities &&
-            Object.keys(availabilities).map((date) => new Date(date))) ||
-        [];
+            Object.keys(availabilities)
+                .map((date) => new Date(date)))
+            ?.filter((availableDate) => {
+                const today = new Date();
+                // filtering date before today 
+                // if first date is after the second date it returns 1 and if same it returns 0
+                // and if first date comes before second date it returns -1
+                return isSameDay(today, availableDate) || compareAsc(availableDate, today) + 1;
+            })
+        || [];
 
     const getTimes = () => {
         if (!date.justDate || !availabilities) return;
@@ -96,7 +103,7 @@ const BookSlots = ({
     };
 
     const handleTimeClick = async (time: Date, index: number) => {
-        setActiveIndex(index);
+        setActiveTimeIndex(index);
         setDate((prev) => ({ ...prev, dateTime: time }));
         setDisabled(false);
     };
@@ -125,10 +132,9 @@ const BookSlots = ({
             </span>
         );
     };
-
     return (
         <div className="flex flex-col items-center justify-center">
-            <div className="flex gap-8">
+            <div className="flex gap-8" >
                 <Calendar
                     onDayClick={handleDayClick}
                     modifiers={{
@@ -136,7 +142,7 @@ const BookSlots = ({
                     }}
                     fromDate={new Date()}
                     modifiersClassNames={{
-                        available: "cursor-pointer text-red",
+                        available: "cursor-pointer bg-gradientStop text-white",
                     }}
                     selected={date.justDate ?? undefined}
                     mode="single"
@@ -154,7 +160,7 @@ const BookSlots = ({
                                 <Button
                                     type="button"
                                     variant="outline"
-                                    className={`w-[100px] ${activeIndex === index + 1
+                                    className={`w-[100px] ${activeTimeIndex === index + 1
                                         ? "bg-primary text-black hover:bg-primary hover:text-black"
                                         : ""
                                         }`}
@@ -167,7 +173,7 @@ const BookSlots = ({
                     </div>
                 )}
             </div>
-        </div>
+        </div >
     );
 };
 

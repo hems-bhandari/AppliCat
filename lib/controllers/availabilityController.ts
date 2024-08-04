@@ -16,30 +16,46 @@ type TAvailabilityWithSession = Record<string, {
 }>
 // returns the sessions that are available in different dates where the consultant has
 // set therir availablity
-export const getAllAvailabilitiesWithSession = async (consultantId: string): Promise<any | null> => {
+export const getAllAvailabilitiesWithSession = async (consultantId: string, today: Date): Promise<any | null> => {
     try {
         const availabilities = await ConsultantAvailability.find({ consultant: consultantId });
         if (!availabilities || availabilities?.length < 1) return null // no availablity feild found means availabilty not set yet
 
         // find the consulting sessions that are hosted by the consultant
+        // those sessions that are booked
         const bookedSessions = await consultingSession.find({ consultant: consultantId });
+
+        if (bookedSessions && bookedSessions.length > 0)
+            bookedSessions.filter((session) => compareAsc(today, session?.date) !== -1);
+
+        console.log(bookedSessions)
 
         let availableSessions: TAvailabilityWithSession = {};
 
-        availabilities.forEach((day: any) => {
+        availabilities.forEach((availability: any) => {
+            // checking to see if the day of the availablility is before today which is not bookable hence removing it's session generation.
+            // compare asc returns -1 if first date comes before second date
+            const isBeforeToday = compareAsc(today, availability?.date) === -1;
+
+            // removing without generating the sessions for days before today
+            if (isBeforeToday)
+                return;
+
+            // starting point for session generation.
             const beginningDateTime = add(
-                day?.date,
+                availability?.date,
                 {
-                    hours: day?.from.split(":")[0],
-                    minutes: day?.from.split(":")[1]
+                    hours: availability?.from.split(":")[0],
+                    minutes: availability?.from.split(":")[1]
                 }
             );
 
+            // ending point for session generation.
             const endingDateTime = add(
-                day?.date,
+                availability?.date,
                 {
-                    hours: day?.to.split(":")[0],
-                    minutes: day?.to.split(":")[1]
+                    hours: availability?.to.split(":")[0],
+                    minutes: availability?.to.split(":")[1]
                 }
             );
 
@@ -47,7 +63,7 @@ export const getAllAvailabilitiesWithSession = async (consultantId: string): Pro
 
             // compareAsc returns -1 if the first date is before the second date
             // 0 if both are same
-            for (let i = beginningDateTime; compareAsc(i, endingDateTime) === -1; i = add(i, { minutes: day?.sessionDuration })) {
+            for (let i = beginningDateTime; compareAsc(i, endingDateTime) === -1; i = add(i, { minutes: availability?.sessionDuration })) {
 
                 const session = {
                     startingTime: i, // starting time of the session
@@ -76,10 +92,10 @@ export const getAllAvailabilitiesWithSession = async (consultantId: string): Pro
                 sessions.push(session);
             }
 
-            availableSessions[day?.date] = {
-                sessionTitle: day.sessionTitle || "",
-                costPerSession: day.sessionCharge,
-                sessionDuration: day.sessionDuration,
+            availableSessions[availability?.date] = {
+                sessionTitle: availability.sessionTitle || "",
+                costPerSession: availability.sessionCharge,
+                sessionDuration: availability.sessionDuration,
                 sessions: sessions,
             }
         })

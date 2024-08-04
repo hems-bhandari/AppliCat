@@ -6,33 +6,23 @@ import { revalidatePath } from "next/cache";
 import { Applicant, Consultant } from "../models/user";
 import mongoose from "mongoose";
 import { sendMail } from "../utils/sendMail";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../auth-options";
 
-interface getSessionInfoForSideBarProps {
-    userType?: "Consultant" | "Applicant" | null;
-    userId?: string | null;
-}
-
-export const getSessionInfoForSideBar = async (
-    props: getSessionInfoForSideBarProps
-): Promise<{
+export const getSessionInfoForSideBar = async (): Promise<{
     totalSessions: number;
     totalIncome?: number;
 }> => {
     await ConnectToDB();
 
-    if (
-        !props.userId ||
-        !props.userType ||
-        (props.userType !== "Consultant" && props.userType !== "Applicant")
-    )
-        return {
-            totalSessions: 0,
-            totalIncome: 0,
-        };
+    const userSession = await getServerSession(authOptions);
+    const user = userSession?.user;
+    if (!user || (user && !user._id || !user.userType))
+        throw new Error("Meow !! user is invalid");
 
-    if (props.userType === "Consultant") {
+    if (user.userType === "Consultant") {
         const sessionData = await consultingSession.find({
-            consultant: props.userId,
+            consultant: user._id,
         });
 
         // filtering the sessions that are still in the progress
@@ -52,7 +42,7 @@ export const getSessionInfoForSideBar = async (
         };
     }
 
-    const sessionData = await consultingSession.find({ applicant: props.userId });
+    const sessionData = await consultingSession.find({ applicant: user._id });
 
     // filtering the sessions that are still in the progress
     const notInProgressSessionData = sessionData.filter(
@@ -64,9 +54,7 @@ export const getSessionInfoForSideBar = async (
     };
 };
 
-interface getSessionsProps {
-    userId: string;
-    userType: "Consultant" | "Applicant";
+export interface getSessionsProps {
     delimeter: "upcoming" | "previous" | "all";
     date: Date;
 }
@@ -109,19 +97,21 @@ export const getConsultingSessions = async (
     props: getSessionsProps
 ): Promise<TsessionWithSubDoc[]> => {
     try {
-        if (
-            !props.userId ||
-            !props.delimeter ||
-            !props.userType ||
-            (props.userType && !["Consultant", "Applicant"].includes(props.userType))
-        ) {
+        const userSession = await getServerSession(authOptions);
+        const userData = userSession?.user;
+
+        if (!userData || (userData && !userData._id)) {
+            throw new Error("Cannot determine user")
+        }
+
+        if (!props.delimeter) {
             throw new Error("Invalid props cannot get user sessions");
         }
 
         await ConnectToDB();
 
         const sessions = await consultingSession.find({
-            [props.userType.toLowerCase()]: props.userId,
+            [userData.userType.toLowerCase()]: userData._id,
         });
 
         const filteredSessions = sessions.filter((session) => {
@@ -148,18 +138,27 @@ export const getConsultingSessions = async (
             const consultant = await Consultant.findById(session.consultant);
             const applicant = await Applicant.findById(session.applicant);
 
-            filteredSessionWithSubDocs.push({
-                ...session._doc,
+            filteredSessionWithSubDocs.push(
+                {
+                    { _id: session._id.toString(), ...session._doc },
                 applicant,
                 consultant,
-            });
+                }
+            );
         }
 
-        return filteredSessionWithSubDocs;
+// suggestions from stack overflow since the _id in the responose is a complex
+// object it is not simple enough to be passed to a client component hence an error
+// Warning: Only plain objects can be passed to Client Components from Server Components. Objects with toJSON methods are not supported. Convert it manually to a simple value before passing it to props.
+// {_id: {buffer: ...}, applicant: ..., consultant: ..., sessionTitle: ..., status: ..., sessionCharge: ..., sessionDuration: ..., date: ..., time: ..., updatedOn: ..., __v: ..., receipt: ..., sessionEmail: ...}
+// occures:
+//
+// that is why we are first converting it to json and then parsing it again.
+return JSON.parse(JSON.stringify(filteredSessionWithSubDocs));
     } catch (e) {
-        console.log(e);
-        return [];
-    }
+    console.log(e);
+    return [];
+}
 };
 
 type createOnProgressSessionProps = Omit<Tsession, "status">;
@@ -171,6 +170,7 @@ export const createOnProgressSession = async (
     try {
         await ConnectToDB();
 
+        // checking if any prop is empty null or undefined
         const arePropsValid = Object.values(props).every((values) => values);
 
         if (!arePropsValid)
@@ -198,6 +198,8 @@ export const createOnProgressSession = async (
             ...props,
             updatedOn: new Date(),
         });
+
+        console.log(newConsultingSession);
 
         if (newConsultingSession) {
             revalidatePath("/applicant/sessions");

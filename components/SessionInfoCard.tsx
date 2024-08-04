@@ -3,18 +3,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getSessionInfoForSideBar } from "@/lib/controllers/sessionController";
 import { cn } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
+import { Skeleton } from "./ui/skeleton";
 
-const SessionsInfoCard = ({
-    userType,
-    userId,
-}: {
-    userType: "Consultant" | "Applicant";
-    userId: string;
-}) => {
+const SessionsInfoCard = () => {
     const { isLoading, data } = useQuery(
         {
             queryKey: ['sessionData'],
-            queryFn: async () => await getSessionInfoForSideBar({ userId, userType })
+            queryFn:
+                async () => await getSessionInfoForSideBar()
         }
     );
 
@@ -23,7 +19,7 @@ const SessionsInfoCard = ({
             {
                 isLoading
                     ? <CardSkeleton />
-                    : userType === "Consultant"
+                    : data?.totalIncome
                     && (
                         <Card className="col-span-4 md:col-span-3 mt-8">
                             <CardHeader>
@@ -68,22 +64,10 @@ const CardSkeleton = () => {
         <>
             <Card className="col-span-4 md:col-span-3 mt-8">
                 <CardHeader>
-                    <CardTitle className={cn("bg-gray-200 text-transparent rounded-md animate-pulse",
-                        // dark theme
-                        "dark:bg-black"
-                    )}>
-                        loading
-                    </CardTitle>
+                    <Skeleton className="h-4 w-full" />
                 </CardHeader>
                 <CardContent>
-                    <div className="flex items-center justify-between">
-                        <h2 className={cn("text-[24px] leading-[28px] font-[600] bg-gray-200 text-transparent rounded-md w-full animate-pulse",
-                            // dark theme
-                            "dark:bg-black"
-                        )}>
-                            loading
-                        </h2>
-                    </div>
+                    <Skeleton className="h-6 w-full" />
                 </CardContent>
             </Card>
         </>

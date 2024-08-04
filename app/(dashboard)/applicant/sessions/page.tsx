@@ -10,8 +10,7 @@ import { Consultant, CollegeLogos, collegeLogos } from "@/constants/data";
 
 const Sessions = () => {
     const [open, setOpen] = useState<boolean>(false);
-    const [selectedConsultant, setSelectedConsultant] =
-        useState<Consultant | null>(null);
+    const [selectedConsultant, setSelectedConsultant] = useState<Consultant | null>(null);
     const [Consultants, setConsultants] = useState<any[]>([]);
 
     const handleBookingPageOpen = (id: string) => {
@@ -23,7 +22,8 @@ const Sessions = () => {
     };
 
     useEffect(() => {
-        fetch("/api/consultant")
+        fetch("/api/consultant",
+            { cache: "no-store" })
             .then((res) => res.json())
             .then((data) => {
                 setConsultants(data?.consultants || []);

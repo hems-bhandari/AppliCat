@@ -13,9 +13,7 @@ const SideInfoBar = () => {
     return (
         <div className="flex-col items-center justify-between gap-10 min-w-[400px] px-4 md:pr-8 md:pl-0 pt-5">
             <Greeting />
-            {
-                <SessionsInfoCard userType={userType as "Consultant" | "Applicant"} userId={userId || ""} />
-            }
+            <SessionsInfoCard />
             <Card className="col-span-4 md:col-span-3 mt-4">
                 <CardHeader>
                     <CardTitle>Admin Contacts</CardTitle>

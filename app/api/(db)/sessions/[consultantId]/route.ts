@@ -1,15 +1,16 @@
-import { getAllAvailabilitiesWithSession, getAllAvailablities } from "@/lib/controllers/availabilityController";
+import { getAllAvailabilitiesWithSession } from "@/lib/controllers/availabilityController";
 import ConnectToDB from "@/lib/mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
-export const GET = async (req: NextRequest,
-    { params: { consultantId } }: { params: { consultantId: string } }) => {
+export const GET = async (req: NextRequest, { params: { consultantId } }: { params: { consultantId: string } }) => {
+    const { searchParams } = req.nextUrl;
+    const today = searchParams.get("today");
     try {
         await ConnectToDB();
         if (!consultantId)
             return NextResponse.json({ message: "Meoww!! Availability Must be provided" }, { status: 400 });
 
-        const availabilities = await getAllAvailabilitiesWithSession(consultantId);
+        const availabilities = await getAllAvailabilitiesWithSession(consultantId, today);
 
         if (!availabilities)
             return NextResponse.json({ message: "Meoww!! No Availabilities Found" }, { status: 404 });

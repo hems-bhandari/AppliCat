@@ -19,7 +19,6 @@ module.exports = {
         },
         extend: {
             colors: {
-
                 // custom colors
                 black: "#101418",
                 bluishBlack: "#1E262C",
