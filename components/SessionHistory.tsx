@@ -7,7 +7,6 @@ import { format } from "date-fns/esm";
 import { Skeleton } from "./ui/skeleton";
 
 function SessionHistory({ sessions }: { sessions: TsessionWithSubDoc[] }) {
-    console.log(sessions);
     return (
         <div className="space-y-8">
             {sessions?.map((session, index) => {
