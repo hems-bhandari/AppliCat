@@ -97,7 +97,6 @@ export const getConsultingSessions = async (
     props: getSessionsProps
 ): Promise<TsessionWithSubDoc[]> => {
     try {
-        console.log({ date: props.date })
         const userSession = await getServerSession(authOptions);
         const userData = userSession?.user;
 

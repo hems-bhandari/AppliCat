@@ -21,8 +21,6 @@ export const UserClient = ({ columns }: ProductsClientProps) => {
         if (!user?._id || !user.userType) return;
 
         getConsultingSessions({
-            userId: user._id,
-            userType: user.userType as "Consultant" | "Applicant",
             delimeter: "all",
             date: new Date(),
         }).then((sessions) => {

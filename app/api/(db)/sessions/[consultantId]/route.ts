@@ -5,12 +5,15 @@ import { NextRequest, NextResponse } from "next/server";
 export const GET = async (req: NextRequest, { params: { consultantId } }: { params: { consultantId: string } }) => {
     const { searchParams } = req.nextUrl;
     const today = searchParams.get("today");
+    if (!today)
+        return NextResponse.json({ message: "Mewww!! Something went wrong" });
+
     try {
         await ConnectToDB();
         if (!consultantId)
             return NextResponse.json({ message: "Meoww!! Availability Must be provided" }, { status: 400 });
 
-        const availabilities = await getAllAvailabilitiesWithSession(consultantId, today);
+        const availabilities = await getAllAvailabilitiesWithSession(consultantId, new Date(today));
 
         if (!availabilities)
             return NextResponse.json({ message: "Meoww!! No Availabilities Found" }, { status: 404 });
