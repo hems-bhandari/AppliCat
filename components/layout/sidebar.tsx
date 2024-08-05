@@ -5,7 +5,6 @@ import {
     adminNavItems,
     applicantNavItems,
     consultantNavItems,
-    defaultNavItems,
 } from "@/constants/data";
 import { cn } from "@/lib/utils";
 import Signout from "../signout";
