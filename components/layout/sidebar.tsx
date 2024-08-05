@@ -5,6 +5,7 @@ import {
     adminNavItems,
     applicantNavItems,
     consultantNavItems,
+    defaultNavItems,
 } from "@/constants/data";
 import { cn } from "@/lib/utils";
 import Signout from "../signout";
@@ -13,6 +14,7 @@ import { useSession } from "next-auth/react";
 export default function Sidebar() {
     const userSession = useSession();
     const userType = userSession.data?.user?.userType;
+
     return (
         <nav
             className={cn(`relative hidden h-screen border-r pt-16 lg:block w-72 `)}
@@ -27,7 +29,9 @@ export default function Sidebar() {
                                         ? applicantNavItems
                                         : userType === "Consultant"
                                             ? consultantNavItems
-                                            : adminNavItems
+                                            : userType === "Admin"
+                                                ? adminNavItems
+                                                : applicantNavItems
                                 }
                             />
 

@@ -74,6 +74,7 @@ export const adminNavItems: NavItem[] = [
     },
 ];
 
+
 export type CollegeLogos = {
     [key: string]: string;
 };
