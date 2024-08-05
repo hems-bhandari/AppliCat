@@ -72,5 +72,8 @@
     "@types/react": "18.2.21",
     "autoprefixer": "10.4.15",
     "@types/react-dom": "18.2.7"
-  }
+  },
+  "trustedDependencies": [
+    "@vercel/speed-insights"
+  ]
 }
