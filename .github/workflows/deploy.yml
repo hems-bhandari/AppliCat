@@ -7,7 +7,12 @@ on:
 
 jobs:
   build_and_deploy:
-    runs-on: self-hosted 
+    runs-on: ubuntu-latest
+    env:
+      SSH_KEY: ${{ secrets.SSH_KEY }}
+      SERVER_HOST: ${{ secrets.SERVER_HOST }}
+      SERVER_USER: ${{ secrets.SERVER_USER }}
+      SYNC_DIR: /home/${SERVER_HOST}/Applicat
 
     steps:
       - name: Checking out the files
@@ -16,21 +21,23 @@ jobs:
       - name: Installing dependencies
         run: bun i
 
-      - name: copying env files
-        run: |
-          cp /home/applicat/.applicat-env .env
-
       - name: Building :)
         run: bun run build
 
-      - name: Running the application using pm2
+      - name: Copying the files to the server
+        env: 
         run: |
-          prevProcesses=$(pm2 ls | grep -i "applicat")
 
-          if [ -z "$prevProcesses"  ]; then
-             pm2 start "bun start" --name applicat
-          else
-             pm2 restart applicat 
-          fi
+          echo "$SSH_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
 
-          pm2 save --force
+          rsync -avz --delete -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --rsync-path="mkdir -p ${SYNC_DIR}/production && rsync -q" . $SERVER_USER@$SERVER_HOST:$SYNC_DIR/production
+
+      - name: Deploying the new release.
+        run: |
+          # Executing the deployment script on the server.
+          ssh -i ~/.ssh/id_rsa $SERVER_USER@$SERVER_HOST "bash -s" < deploy/deploy.sh $SYNC_DIR 
+
+          # Removing the SSH key.
+          rm -rf ~/.ssh/id_rsa
+          
