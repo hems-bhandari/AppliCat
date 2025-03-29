@@ -19,6 +19,11 @@ jobs:
       - name: Checking out the files
         uses: actions/checkout@v4
 
+      - name: Setting up bun.
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
       - name: Installing dependencies
         run: bun i
 
