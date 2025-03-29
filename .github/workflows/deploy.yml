@@ -6,7 +6,8 @@ on:
       - main
 
 jobs:
-  build_and_deploy:
+  build:
+    name: setup, build and deploy
     runs-on: ubuntu-latest
     env:
       SSH_KEY: ${{ secrets.SSH_KEY }}
@@ -25,9 +26,7 @@ jobs:
         run: bun run build
 
       - name: Copying the files to the server
-        env: 
         run: |
-
           echo "$SSH_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
