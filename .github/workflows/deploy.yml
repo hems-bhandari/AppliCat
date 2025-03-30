@@ -27,8 +27,8 @@ jobs:
       - name: Installing dependencies
         run: bun i
 
-      #- name: Building :)
-       # run: bun run build
+      - name: Building :)
+        run: bun run build
 
       - name: Copying the files to the server
         run: |
@@ -36,7 +36,7 @@ jobs:
           echo "$SSH_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
-          # rsync -avz --delete -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --rsync-path="mkdir -p ${SYNC_DIR}/production && rsync -q" . $SERVER_USER@$SERVER_HOST:$SYNC_DIR/production
+          rsync -avz --delete -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --rsync-path="mkdir -p ${SYNC_DIR}/production && rsync -q" . $SERVER_USER@$SERVER_HOST:$SYNC_DIR/production
 
           # Executing the deployment script on the server.
           ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_HOST "bash -s" < deploy/deploy.sh $SYNC_DIR $SERVER_USER
