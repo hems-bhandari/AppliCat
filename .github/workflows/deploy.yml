@@ -13,7 +13,7 @@ jobs:
       SSH_KEY: ${{ secrets.SSH_KEY }}
       SERVER_HOST: ${{ secrets.SERVER_HOST }}
       SERVER_USER: ${{ secrets.SERVER_USER }}
-      SYNC_DIR: /home/${SERVER_HOST}/Applicat
+      SYNC_DIR: /home/$SERVER_USER/AppliCat
 
     steps:
       - name: Checking out the files
