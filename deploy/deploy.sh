@@ -4,13 +4,13 @@
 
 SYNC_DIR="$1"
 
-if [ -n $SYNC_DIR ]; then
+if [ -z "$SYNC_DIR" ]; then
     echo "Sync directory not found passed as argument"
     exit 1
 fi
 
-# Checking the directory existence in server 
-if [ ! -d $SYNC_DIR ]; then
+# Checking the directory existence in server
+if [ ! -d "$SYNC_DIR" ]; then
     echo "Sync directory not found on server"
     exit 1
 fi
@@ -23,11 +23,12 @@ cp $SYNC_DIR/.env $SYNC_DIR/production/.env
 cd $SYNC_DIR/production
 
 #  Checking for previously running pm2 instances
-if [[ -n $(pm2 ls | grep "applicat") ]]; then
+if [[ -z $(pm2 ls | grep "applicat") ]]; then
     echo "Applicat is not running starting applicat"
-    pm2 start "bun run start" --name "applicat" -i max
+    pm2 start "bun run start" --name "applicat" -i 1
     exit 1
 else
     echo "Applicat is Already running restarting"
     pm2 restart "applicat"
 fi
+
